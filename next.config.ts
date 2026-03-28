@@ -17,11 +17,11 @@
 const nextConfig = {
   async rewrites() {
     return [
-      {
-        source: '/calculators/:path*',
-        // destination: 'http://localhost:5173/:path*',
-        destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
-      },
+      // {
+      //   source: '/calculators/:path*',
+      //   // destination: 'http://localhost:5173/:path*',
+      //   destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
+      // },
       {
         // ✅ Matches /calculators (the hub home)
         source: '/calculators',
