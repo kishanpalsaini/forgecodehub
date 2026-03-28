@@ -23,14 +23,14 @@ const nextConfig = {
       //   destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
       // },
       {
-        // ✅ Matches /calculators (the hub home)
+        // /calculators → FinVault home
         source: '/calculators',
-        destination: 'https://finance-calculator-nine-sandy.vercel.app/calculators',
+        destination: 'https://finance-calculator-nine-sandy.vercel.app/',
       },
       {
-        // ✅ Matches /calculators/emi, /calculators/gst etc.
+        // /calculators/gst → /gst on FinVault
         source: '/calculators/:path*',
-        destination: 'https://finance-calculator-nine-sandy.vercel.app/calculators/:path*',
+        destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
       },
     ];
   },
