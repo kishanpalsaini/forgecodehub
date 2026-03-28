@@ -3,41 +3,129 @@
 import { useEffect, useRef, useState } from "react";
 
 const tools = [
+  // ── FINANCE TOOLS ──
+
+  {
+    href: "/calculators",
+    icon: "🏦",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Financial Calculators Hub",
+    desc: "All-in-one hub for EMI, GST, SIP, Tax, FD, Loan and more. Open the full calculator suite.",
+    path: "/calculators",
+    cat: "finance",
+  },
   {
     href: "/calculators",
     icon: "🧮",
     tag: "Live",
     tagClass: "tag-live",
-    name: "Financial Calculator",
-    desc: "Calculate monthly loan installments with a breakdown of principal and interest over time.",
-    path: "/calculators",
+    name: "EMI Calculator",
+    desc: "Monthly installments for home, car & personal loans with amortization breakdown.",
+    path: "/calculators/emi",
     cat: "finance",
   },
   {
-    href: "/calculator/emi",
-    icon: "🧮",
+    href: "/calculators/gst",
+    icon: "🧾",
     tag: "Live",
     tagClass: "tag-live",
-    name: "EMI Calculator",
-    desc: "Calculate monthly loan installments with a breakdown of principal and interest over time.",
-    path: "/calculator/emi",
+    name: "GST Calculator",
+    desc: "Add or remove GST instantly. Full CGST/SGST/IGST split for all Indian tax rates.",
+    path: "/calculators/gst",
     cat: "finance",
   },
+  {
+    href: "/calculators/tax",
+    icon: "📋",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Income Tax",
+    desc: "FY 2025–26 tax computation. Old vs New regime comparison with net take-home.",
+    path: "/calculators/tax",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/sip",
+    icon: "📈",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "SIP Calculator",
+    desc: "Project SIP wealth over time with step-up mode, milestones & inflation-adjusted returns.",
+    path: "/calculators/sip",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/loan",
+    icon: "🏛️",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Loan Eligibility",
+    desc: "Know your maximum loan amount. FOIR-based with CIBIL score adjustment.",
+    path: "/calculators/loan",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/fd",
+    icon: "💰",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "FD / RD Calculator",
+    desc: "Fixed & recurring deposit maturity, compounding frequency comparison.",
+    path: "/calculators/fd",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/retirement",
+    icon: "🌅",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Retirement Planner",
+    desc: "Corpus needed, SIP gap analysis and inflation-adjusted projections.",
+    path: "/calculators/retirement",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/networth",
+    icon: "💎",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Net Worth Tracker",
+    desc: "Track assets vs liabilities, donut breakdown and financial health score.",
+    path: "/calculators/networth",
+    cat: "finance",
+  },
+  {
+    href: "/calculators/goal",
+    icon: "🎯",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Goal-Based Savings",
+    desc: "Plan for home, car, education — with inflation-adjusted SIP targets.",
+    path: "/calculators/goal",
+    cat: "finance",
+  },
+
+  // ── MEDIA ──
   {
     href: "/reel-scheduler",
     icon: "🎬",
-    tag: "Live",
-    tagClass: "tag-live",
+    tag: "Soon",
+    tagClass: "tag-coming",
     name: "Reel Scheduler",
     desc: "Plan and schedule your Instagram Reels and short-form content with smart timing recommendations.",
     path: "/reel-scheduler",
     cat: "media",
   },
+
+  // ── DEV ──
   {
     href: "/tools/pdf-converter",
     icon: "📄",
-    tag: "New",
-    tagClass: "tag-new",
+    // tag: "New",
+    // tagClass: "tag-new",
+    tag: "Soon",
+    tagClass: "tag-coming",
     name: "PDF Converter",
     desc: "Convert documents between PDF, Word, and image formats directly in your browser — no uploads.",
     path: "/tools/pdf-converter",
@@ -53,6 +141,8 @@ const tools = [
     path: "/tools/color-picker",
     cat: "dev",
   },
+
+  // ── PRODUCTIVITY ──
   {
     href: "/tools/pomodoro",
     icon: "⏱",
@@ -62,16 +152,6 @@ const tools = [
     desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
     path: "/tools/pomodoro",
     cat: "productivity",
-  },
-  {
-    href: "/calculator/sip",
-    icon: "📈",
-    tag: "Soon",
-    tagClass: "tag-coming",
-    name: "SIP Calculator",
-    desc: "Project your mutual fund SIP returns with compound interest over custom time horizons.",
-    path: "/calculator/sip",
-    cat: "finance",
   },
 ];
 
@@ -91,6 +171,9 @@ export default function Home() {
   const [userCount, setUserCount] = useState(0);
   const [uptime, setUptime] = useState(0);
   const statsTriggered = useRef(false);
+  // Add this constant — how many to show before "View All"
+  const [showAll, setShowAll] = useState(false);
+  const INITIAL_LIMIT = 9; // show 9 cards initially on "All" tab
 
   // Particles
   useEffect(() => {
@@ -125,7 +208,7 @@ export default function Home() {
     );
     document.querySelectorAll(".tool-card, .step").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [activeCategory]);
+  }, [activeCategory, showAll]);
 
   function animateCount(setter: (v: number) => void, target: number, duration: number) {
     let start = 0;
@@ -161,9 +244,23 @@ export default function Home() {
     setSubscribed(true);
   }
 
-  const filteredTools = activeCategory === "all"
-    ? tools
-    : tools.filter((t) => t.cat === activeCategory);
+  // Update filtered tools logic
+  const filteredTools = (() => {
+    const base = activeCategory === "all"
+      ? tools
+      : tools.filter((t) => t.cat === activeCategory);
+
+    if (!showAll) {
+      return base.slice(0, INITIAL_LIMIT);
+    }
+    return base;
+  })();
+
+  const totalInCategory = activeCategory === "all"
+    ? tools.length
+    : tools.filter(t => t.cat === activeCategory).length;
+
+  const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
 
   return (
     <>
@@ -246,16 +343,19 @@ export default function Home() {
               <button
                 key={cat}
                 className={`cat-btn ${activeCategory === cat ? "active" : ""}`}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setShowAll(false); // ← reset on every tab switch
+                }}
               >
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat === "finance" ? "💹 Finance Tools" : cat.charAt(0).toUpperCase() + cat.slice(1)}
               </button>
             ))}
           </div>
 
           <div className="tools-grid">
             {filteredTools.map((tool) => (
-              <a key={tool.path} href={tool.href} className="tool-card"
+              <a key={tool.path} href={tool.href} className={`tool-card ${showAll ? "visible" : ""}`}
                 onMouseMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
                   e.currentTarget.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
@@ -274,6 +374,32 @@ export default function Home() {
                 </div>
               </a>
             ))}
+
+            {showViewAll && (
+              <div
+                className="tool-card visible"
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.75rem",
+                  border: "1px dashed rgba(232,105,42,0.4)",
+                  background: "transparent",
+                  minHeight: "160px",
+                }}
+                onClick={() => setShowAll(true)}
+              >
+                <div style={{ fontSize: "1.75rem" }}>＋</div>
+                <div className="tool-name" style={{ textAlign: "center" }}>
+                  View all {activeCategory === "all" ? "Tools" : activeCategory === "finance" ? "Finance Tools" : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+                </div>
+                <div className="tool-desc" style={{ textAlign: "center" }}>
+                  {totalInCategory - INITIAL_LIMIT} more available
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
