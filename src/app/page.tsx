@@ -16,7 +16,7 @@ const tools = [
     cat: "finance",
   },
   {
-    href: "/calculators",
+    href: "/calculators/emi",
     icon: "🧮",
     tag: "Live",
     tagClass: "tag-live",
