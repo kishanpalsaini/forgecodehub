@@ -22,6 +22,16 @@ const nextConfig = {
         // destination: 'http://localhost:5173/:path*',
         destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
       },
+      {
+        // ✅ Matches /calculators (the hub home)
+        source: '/calculators',
+        destination: 'https://finance-calculator-nine-sandy.vercel.app/calculators',
+      },
+      {
+        // ✅ Matches /calculators/emi, /calculators/gst etc.
+        source: '/calculators/:path*',
+        destination: 'https://finance-calculator-nine-sandy.vercel.app/calculators/:path*',
+      },
     ];
   },
 };
