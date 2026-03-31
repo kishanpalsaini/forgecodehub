@@ -1,4 +1,5 @@
 "use client";
+import Head from "next/head";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -262,8 +263,31 @@ export default function Home() {
 
   const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Finacial Calculator",
+    description: "Free Finacial calculator to calculate EMI, GST, SIP, Tax and more. No sign-up. No bloat. Just tools that work.",
+  };
+
   return (
     <>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+
+      <Head>
+        <title>ForgeCodeHub - Developer Tools & Apps</title>
+        <meta
+          name="description"
+          content="Powerful tools and productivity apps for developers and builders."
+        />
+      </Head>
+
       {/* NAV */}
       <nav id="navbar">
         <a href="#" className="logo">
