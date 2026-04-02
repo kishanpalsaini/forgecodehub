@@ -473,10 +473,11 @@ export default function Home() {
           ForgeCodeHub
         </a>
         <div className="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">GitHub</a>
-          <a href="#">Twitter</a>
+          <a href="./privacy">Privacy</a>
+          <a href="./terms">Terms</a>
+          <a href="./disclaimer">Disclaimer</a>
+          <a href="https://github.com/forgecodehub" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://twitter.com/forgecodehub" target="_blank" rel="noopener noreferrer">Twitter</a>
         </div>
         <span>© 2025 ForgeCodeHub</span>
       </footer>
