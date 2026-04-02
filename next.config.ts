@@ -24,12 +24,12 @@ const nextConfig = {
       // },
       {
         // /calculators → FinVault home
-        source: '/calculators',
+        source: '/finance-calculators',
         destination: 'https://finance-calculator-nine-sandy.vercel.app/',
       },
       {
         // /calculators/gst → /gst on FinVault
-        source: '/calculators/:path*',
+        source: '/finance-calculators/:path*',
         destination: 'https://finance-calculator-nine-sandy.vercel.app/:path*',
       },
     ];
