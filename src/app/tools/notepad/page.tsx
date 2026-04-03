@@ -71,6 +71,10 @@ export default function NotepadPage() {
   const [showSpecial, setShowSpecial]     = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
 
+  /* diff */
+  const [showDiff, setShowDiff]         = useState(false);
+  const [diffSnapshot, setDiffSnapshot] = useState<string>("");
+
   const flash = useCallback((m: string) => {
     setStatusMsg(m);
     setTimeout(() => setStatusMsg(""), 2500);
@@ -383,6 +387,16 @@ export default function NotepadPage() {
   useHotkeys("ctrl+p", () => printFile(), { preventDefault: true });
   useHotkeys("ctrl+f", () => setShowFind(f => !f), { preventDefault: true });
   useHotkeys("ctrl+m", () => setShowPreview(p => !p), { preventDefault: true });
+  useHotkeys("ctrl+d", () => toggleDiff(), { preventDefault: true });
+
+  function toggleDiff() {
+    if (!showDiff) {
+      // Take a snapshot of current plain text when opening diff
+      setDiffSnapshot(editor?.getText() ?? "");
+    }
+    setShowDiff(d => !d);
+    setShowPreview(false);
+  }
   useHotkeys("ctrl+b", () => editor?.chain().focus().toggleBold().run(), { preventDefault: true });
   useHotkeys("ctrl+i", () => editor?.chain().focus().toggleItalic().run(), { preventDefault: true });
   useHotkeys("ctrl+u", () => editor?.chain().focus().toggleUnderline?.()?.run(), { preventDefault: true });
@@ -455,9 +469,10 @@ export default function NotepadPage() {
       { label:"Align right",  action:()=>editor?.chain().focus().setTextAlign("right").run(),  icon:"≡R" },
     ]},
     { id:"view", label:"View", items:[
-      { label:(showPreview?"✓ ":"  ")+"Markdown Preview", action:()=>setShowPreview(p=>!p),   icon:"📖", sc:"Ctrl+M" },
-      { label:(lineNums?"✓ ":"  ")+"Line Numbers",        action:()=>setLineNums(l=>!l),       icon:"#"  },
-      { label:darkMode?"☀ Light":"🌙 Dark",               action:()=>setDarkMode(d=>!d),       icon:""   },
+      { label:(showPreview?"✓ ":"  ")+"Rich Preview",  action:()=>{ setShowPreview(p=>!p); setShowDiff(false); }, icon:"📖", sc:"Ctrl+M" },
+      { label:(showDiff?"✓ ":"  ")+"Diff View",        action:toggleDiff,                                        icon:"⇄",  sc:"Ctrl+D" },
+      { label:(lineNums?"✓ ":"  ")+"Line Numbers",     action:()=>setLineNums(l=>!l),                            icon:"#"  },
+      { label:darkMode?"☀ Light":"🌙 Dark",            action:()=>setDarkMode(d=>!d),                            icon:""   },
     ]},
     { id:"help", label:"Help", items:[
       { label:"Shortcuts",   action:()=>setShowShortcuts(true),            icon:"⌨" },
@@ -477,7 +492,8 @@ export default function NotepadPage() {
     { icon:"↪", label:"Redo",            action:()=>editor?.commands.redo() },
     null,
     { icon:"🔍", label:"Find & Replace",  action:()=>setShowFind(f=>!f) },
-    { icon:"📖", label:"Markdown Preview",action:()=>setShowPreview(p=>!p) },
+    { icon:"📖", label:"Rich Preview",    action:()=>{ setShowPreview(p=>!p); setShowDiff(false); } },
+    { icon:"⇄",  label:"Diff View",       action:toggleDiff },
     null,
     { icon:"📕", label:"Export PDF",      action:savePDF },
     { icon:"📝", label:"Export .docx",    action:saveDocx },
@@ -485,7 +501,7 @@ export default function NotepadPage() {
 
   return (
     <div style={{background:"#252537"}}>
-      <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column" ,margin:"0 auto", maxWidth:1400, boxShadow:"0 0 12px rgba(0,0,0,0.08)" }} ref={editorWrapperRef}>
+       <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column", maxWidth:"1400px", margin:"0 auto", boxShadow:"0 0 12px rgba(0,0,0,0.08)" }}>
 
       {/* Hidden file input for Open */}
       <input
@@ -500,26 +516,55 @@ export default function NotepadPage() {
       <style>{`
         .tiptap-editor { flex:1; overflow-y:auto; }
         .tiptap-editor:focus { outline:none; }
-        .tiptap-editor p { margin:0 0 4px 0; }
+        .tiptap-editor p { margin:0 0 4px 0; min-height:1.4em; }
         .tiptap-editor h1 { font-size:2em; font-weight:700; margin:12px 0 6px; }
         .tiptap-editor h2 { font-size:1.5em; font-weight:700; margin:10px 0 5px; }
         .tiptap-editor h3 { font-size:1.25em; font-weight:600; margin:8px 0 4px; }
-        .tiptap-editor ul { list-style:disc; padding-left:24px; }
-        .tiptap-editor ol { list-style:decimal; padding-left:24px; }
-        .tiptap-editor blockquote { border-left:3px solid #ccc; margin:0; padding-left:16px; color:#666; }
+        .tiptap-editor ul { list-style:disc; padding-left:24px; margin:4px 0; }
+        .tiptap-editor ol { list-style:decimal; padding-left:24px; margin:4px 0; }
+        .tiptap-editor li { margin:2px 0; }
+        .tiptap-editor li p { margin:0; }
+        .tiptap-editor blockquote { border-left:3px solid #ccc; margin:6px 0; padding-left:16px; color:#666; }
         .tiptap-editor code { background:#f0f0f0; border-radius:3px; padding:1px 5px; font-family:'Courier New',monospace; font-size:0.9em; }
-        .tiptap-editor pre { background:#1a1a1a; color:#e2e8f0; border-radius:6px; padding:12px 16px; overflow-x:auto; }
+        .tiptap-editor pre { background:#1a1a1a; color:#e2e8f0; border-radius:6px; padding:12px 16px; overflow-x:auto; margin:6px 0; }
         .tiptap-editor pre code { background:transparent; color:inherit; }
         .tiptap-editor hr { border:none; border-top:2px solid #e0e0e0; margin:12px 0; }
         .tiptap-editor mark { border-radius:2px; }
+        .tiptap-editor strong { font-weight:700; }
+        .tiptap-editor em { font-style:italic; }
+        .tiptap-editor s { text-decoration:line-through; }
+        .tiptap-editor u { text-decoration:underline; }
         .ProseMirror-selectednode { outline:2px solid #1a1a1a; }
         .line-num-gutter { counter-reset:line; }
         .line-num-gutter p::before { counter-increment:line; content:counter(line); display:inline-block; width:36px; text-align:right; margin-right:16px; color:#aaa; font-family:'Courier New',monospace; font-size:12px; user-select:none; }
+
+        /* ── Rich preview — identical rendering, read-only ── */
+        .rich-preview { }
+        .rich-preview p { margin:0 0 4px 0; min-height:1.4em; white-space:pre-wrap; }
+        .rich-preview h1 { font-size:2em; font-weight:700; margin:12px 0 6px; }
+        .rich-preview h2 { font-size:1.5em; font-weight:700; margin:10px 0 5px; }
+        .rich-preview h3 { font-size:1.25em; font-weight:600; margin:8px 0 4px; }
+        .rich-preview ul { list-style:disc; padding-left:28px; margin:4px 0; }
+        .rich-preview ol { list-style:decimal; padding-left:28px; margin:4px 0; }
+        .rich-preview li { margin:2px 0; }
+        .rich-preview li p { margin:0; white-space:pre-wrap; }
+        .rich-preview blockquote { border-left:3px solid #ccc; margin:6px 0; padding-left:16px; color:#666; }
+        .rich-preview code { background:#f0f0f0; border-radius:3px; padding:1px 5px; font-family:'Courier New',monospace; font-size:0.9em; }
+        .rich-preview pre { background:#1a1a1a; color:#e2e8f0; border-radius:6px; padding:12px 16px; overflow-x:auto; margin:6px 0; white-space:pre; }
+        .rich-preview pre code { background:transparent; color:inherit; white-space:pre; }
+        .rich-preview hr { border:none; border-top:2px solid #e0e0e0; margin:12px 0; }
+        .rich-preview mark { border-radius:2px; }
+        .rich-preview strong { font-weight:700; }
+        .rich-preview em { font-style:italic; }
+        .rich-preview s { text-decoration:line-through; }
+        .rich-preview u { text-decoration:underline; }
+        .rich-preview [style*="text-align:left"]   { text-align:left; }
+        .rich-preview [style*="text-align:center"] { text-align:center; }
+        .rich-preview [style*="text-align:right"]  { text-align:right; }
       `}</style>
 
-      {/* ── TOP BAR ── */}
-      <div style={{display:"flex", alignItems:"center", justifyContent:"space-between",background:"#272537", padding:"10px 20px", borderBottom:`1px solid ${border}`, flexShrink:0 }}>
-            <Link href="/" className="logo">
+      <div style={{display:"flex", alignItems:"center", justifyContent:"space-between" ,background:"#272537", borderBottom:"1px solid ${border}", padding:"10px 20px", flexShrink:0 }}>
+         <Link href="/" className="logo">
           <div
             className="logo-icon"
             style={{ width: 22, height: 22, fontSize: 11 }}
@@ -528,7 +573,7 @@ export default function NotepadPage() {
           </div>
           ForgeCodeHub
         </Link>
-           <Link
+         <Link
           href="/"
           style={{
             display: "inline-flex", alignItems: "center", gap: 5,
@@ -541,8 +586,9 @@ export default function NotepadPage() {
           ← All Tools
         </Link>
       </div>
+
+      {/* ── TOP BAR ── */}
       <div style={{ display:"flex", alignItems:"center", gap:10, padding:"7px 20px", background:surface, borderBottom:`1px solid ${border}`, flexShrink:0 }}>
-        
         <span style={{ fontWeight:700, fontSize:15 }}>📝 Notepad</span>
         {statusMsg && <span style={{ fontSize:11, color:"#e8692a", marginLeft:8 }}>{statusMsg}</span>}
         <div style={{ marginLeft:"auto", display:"flex", gap:8, alignItems:"center" }}>
@@ -761,8 +807,10 @@ export default function NotepadPage() {
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showFind?hover:"transparent")}>🔍 Find</button>
         <button onClick={()=>setLineNums(l=>!l)} style={{...BStyle(lineNums), fontSize:12, padding:"3px 10px"}}
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=lineNums?hover:"transparent")}># Lines</button>
-        <button onClick={()=>setShowPreview(p=>!p)} style={{...BStyle(showPreview), fontSize:12, padding:"3px 10px"}}
+        <button onClick={()=>{ setShowPreview(p=>!p); setShowDiff(false); }} style={{...BStyle(showPreview), fontSize:12, padding:"3px 10px"}}
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showPreview?hover:"transparent")}>📖 Preview</button>
+        <button onClick={toggleDiff} style={{...BStyle(showDiff), fontSize:12, padding:"3px 10px"}}
+          onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showDiff?hover:"transparent")}>⇄ Diff</button>
       </div>
 
       {/* ── FIND & REPLACE ── */}
@@ -799,13 +847,48 @@ export default function NotepadPage() {
             />
           </div>
 
-          {/* Markdown preview pane */}
+          {/* ── Rich Preview pane — renders exact same HTML as editor ── */}
           {showPreview && (
-            <div style={{ flex:1, background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, padding:"18px 24px", overflow:"auto", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", fontSize:fontSize, lineHeight:1.8, color:"#1a1a1a" }}>
-              <div style={{fontSize:11,color:muted,marginBottom:12,fontWeight:600,textTransform:"uppercase",letterSpacing:1}}>Markdown Preview</div>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {editor?.getText() ?? ""}
-              </ReactMarkdown>
+            <div style={{ flex:1, background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, overflow:"auto", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", display:"flex", flexDirection:"column" }}>
+              <div style={{ padding:"10px 18px", borderBottom:`1px solid ${border}`, fontSize:11, fontWeight:600, color:muted, textTransform:"uppercase", letterSpacing:1, background:"#fafafa", borderRadius:"8px 8px 0 0", flexShrink:0 }}>
+                📖 Rich Preview — exact output
+              </div>
+              <div
+                className="rich-preview"
+                style={{ flex:1, padding:"20px 24px", fontSize:fontSize, fontFamily: font === "Default" ? "system-ui,sans-serif" : font === "Monospace" ? "'Courier New',monospace" : font, lineHeight:1.8, color:"#1a1a1a", overflow:"auto", pointerEvents:"none", userSelect:"none" }}
+                dangerouslySetInnerHTML={{ __html: editor?.getHTML() ?? "" }}
+              />
+            </div>
+          )}
+
+          {/* ── Diff pane ── */}
+          {showDiff && (
+            <div style={{ flex:1, background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", display:"flex", flexDirection:"column" }}>
+              {/* Diff header */}
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 16px", borderBottom:`1px solid ${border}`, background:"#fafafa", borderRadius:"8px 8px 0 0", flexShrink:0 }}>
+                <span style={{ fontSize:11, fontWeight:600, color:muted, textTransform:"uppercase", letterSpacing:1 }}>⇄ Diff — snapshot vs current</span>
+                <button
+                  onClick={() => setDiffSnapshot(editor?.getText() ?? "")}
+                  style={{ fontSize:11, padding:"3px 10px", border:`1px solid ${border}`, borderRadius:5, background:"transparent", color:text_c, cursor:"pointer" }}
+                  onMouseEnter={e=>(e.currentTarget.style.background=hover)}
+                  onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
+                  title="Reset snapshot to current content"
+                >↺ Reset snapshot</button>
+              </div>
+
+              {/* Legend */}
+              <div style={{ display:"flex", gap:16, padding:"6px 16px", borderBottom:`1px solid ${border}`, fontSize:11, color:muted, background:"#fafafa", flexShrink:0 }}>
+                <span><span style={{ background:"rgba(229,57,53,0.18)", padding:"1px 6px", borderRadius:3 }}>— removed</span></span>
+                <span><span style={{ background:"rgba(67,160,71,0.18)", padding:"1px 6px", borderRadius:3 }}>+ added</span></span>
+                <span style={{ marginLeft:"auto" }}>
+                  Snapshot: <b style={{ color:text_c }}>{diffSnapshot.trim().split(/\s+/).filter(Boolean).length}</b> words → Current: <b style={{ color:text_c }}>{plainText.trim().split(/\s+/).filter(Boolean).length}</b> words
+                </span>
+              </div>
+
+              {/* Diff lines */}
+              <div style={{ flex:1, overflow:"auto", fontFamily:"'Courier New',monospace", fontSize:13 }}>
+                <DiffView original={diffSnapshot} modified={editor?.getText() ?? ""} />
+              </div>
             </div>
           )}
         </div>
@@ -855,7 +938,7 @@ export default function NotepadPage() {
               ["Ctrl+N","New Tab"],["Ctrl+O","Open File"],["Ctrl+S","Save .html"],["Ctrl+Shift+S","Save .txt"],["Ctrl+P","Print"],
               ["Ctrl+Z","Undo"],["Ctrl+Y","Redo"],
               ["Ctrl+B","Bold"],["Ctrl+I","Italic"],
-              ["Ctrl+F","Find & Replace"],["Ctrl+M","Markdown Preview"],
+              ["Ctrl+F","Find & Replace"],["Ctrl+M","Rich Preview"],["Ctrl+D","Diff View"],
             ].map(([k,d])=>(
               <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${border}`,fontSize:13}}>
                 <span style={{color:muted}}>{d}</span>
@@ -868,6 +951,7 @@ export default function NotepadPage() {
       )}
     </div>
     </div>
+   
   );
 }
 
@@ -876,4 +960,88 @@ function SS(s:string,b:string,t:string,w:number){
 }
 function SB(b:string,t:string){
   return {padding:"5px 12px",fontSize:12,fontWeight:600 as const,border:`1px solid ${b}`,borderRadius:5,background:"transparent",color:t,cursor:"pointer"};
+}
+
+/* ── DiffView component ─────────────────────────────────────────────────────
+   Line-by-line diff using a simple LCS-based algorithm.
+   Green  = added lines, Red = removed lines, plain = unchanged.
+─────────────────────────────────────────────────────────────────────────── */
+function DiffView({ original, modified }: { original: string; modified: string }) {
+  const origLines = original === "" ? [] : original.split("\n");
+  const modLines  = modified  === "" ? [] : modified.split("\n");
+
+  // Build LCS table
+  const m = origLines.length, n = modLines.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = m - 1; i >= 0; i--)
+    for (let j = n - 1; j >= 0; j--)
+      dp[i][j] = origLines[i] === modLines[j]
+        ? dp[i+1][j+1] + 1
+        : Math.max(dp[i+1][j], dp[i][j+1]);
+
+  // Backtrack to build diff
+  type DiffLine = { type: "same"|"del"|"add"; text: string; origLine?: number; modLine?: number };
+  const diff: DiffLine[] = [];
+  let i = 0, j = 0, origN = 1, modN = 1;
+  while (i < m || j < n) {
+    if (i < m && j < n && origLines[i] === modLines[j]) {
+      diff.push({ type:"same", text: origLines[i], origLine: origN++, modLine: modN++ }); i++; j++;
+    } else if (j < n && (i >= m || dp[i][j+1] >= dp[i+1][j])) {
+      diff.push({ type:"add",  text: modLines[j],  modLine: modN++ }); j++;
+    } else {
+      diff.push({ type:"del",  text: origLines[i], origLine: origN++ }); i++;
+    }
+  }
+
+  if (diff.length === 0)
+    return <div style={{ padding:24, color:"#aaa", fontSize:13 }}>No snapshot yet — close and reopen Diff to capture a snapshot.</div>;
+
+  const unchanged = diff.filter(d => d.type === "same").length;
+  const added     = diff.filter(d => d.type === "add").length;
+  const removed   = diff.filter(d => d.type === "del").length;
+
+  return (
+    <div>
+      {/* summary bar */}
+      <div style={{ display:"flex", gap:16, padding:"6px 12px", fontSize:11, borderBottom:"1px solid #eee", background:"#fafafa" }}>
+        <span style={{ color:"#43a047" }}>+{added} added</span>
+        <span style={{ color:"#e53935" }}>−{removed} removed</span>
+        <span style={{ color:"#aaa" }}>{unchanged} unchanged</span>
+      </div>
+      {diff.map((line, idx) => {
+        const isAdd = line.type === "add";
+        const isDel = line.type === "del";
+        return (
+          <div key={idx} style={{
+            display:"flex", alignItems:"stretch",
+            background: isAdd ? "rgba(67,160,71,0.10)" : isDel ? "rgba(229,57,53,0.10)" : "transparent",
+            borderLeft: isAdd ? "3px solid #43a047" : isDel ? "3px solid #e53935" : "3px solid transparent",
+          }}>
+            {/* line numbers */}
+            <div style={{ display:"flex", flexShrink:0, userSelect:"none" }}>
+              <span style={{ width:40, textAlign:"right", padding:"1px 8px", color:"#bbb", fontSize:11, lineHeight:"1.7" }}>
+                {line.origLine ?? ""}
+              </span>
+              <span style={{ width:40, textAlign:"right", padding:"1px 8px", color:"#bbb", fontSize:11, lineHeight:"1.7", borderRight:"1px solid #eee" }}>
+                {line.modLine ?? ""}
+              </span>
+            </div>
+            {/* sign */}
+            <span style={{ padding:"1px 6px", color: isAdd ? "#43a047" : isDel ? "#e53935" : "#ccc", fontWeight:700, fontSize:12, lineHeight:"1.7", flexShrink:0 }}>
+              {isAdd ? "+" : isDel ? "−" : " "}
+            </span>
+            {/* content */}
+            <span style={{
+              padding:"1px 8px 1px 2px",
+              whiteSpace:"pre-wrap", wordBreak:"break-all",
+              color: isAdd ? "#2e7d32" : isDel ? "#c62828" : "#333",
+              fontSize:13, lineHeight:"1.7", flex:1,
+            }}>
+              {line.text || " "}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
