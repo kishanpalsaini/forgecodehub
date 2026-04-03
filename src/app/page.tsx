@@ -1,4 +1,5 @@
 "use client";
+import Head from "next/head";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -6,103 +7,103 @@ const tools = [
   // ── FINANCE TOOLS ──
 
   {
-    href: "/calculators",
+    href: "/finance-calculators",
     icon: "🏦",
     tag: "Live",
     tagClass: "tag-live",
     name: "Financial Calculators Hub",
     desc: "All-in-one hub for EMI, GST, SIP, Tax, FD, Loan and more. Open the full calculator suite.",
-    path: "/calculators",
+    path: "/finance-calculators",
     cat: "finance",
   },
   {
-    href: "/calculators/emi",
+    href: "/finance-calculators/emi",
     icon: "🧮",
     tag: "Live",
     tagClass: "tag-live",
     name: "EMI Calculator",
     desc: "Monthly installments for home, car & personal loans with amortization breakdown.",
-    path: "/calculators/emi",
+    path: "/finance-calculators/emi",
     cat: "finance",
   },
   {
-    href: "/calculators/gst",
+    href: "/finance-calculators/gst",
     icon: "🧾",
     tag: "Live",
     tagClass: "tag-live",
     name: "GST Calculator",
     desc: "Add or remove GST instantly. Full CGST/SGST/IGST split for all Indian tax rates.",
-    path: "/calculators/gst",
+    path: "/finance-calculators/gst",
     cat: "finance",
   },
   {
-    href: "/calculators/tax",
+    href: "/finance-calculators/tax",
     icon: "📋",
     tag: "Live",
     tagClass: "tag-live",
     name: "Income Tax",
     desc: "FY 2025–26 tax computation. Old vs New regime comparison with net take-home.",
-    path: "/calculators/tax",
+    path: "/finance-calculators/tax",
     cat: "finance",
   },
   {
-    href: "/calculators/sip",
+    href: "/finance-calculators/sip",
     icon: "📈",
     tag: "Live",
     tagClass: "tag-live",
     name: "SIP Calculator",
     desc: "Project SIP wealth over time with step-up mode, milestones & inflation-adjusted returns.",
-    path: "/calculators/sip",
+    path: "/finance-calculators/sip",
     cat: "finance",
   },
   {
-    href: "/calculators/loan",
+    href: "/finance-calculators/loan",
     icon: "🏛️",
     tag: "Live",
     tagClass: "tag-live",
     name: "Loan Eligibility",
     desc: "Know your maximum loan amount. FOIR-based with CIBIL score adjustment.",
-    path: "/calculators/loan",
+    path: "/finance-calculators/loan",
     cat: "finance",
   },
   {
-    href: "/calculators/fd",
+    href: "/finance-calculators/fd",
     icon: "💰",
     tag: "Live",
     tagClass: "tag-live",
     name: "FD / RD Calculator",
     desc: "Fixed & recurring deposit maturity, compounding frequency comparison.",
-    path: "/calculators/fd",
+    path: "/finance-calculators/fd",
     cat: "finance",
   },
   {
-    href: "/calculators/retirement",
+    href: "/finance-calculators/retirement",
     icon: "🌅",
     tag: "Live",
     tagClass: "tag-live",
     name: "Retirement Planner",
     desc: "Corpus needed, SIP gap analysis and inflation-adjusted projections.",
-    path: "/calculators/retirement",
+    path: "/finance-calculators/retirement",
     cat: "finance",
   },
   {
-    href: "/calculators/networth",
+    href: "/finance-calculators/networth",
     icon: "💎",
     tag: "Live",
     tagClass: "tag-live",
     name: "Net Worth Tracker",
     desc: "Track assets vs liabilities, donut breakdown and financial health score.",
-    path: "/calculators/networth",
+    path: "/finance-calculators/networth",
     cat: "finance",
   },
   {
-    href: "/calculators/goal",
+    href: "/finance-calculators/goal",
     icon: "🎯",
     tag: "Live",
     tagClass: "tag-live",
     name: "Goal-Based Savings",
     desc: "Plan for home, car, education — with inflation-adjusted SIP targets.",
-    path: "/calculators/goal",
+    path: "/finance-calculators/goal",
     cat: "finance",
   },
 
@@ -259,7 +260,7 @@ export default function Home() {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !statsTriggered.current) {
         statsTriggered.current = true;
-        animateCount(setToolCount, 6, 800);
+        animateCount(setToolCount, tools.length, 800);
         animateCount(setUserCount, 1200, 1200);
         animateCount(setUptime, 99, 1000);
         observer.disconnect();
@@ -298,8 +299,31 @@ export default function Home() {
 
   const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Finacial Calculator",
+    description: "Free Finacial calculator to calculate EMI, GST, SIP, Tax and more. No sign-up. No bloat. Just tools that work.",
+  };
+
   return (
     <>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+
+      <Head>
+        <title>ForgeCodeHub - Developer Tools & Apps</title>
+        <meta
+          name="description"
+          content="Powerful tools and productivity apps for developers and builders."
+        />
+      </Head>
+
       {/* NAV */}
       <nav id="navbar">
         <a href="#" className="logo">
@@ -551,10 +575,11 @@ export default function Home() {
           ForgeCodeHub
         </a>
         <div className="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">GitHub</a>
-          <a href="#">Twitter</a>
+          <a href="./privacy">Privacy</a>
+          <a href="./terms">Terms</a>
+          <a href="./disclaimer">Disclaimer</a>
+          <a href="https://github.com/forgecodehub" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://twitter.com/forgecodehub" target="_blank" rel="noopener noreferrer">Twitter</a>
         </div>
         <span>© 2025 ForgeCodeHub</span>
       </footer>
