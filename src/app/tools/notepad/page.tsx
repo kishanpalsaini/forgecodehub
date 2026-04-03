@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -50,8 +50,6 @@ export default function NotepadPage() {
   const [font, setFont]             = useState("Default");
   const [fontSize, setFontSize]     = useState(14);
   const [showPreview, setShowPreview] = useState(false);
-  const [showDiff, setShowDiff]     = useState(false);
-  const [diffSnapshot, setDiffSnapshot] = useState<string>("");
   const [lineNums, setLineNums]     = useState(false);
   const [openMenu, setOpenMenu]     = useState<string|null>(null);
   const [openSub, setOpenSub]       = useState<string|null>(null);
@@ -77,6 +75,9 @@ export default function NotepadPage() {
     setStatusMsg(m);
     setTimeout(() => setStatusMsg(""), 2500);
   }, []);
+
+  const editorWrapperRef = useRef<HTMLDivElement>(null);
+  const fileInputRef     = useRef<HTMLInputElement>(null);
 
   /* ── active tab ──────────────────────────────────────── */
   const activeTab = tabs.find(t => t.id === activeId) ?? tabs[0];
@@ -176,6 +177,82 @@ export default function NotepadPage() {
     const t = newTab({ title: `Note ${tabs.length + 1}` });
     setTabs(ts => [...ts, t]); setActiveId(t.id);
   }
+  function openFile() { fileInputRef.current?.click(); }
+  async function handleFileRead(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+
+    const name = file.name;
+    const ext  = name.split(".").pop()?.toLowerCase() ?? "";
+
+    // ── PDF: extract text via pdf.js ──────────────────────────────────────
+    if (ext === "pdf") {
+      flash("Reading PDF…");
+      try {
+        const pdfjsLib = await import("pdfjs-dist");
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        const arrayBuf = await file.arrayBuffer();
+        const pdf  = await pdfjsLib.getDocument({ data: arrayBuf }).promise;
+        let full = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page  = await pdf.getPage(i);
+          const tc    = await page.getTextContent();
+          const pageText = tc.items.map((it: any) => it.str).join(" ");
+          full += `--- Page ${i} ---\n${pageText}\n\n`;
+        }
+        const content = full.split("\n").map(l => `<p>${l || "<br/>"}</p>`).join("");
+        const t = newTab({ title: name, content });
+        setTabs(ts => [...ts, t]); setActiveId(t.id);
+        flash(`Opened PDF: ${name} (${pdf.numPages} pages)`);
+      } catch {
+        flash("PDF read failed — run: npm install pdfjs-dist");
+      }
+      return;
+    }
+
+    // ── Images: embed as <img> ────────────────────────────────────────────
+    if (["png","jpg","jpeg","gif","webp","svg","bmp","ico"].includes(ext)) {
+      const dataUrl = await new Promise<string>((res) => {
+        const r = new FileReader();
+        r.onload = ev => res(ev.target?.result as string);
+        r.readAsDataURL(file);
+      });
+      const content = `<p><img src="${dataUrl}" alt="${name}" style="max-width:100%;border-radius:4px;" /></p><p>${name}</p>`;
+      const t = newTab({ title: name, content });
+      setTabs(ts => [...ts, t]); setActiveId(t.id);
+      flash(`Opened image: ${name}`);
+      return;
+    }
+
+    // ── HTML: load as rich content ────────────────────────────────────────
+    if (["html","htm"].includes(ext)) {
+      const raw = await file.text();
+      const t = newTab({ title: name, content: raw });
+      setTabs(ts => [...ts, t]); setActiveId(t.id);
+      flash(`Opened: ${name}`);
+      return;
+    }
+
+    // ── All other text-based files (jsx, tsx, ts, js, css, json, md,
+    //    py, java, cpp, c, cs, go, rs, php, rb, sh, yaml, xml, csv…)
+    //    Show in a <pre> block preserving whitespace & indentation ──────────
+    try {
+      const raw = await file.text();
+      // Escape HTML entities so code renders safely inside Tiptap
+      const escaped = raw
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+      const content = `<pre><code>${escaped}</code></pre>`;
+      const t = newTab({ title: name, content });
+      setTabs(ts => [...ts, t]); setActiveId(t.id);
+      flash(`Opened: ${name}`);
+    } catch {
+      flash(`Cannot read file: ${name}`);
+    }
+  }
   function closeTab(id: string) {
     if (tabs.length === 1) { editor?.commands.clearContent(); updateTab(id, { content: "" }); return; }
     const idx = tabs.findIndex(t => t.id === id);
@@ -198,14 +275,67 @@ export default function NotepadPage() {
     flash("Saved as .txt");
   }
   async function savePDF() {
+    const el = editorWrapperRef.current?.querySelector(".ProseMirror") as HTMLElement | null;
+    if (!el) { flash("Editor not ready"); return; }
+    flash("Generating PDF…");
     try {
-      const { jsPDF } = await import("jspdf");
-      const doc = new jsPDF();
-      const lines = doc.splitTextToSize(editor?.getText() ?? "", 180);
-      doc.text(lines, 15, 15);
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+
+      // Snapshot the live editor DOM — all colours, bold, highlights preserved
+      const canvas = await html2canvas(el, {
+        scale: 2,                  // retina quality
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: el.scrollWidth,
+        windowHeight: el.scrollHeight,
+        width: el.scrollWidth,
+        height: el.scrollHeight,
+      });
+
+      const imgData  = canvas.toDataURL("image/png");
+      const pdfW     = 210;                              // A4 width mm
+      const pdfH     = 297;                              // A4 height mm
+      const margin   = 12;                               // mm
+      const usableW  = pdfW - margin * 2;
+      const imgW     = canvas.width;
+      const imgH     = canvas.height;
+      const ratio    = usableW / (imgW / 3.7795);        // px → mm at 96dpi
+      const scaledH  = (imgH / 3.7795) * ratio;
+
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      let yPos = margin;
+      let remaining = scaledH;
+
+      // Slice the image across multiple A4 pages if content is tall
+      while (remaining > 0) {
+        const pageH    = pdfH - margin * 2;
+        const sliceH   = Math.min(remaining, pageH);
+        const srcY     = (scaledH - remaining) / ratio * 3.7795;
+        const srcSliceH = sliceH / ratio * 3.7795;
+
+        // Create a slice canvas
+        const slice = document.createElement("canvas");
+        slice.width  = imgW;
+        slice.height = Math.round(srcSliceH);
+        const ctx = slice.getContext("2d")!;
+        ctx.drawImage(canvas, 0, srcY, imgW, srcSliceH, 0, 0, imgW, srcSliceH);
+
+        doc.addImage(slice.toDataURL("image/png"), "PNG", margin, yPos, usableW, sliceH);
+        remaining -= pageH;
+        if (remaining > 0) { doc.addPage(); yPos = margin; }
+      }
+
       doc.save(`${activeTab.title}.pdf`);
-      flash("Exported PDF");
-    } catch { flash("npm install jspdf"); }
+      flash("PDF exported!");
+    } catch (err) {
+      console.error(err);
+      flash("Error — run: npm install html2canvas jspdf");
+    }
   }
   async function saveDocx() {
     try {
@@ -247,12 +377,12 @@ export default function NotepadPage() {
 
   /* ── hotkeys ─────────────────────────────────────────── */
   useHotkeys("ctrl+s", () => saveFile(), { preventDefault: true });
+  useHotkeys("ctrl+o", () => openFile(), { preventDefault: true });
   useHotkeys("ctrl+shift+s", () => saveTxt(), { preventDefault: true });
   useHotkeys("ctrl+n", () => newTabAction(), { preventDefault: true });
   useHotkeys("ctrl+p", () => printFile(), { preventDefault: true });
   useHotkeys("ctrl+f", () => setShowFind(f => !f), { preventDefault: true });
   useHotkeys("ctrl+m", () => setShowPreview(p => !p), { preventDefault: true });
-  useHotkeys("ctrl+d", () => { if (!showDiff) openDiff(); else setShowDiff(false); }, { preventDefault: true });
   useHotkeys("ctrl+b", () => editor?.chain().focus().toggleBold().run(), { preventDefault: true });
   useHotkeys("ctrl+i", () => editor?.chain().focus().toggleItalic().run(), { preventDefault: true });
   useHotkeys("ctrl+u", () => editor?.chain().focus().toggleUnderline?.()?.run(), { preventDefault: true });
@@ -276,38 +406,6 @@ export default function NotepadPage() {
     };
   }
 
-  /* ── diff ────────────────────────────────────────────── */
-  function openDiff() {
-    setDiffSnapshot(editor?.getText() ?? "");
-    setShowDiff(true);
-    setShowPreview(false);
-  }
-
-  type DiffLine = { type: "same" | "add" | "del"; text: string; lineNo: number };
-
-  function computeDiff(original: string, current: string): DiffLine[] {
-    const oLines = original.split("\n");
-    const cLines = current.split("\n");
-    const result: DiffLine[] = [];
-    const maxLen = Math.max(oLines.length, cLines.length);
-    let lineNo = 1;
-    for (let i = 0; i < maxLen; i++) {
-      const o = oLines[i];
-      const c = cLines[i];
-      if (o === undefined) {
-        result.push({ type: "add", text: c, lineNo: lineNo++ });
-      } else if (c === undefined) {
-        result.push({ type: "del", text: o, lineNo: lineNo++ });
-      } else if (o === c) {
-        result.push({ type: "same", text: c, lineNo: lineNo++ });
-      } else {
-        result.push({ type: "del",  text: o, lineNo: lineNo });
-        result.push({ type: "add",  text: c, lineNo: lineNo++ });
-      }
-    }
-    return result;
-  }
-
   /* ── menu data ───────────────────────────────────────── */
   const datetimeSub = [
     { label: "Date",        action: () => editor?.commands.insertContent(new Date().toLocaleDateString()) },
@@ -317,6 +415,8 @@ export default function NotepadPage() {
   const menus = [
     { id:"file", label:"File", items:[
       { label:"New Tab",        action:newTabAction,                      icon:"🗋", sc:"Ctrl+N" },
+      { label:"Open File…",     action:openFile,                          icon:"📂", sc:"Ctrl+O" },
+      { sep:true },
       { label:"Save .html",     action:saveFile,                          icon:"💾", sc:"Ctrl+S" },
       { label:"Save .txt",      action:saveTxt,                           icon:"📄", sc:"Ctrl+Shift+S" },
       { label:"Export PDF",     action:savePDF,                           icon:"📕", sc:"" },
@@ -355,8 +455,7 @@ export default function NotepadPage() {
       { label:"Align right",  action:()=>editor?.chain().focus().setTextAlign("right").run(),  icon:"≡R" },
     ]},
     { id:"view", label:"View", items:[
-      { label:(showPreview?"✓ ":"  ")+"Markdown Preview", action:()=>{ setShowPreview(p=>!p); setShowDiff(false); }, icon:"📖", sc:"Ctrl+M" },
-      { label:(showDiff?"✓ ":"  ")+"Diff View",           action:()=>{ if(!showDiff) openDiff(); else setShowDiff(false); }, icon:"⟷", sc:"Ctrl+D" },
+      { label:(showPreview?"✓ ":"  ")+"Markdown Preview", action:()=>setShowPreview(p=>!p),   icon:"📖", sc:"Ctrl+M" },
       { label:(lineNums?"✓ ":"  ")+"Line Numbers",        action:()=>setLineNums(l=>!l),       icon:"#"  },
       { label:darkMode?"☀ Light":"🌙 Dark",               action:()=>setDarkMode(d=>!d),       icon:""   },
     ]},
@@ -370,7 +469,7 @@ export default function NotepadPage() {
   const [tooltip, setTooltip] = useState<{label:string;x:number;y:number}|null>(null);
   const iconBtns = [
     { icon:"🗋", label:"New Tab",         action:newTabAction },
-    { icon:"📂", label:"Open (coming soon)", action:()=>flash("Open file: use File > Open") },
+    { icon:"📂", label:"Open File",       action:openFile },
     { icon:"💾", label:"Save .html",      action:saveFile },
     { icon:"🖨", label:"Print",           action:printFile },
     null,
@@ -378,15 +477,24 @@ export default function NotepadPage() {
     { icon:"↪", label:"Redo",            action:()=>editor?.commands.redo() },
     null,
     { icon:"🔍", label:"Find & Replace",  action:()=>setShowFind(f=>!f) },
-    { icon:"📖", label:"Markdown Preview",action:()=>{ setShowPreview(p=>!p); setShowDiff(false); } },
-    { icon:"⟷",  label:"Diff View",       action:()=>{ if(!showDiff) openDiff(); else setShowDiff(false); } },
+    { icon:"📖", label:"Markdown Preview",action:()=>setShowPreview(p=>!p) },
     null,
     { icon:"📕", label:"Export PDF",      action:savePDF },
     { icon:"📝", label:"Export .docx",    action:saveDocx },
   ];
 
   return (
-    <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column", margin:"0 auto", maxWidth:"1450px" }}>
+    <div style={{background:"#252537"}}>
+      <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column" ,margin:"0 auto", maxWidth:1400, boxShadow:"0 0 12px rgba(0,0,0,0.08)" }} ref={editorWrapperRef}>
+
+      {/* Hidden file input for Open */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="*/*"
+        style={{ display:"none" }}
+        onChange={handleFileRead}
+      />
 
       {/* ── GLOBAL EDITOR STYLES ── */}
       <style>{`
@@ -409,8 +517,9 @@ export default function NotepadPage() {
         .line-num-gutter p::before { counter-increment:line; content:counter(line); display:inline-block; width:36px; text-align:right; margin-right:16px; color:#aaa; font-family:'Courier New',monospace; font-size:12px; user-select:none; }
       `}</style>
 
-       <div style={{display:"flex", alignItems:"center", justifyContent:"space-between",background:"#252537", padding:"10px 20px", border:"1px solid #333"}}>
-         <Link href="/" className="logo">
+      {/* ── TOP BAR ── */}
+      <div style={{display:"flex", alignItems:"center", justifyContent:"space-between",background:"#272537", padding:"10px 20px", borderBottom:`1px solid ${border}`, flexShrink:0 }}>
+            <Link href="/" className="logo">
           <div
             className="logo-icon"
             style={{ width: 22, height: 22, fontSize: 11 }}
@@ -419,7 +528,7 @@ export default function NotepadPage() {
           </div>
           ForgeCodeHub
         </Link>
-         <Link
+           <Link
           href="/"
           style={{
             display: "inline-flex", alignItems: "center", gap: 5,
@@ -432,9 +541,8 @@ export default function NotepadPage() {
           ← All Tools
         </Link>
       </div>
-
-      {/* ── TOP BAR ── */}
       <div style={{ display:"flex", alignItems:"center", gap:10, padding:"7px 20px", background:surface, borderBottom:`1px solid ${border}`, flexShrink:0 }}>
+        
         <span style={{ fontWeight:700, fontSize:15 }}>📝 Notepad</span>
         {statusMsg && <span style={{ fontSize:11, color:"#e8692a", marginLeft:8 }}>{statusMsg}</span>}
         <div style={{ marginLeft:"auto", display:"flex", gap:8, alignItems:"center" }}>
@@ -653,10 +761,8 @@ export default function NotepadPage() {
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showFind?hover:"transparent")}>🔍 Find</button>
         <button onClick={()=>setLineNums(l=>!l)} style={{...BStyle(lineNums), fontSize:12, padding:"3px 10px"}}
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=lineNums?hover:"transparent")}># Lines</button>
-        <button onClick={()=>{ setShowPreview(p=>!p); setShowDiff(false); }} style={{...BStyle(showPreview), fontSize:12, padding:"3px 10px"}}
+        <button onClick={()=>setShowPreview(p=>!p)} style={{...BStyle(showPreview), fontSize:12, padding:"3px 10px"}}
           onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showPreview?hover:"transparent")}>📖 Preview</button>
-        <button onClick={()=>{ if(!showDiff) openDiff(); else setShowDiff(false); }} style={{...BStyle(showDiff), fontSize:12, padding:"3px 10px"}}
-          onMouseEnter={e=>(e.currentTarget.style.background=hover)} onMouseLeave={e=>(e.currentTarget.style.background=showDiff?hover:"transparent")}>⟷ Diff</button>
       </div>
 
       {/* ── FIND & REPLACE ── */}
@@ -686,7 +792,7 @@ export default function NotepadPage() {
         <div style={{ flex:1, display:"flex", overflow:"hidden", margin:"16px 20px", gap:12 }}>
 
           {/* Tiptap editor pane */}
-          <div style={{ flex:1, display:"flex", flexDirection:"column", background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, overflow:"auto", boxShadow:"0 2px 12px rgba(0,0,0,0.06)" }}>
+          <div ref={editorWrapperRef} style={{ flex:1, display:"flex", flexDirection:"column", background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, overflow:"auto", boxShadow:"0 2px 12px rgba(0,0,0,0.06)" }}>
             <EditorContent
               editor={editor}
               className={`tiptap-editor${lineNums?" line-num-gutter":""}`}
@@ -702,68 +808,6 @@ export default function NotepadPage() {
               </ReactMarkdown>
             </div>
           )}
-
-          {/* Diff pane */}
-          {showDiff && (() => {
-            const currentText = editor?.getText() ?? "";
-            const lines = computeDiff(diffSnapshot, currentText);
-            const added   = lines.filter(l => l.type === "add").length;
-            const deleted = lines.filter(l => l.type === "del").length;
-            return (
-              <div style={{ flex:1, display:"flex", flexDirection:"column", background:"#ffffff", border:`1px solid ${border}`, borderRadius:8, overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.06)" }}>
-                {/* Diff header */}
-                <div style={{ display:"flex", alignItems:"center", gap:12, padding:"10px 16px", borderBottom:`1px solid ${border}`, flexShrink:0, background: darkMode ? "#1a1d2e" : "#fafafa" }}>
-                  <span style={{ fontSize:12, fontWeight:700, color:text_c, letterSpacing:0.5 }}>⟷ DIFF</span>
-                  <span style={{ fontSize:11, color:"#43a047", fontWeight:600 }}>+{added} added</span>
-                  <span style={{ fontSize:11, color:"#e53935", fontWeight:600 }}>−{deleted} removed</span>
-                  <div style={{ marginLeft:"auto", display:"flex", gap:6 }}>
-                    <button
-                      onClick={() => setDiffSnapshot(editor?.getText() ?? "")}
-                      title="Reset snapshot to current content"
-                      style={{ fontSize:11, padding:"3px 10px", border:`1px solid ${border}`, borderRadius:5, background:"transparent", color:muted, cursor:"pointer" }}
-                      onMouseEnter={e=>(e.currentTarget.style.color=text_c)}
-                      onMouseLeave={e=>(e.currentTarget.style.color=muted)}
-                    >↺ Reset snapshot</button>
-                    <button
-                      onClick={() => setShowDiff(false)}
-                      style={{ fontSize:11, padding:"3px 10px", border:`1px solid ${border}`, borderRadius:5, background:"transparent", color:muted, cursor:"pointer" }}
-                      onMouseEnter={e=>(e.currentTarget.style.color=text_c)}
-                      onMouseLeave={e=>(e.currentTarget.style.color=muted)}
-                    >✕ Close</button>
-                  </div>
-                </div>
-                {/* Diff lines */}
-                <div style={{ flex:1, overflow:"auto", fontFamily:"'Courier New',monospace", fontSize:13, lineHeight:1.7 }}>
-                  {lines.length === 0 && (
-                    <div style={{ padding:"32px 24px", color:muted, fontSize:13, textAlign:"center" }}>No snapshot taken yet. Click "Reset snapshot" to capture current content.</div>
-                  )}
-                  {lines.map((line, i) => (
-                    <div key={i} style={{
-                      display:"flex",
-                      background: line.type === "add" ? "rgba(67,160,71,0.10)" : line.type === "del" ? "rgba(229,57,53,0.10)" : "transparent",
-                      borderLeft: `3px solid ${line.type === "add" ? "#43a047" : line.type === "del" ? "#e53935" : "transparent"}`,
-                    }}>
-                      {/* Line number */}
-                      <span style={{ userSelect:"none", minWidth:44, textAlign:"right", padding:"0 10px 0 0", color: muted, fontSize:11, lineHeight:"inherit", flexShrink:0 }}>
-                        {line.lineNo}
-                      </span>
-                      {/* +/- marker */}
-                      <span style={{ userSelect:"none", width:16, flexShrink:0, color: line.type === "add" ? "#43a047" : line.type === "del" ? "#e53935" : "transparent", fontWeight:700 }}>
-                        {line.type === "add" ? "+" : line.type === "del" ? "−" : " "}
-                      </span>
-                      {/* Content */}
-                      <span style={{
-                        flex:1, padding:"1px 8px 1px 0", whiteSpace:"pre-wrap", wordBreak:"break-all",
-                        color: line.type === "add" ? "#2e7d32" : line.type === "del" ? "#c62828" : text_c,
-                      }}>
-                        {line.text || "\u00A0"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
         </div>
       </div>
 
@@ -808,10 +852,10 @@ export default function NotepadPage() {
           <div onClick={e=>e.stopPropagation()} style={{background:menuBg,border:`1px solid ${border}`,borderRadius:10,padding:28,minWidth:360,boxShadow:"0 16px 40px rgba(0,0,0,0.2)",maxHeight:"80vh",overflow:"auto"}}>
             <div style={{fontWeight:700,fontSize:16,marginBottom:18,color:text_c}}>⌨ Keyboard Shortcuts</div>
             {[
-              ["Ctrl+N","New Tab"],["Ctrl+S","Save .html"],["Ctrl+Shift+S","Save .txt"],["Ctrl+P","Print"],
+              ["Ctrl+N","New Tab"],["Ctrl+O","Open File"],["Ctrl+S","Save .html"],["Ctrl+Shift+S","Save .txt"],["Ctrl+P","Print"],
               ["Ctrl+Z","Undo"],["Ctrl+Y","Redo"],
               ["Ctrl+B","Bold"],["Ctrl+I","Italic"],
-              ["Ctrl+F","Find & Replace"],["Ctrl+M","Markdown Preview"],["Ctrl+D","Diff View"],
+              ["Ctrl+F","Find & Replace"],["Ctrl+M","Markdown Preview"],
             ].map(([k,d])=>(
               <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${border}`,fontSize:13}}>
                 <span style={{color:muted}}>{d}</span>
@@ -822,6 +866,7 @@ export default function NotepadPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }
