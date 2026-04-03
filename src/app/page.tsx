@@ -164,6 +164,16 @@ const tools = [
     path: "/tools/notepad",
     cat: "dev",
   },
+  {
+    href: "/tools/scheduler",
+    icon: "⏰",
+    tag: "New",
+    tagClass: "tag-new",
+    name: "Scheduler",
+    desc: "Plan and schedule your tasks and events with smart reminders and notifications.",
+    path: "/tools/scheduler",
+    cat: "dev",
+  },
 ];
 
 const steps = [
