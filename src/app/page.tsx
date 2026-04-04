@@ -106,6 +106,7 @@ const tools = [
     path: "/finance-calculators/goal",
     cat: "finance",
   },
+  
 
   // ── MEDIA ──
   {
@@ -144,16 +145,16 @@ const tools = [
   },
 
   // ── PRODUCTIVITY ──
-  {
-    href: "/tools/pomodoro",
-    icon: "⏱",
-    tag: "Soon",
-    tagClass: "tag-coming",
-    name: "Focus Timer",
-    desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
-    path: "/tools/pomodoro",
-    cat: "productivity",
-  },
+  // {
+  //   href: "/tools/pomodoro",
+  //   icon: "⏱",
+  //   tag: "Soon",
+  //   tagClass: "tag-coming",
+  //   name: "Focus Timer",
+  //   desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
+  //   path: "/tools/pomodoro",
+  //   cat: "productivity",
+  // },
   {
     href: "/tools/notepad",
     icon: "📝",
@@ -162,18 +163,20 @@ const tools = [
     name: "Notepad",
     desc: "Distraction-free notepad with word count, font controls, auto-save to browser, and .txt download.",
     path: "/tools/notepad",
-    cat: "dev",
+    cat: "productivity",
   },
   {
     href: "/tools/scheduler",
     icon: "⏰",
     tag: "New",
     tagClass: "tag-new",
-    name: "Scheduler",
-    desc: "Plan and schedule your tasks and events with smart reminders and notifications.",
+    name: "Focus Timer",
+    desc: "Distraction-free Focus timer with session tracking, streaks, and daily focus reports.",
     path: "/tools/scheduler",
-    cat: "dev",
+    cat: "productivity",
   },
+
+  
 ];
 
 const steps = [
