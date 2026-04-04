@@ -37,6 +37,102 @@ const AMBIENT = [
   { id: "waves",  label: "🌊 Waves"  },
 ];
 
+/* ─────────────────────────────────────────────
+   THEMES — per-mode background + text colors
+───────────────────────────────────────────── */
+type ThemeId = "default" | "crimson" | "ocean" | "forest" | "midnight" | "sunset" | "rose" | "slate" | "amber" | "teal" | "charcoal" | "lavender";
+
+type ThemeMode = { bg: string; color: string; textOnBg: string };
+type Theme = {
+  id: ThemeId;
+  label: string;
+  swatch: string;            // preview color in the picker
+  focus: ThemeMode;
+  short: ThemeMode;
+  long:  ThemeMode;
+};
+
+// textOnBg = "light" → use white text; "dark" → use dark text
+function txt(light: boolean) { return light ? "#ffffff" : "#1a1a2e"; }
+function mTxt(light: boolean, opacity = 0.65) {
+  return light ? `rgba(255,255,255,${opacity})` : `rgba(26,26,46,${opacity})`;
+}
+
+const THEMES: Theme[] = [
+  {
+    id:"default", label:"Indigo", swatch:"#4f46e5",
+    focus: { bg:"#4f46e5", color:"#6366f1", textOnBg:"light" },
+    short: { bg:"#059669", color:"#10b981", textOnBg:"light" },
+    long:  { bg:"#d97706", color:"#f59e0b", textOnBg:"light" },
+  },
+  {
+    id:"crimson", label:"Crimson", swatch:"#b91c1c",
+    focus: { bg:"#b91c1c", color:"#ef4444", textOnBg:"light" },
+    short: { bg:"#15803d", color:"#22c55e", textOnBg:"light" },
+    long:  { bg:"#c2410c", color:"#f97316", textOnBg:"light" },
+  },
+  {
+    id:"ocean", label:"Ocean", swatch:"#0e7490",
+    focus: { bg:"#0e7490", color:"#06b6d4", textOnBg:"light" },
+    short: { bg:"#1d4ed8", color:"#3b82f6", textOnBg:"light" },
+    long:  { bg:"#0f766e", color:"#14b8a6", textOnBg:"light" },
+  },
+  {
+    id:"forest", label:"Forest", swatch:"#166534",
+    focus: { bg:"#166534", color:"#22c55e", textOnBg:"light" },
+    short: { bg:"#065f46", color:"#10b981", textOnBg:"light" },
+    long:  { bg:"#854d0e", color:"#eab308", textOnBg:"light" },
+  },
+  {
+    id:"midnight", label:"Midnight", swatch:"#1e1b4b",
+    focus: { bg:"#1e1b4b", color:"#818cf8", textOnBg:"light" },
+    short: { bg:"#134e4a", color:"#2dd4bf", textOnBg:"light" },
+    long:  { bg:"#312e81", color:"#a5b4fc", textOnBg:"light" },
+  },
+  {
+    id:"sunset", label:"Sunset", swatch:"#c2410c",
+    focus: { bg:"#c2410c", color:"#fb923c", textOnBg:"light" },
+    short: { bg:"#9d174d", color:"#f472b6", textOnBg:"light" },
+    long:  { bg:"#7c3aed", color:"#c084fc", textOnBg:"light" },
+  },
+  {
+    id:"rose", label:"Rose", swatch:"#9f1239",
+    focus: { bg:"#9f1239", color:"#fb7185", textOnBg:"light" },
+    short: { bg:"#7c3aed", color:"#c084fc", textOnBg:"light" },
+    long:  { bg:"#c2410c", color:"#fdba74", textOnBg:"light" },
+  },
+  {
+    id:"slate", label:"Slate", swatch:"#334155",
+    focus: { bg:"#334155", color:"#94a3b8", textOnBg:"light" },
+    short: { bg:"#1e3a5f", color:"#60a5fa", textOnBg:"light" },
+    long:  { bg:"#374151", color:"#9ca3af", textOnBg:"light" },
+  },
+  {
+    id:"amber", label:"Amber", swatch:"#b45309",
+    focus: { bg:"#b45309", color:"#fbbf24", textOnBg:"light" },
+    short: { bg:"#0e7490", color:"#22d3ee", textOnBg:"light" },
+    long:  { bg:"#166534", color:"#4ade80", textOnBg:"light" },
+  },
+  {
+    id:"teal", label:"Teal", swatch:"#0f766e",
+    focus: { bg:"#0f766e", color:"#2dd4bf", textOnBg:"light" },
+    short: { bg:"#1d4ed8", color:"#93c5fd", textOnBg:"light" },
+    long:  { bg:"#065f46", color:"#6ee7b7", textOnBg:"light" },
+  },
+  {
+    id:"charcoal", label:"Charcoal", swatch:"#18181b",
+    focus: { bg:"#18181b", color:"#a1a1aa", textOnBg:"light" },
+    short: { bg:"#27272a", color:"#d4d4d8", textOnBg:"light" },
+    long:  { bg:"#1c1917", color:"#a8a29e", textOnBg:"light" },
+  },
+  {
+    id:"lavender", label:"Lavender", swatch:"#7c3aed",
+    focus: { bg:"#7c3aed", color:"#c4b5fd", textOnBg:"light" },
+    short: { bg:"#db2777", color:"#f9a8d4", textOnBg:"light" },
+    long:  { bg:"#0e7490", color:"#67e8f9", textOnBg:"light" },
+  },
+];
+
 function uid()  { return Math.random().toString(36).slice(2, 9); }
 function pad(n: number) { return String(n).padStart(2, "0"); }
 function fmt(s: number) { return `${pad(Math.floor(s / 60))}:${pad(s % 60)}`; }
@@ -118,6 +214,8 @@ export default function PomodoroPage() {
   const [ambientSound, setAmbientSound] = useState("none");
   const [ambientVol, setAmbientVol]   = useState(0.4);
   const [darkMode, setDarkMode]   = useState(false);
+  const [themeId, setThemeId]     = useState<ThemeId>("default");
+  const [showTheme, setShowTheme] = useState(false);
 
   /* ── session log ── */
   const [sessionLog, setSessionLog] = useState<{date:string;mode:Mode;mins:number}[]>([]);
@@ -285,9 +383,24 @@ export default function PomodoroPage() {
   const totalSecs = cfg[mode === "focus" ? "focus" : mode === "short" ? "short" : "long"] * 60;
   const progress  = 1 - secs / totalSecs;
   const R = 110, C = 2 * Math.PI * R;
-  const mc = MODE_CONFIG[mode];
 
-  /* ── theme ── */
+  /* ── active theme ── */
+  const activeTheme = THEMES.find(t => t.id === themeId) ?? THEMES[0];
+  const modeTheme   = activeTheme[mode];                     // { bg, color, textOnBg }
+  const isLightText = modeTheme.textOnBg === "light";
+  const onBg        = isLightText ? "#ffffff" : "#1a1a2e";   // primary text on colored bg
+  const onBgMuted   = isLightText ? "rgba(255,255,255,0.62)" : "rgba(26,26,46,0.55)";
+  const onBgSubtle  = isLightText ? "rgba(255,255,255,0.22)" : "rgba(26,26,46,0.14)";
+
+  // mc kept for compatibility — now driven by theme
+  const mc = {
+    label:   MODE_CONFIG[mode].label,
+    color:   modeTheme.color,
+    bg:      modeTheme.bg,
+    lightBg: `${modeTheme.color}18`,
+  };
+
+  /* ── page theme (right side / nav) ── */
   const bg      = darkMode ? "#0d0f1a" : "#f8f7ff";
   const surface = darkMode ? "#13162a" : "#ffffff";
   const border  = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.09)";
@@ -351,32 +464,30 @@ export default function PomodoroPage() {
       )}
 
       {/* ── TOP NAV ── */}
-       <div style={{display:"flex", alignItems:"center", justifyContent:"space-between" ,background:"#272537", borderBottom:"1px solid ${border}", padding:"10px 20px", flexShrink:0 }}>
-         <Link href="/" className="logo">
-          <div
-            className="logo-icon"
-            style={{ width: 22, height: 22, fontSize: 11 }}
-          >
-            ⚒
-          </div>
-          ForgeCodeHub
-        </Link>
-         <Link
-          href="/"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: 5,
-            fontSize: 12, fontWeight: 500, color: "rgb(232, 105, 42)",
-            textDecoration: "none", padding: "6px 8px",
-           borderRadius: 6,
-            whiteSpace: "nowrap", transition: "color 0.15s, border-color 0.15s",
-          }}
-        >
-          ← All Tools
-        </Link>
-      </div>
-
+          <div style={{display:"flex", alignItems:"center", justifyContent:"space-between" ,background:"#272537", borderBottom:"1px solid ${border}", padding:"10px 20px", flexShrink:0 }}>
+               <Link href="/" className="logo">
+                <div
+                  className="logo-icon"
+                  style={{ width: 22, height: 22, fontSize: 11 }}
+                >
+                  ⚒
+                </div>
+                ForgeCodeHub
+              </Link>
+               <Link
+                href="/"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 5,
+                  fontSize: 12, fontWeight: 500, color: "rgb(232, 105, 42)",
+                  textDecoration: "none", padding: "6px 8px",
+                 borderRadius: 6,
+                  whiteSpace: "nowrap", transition: "color 0.15s, border-color 0.15s",
+                }}
+              >
+                ← All Tools
+              </Link>
+            </div>
       <nav style={{ display:"flex", alignItems:"center", padding:"12px 28px", background:surface, borderBottom:`1px solid ${border}`, position:"sticky", top:alarmRinging?48:0, zIndex:100, backdropFilter:"blur(12px)", transition:"top 0.3s" }}>
-       
         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
           <div style={{ width:28, height:28, borderRadius:7, background:mc.color, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, transition:"background 0.4s" }}>⏱</div>
           <span style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:16, color:text_c }}>
@@ -388,7 +499,12 @@ export default function PomodoroPage() {
             style={{ padding:"6px 14px", fontSize:12, fontWeight:600, border:`1px solid ${border}`, borderRadius:7, background:"transparent", color:text_c, cursor:"pointer" }}>
             {darkMode?"☀ Light":"🌙 Dark"}
           </button>
-          <button onClick={()=>setShowSettings(s=>!s)}
+          <button onClick={()=>{ setShowTheme(t=>!t); setShowSettings(false); }}
+            style={{ padding:"6px 14px", fontSize:12, fontWeight:600, border:`1px solid ${border}`, borderRadius:7, background:showTheme?mc.color:"transparent", color:showTheme?"#fff":text_c, cursor:"pointer", transition:"all 0.2s", display:"flex", alignItems:"center", gap:6 }}>
+            <span style={{ width:12, height:12, borderRadius:"50%", background:activeTheme.swatch, display:"inline-block", border:"1.5px solid rgba(255,255,255,0.4)" }}/>
+            Theme
+          </button>
+          <button onClick={()=>{ setShowSettings(s=>!s); setShowTheme(false); }}
             style={{ padding:"6px 14px", fontSize:12, fontWeight:600, border:`1px solid ${border}`, borderRadius:7, background:showSettings?mc.color:"transparent", color:showSettings?"#fff":text_c, cursor:"pointer", transition:"all 0.2s" }}>
             ⚙ Settings
           </button>
@@ -456,7 +572,57 @@ export default function PomodoroPage() {
         </div>
       )}
 
-      {/* ── MAIN SPLIT GRID ── */}
+      {/* ── THEME PICKER PANEL ── */}
+      {showTheme && (
+        <div className="slide-in" style={{ background:surface, borderBottom:`1px solid ${border}`, padding:"20px 28px" }}>
+          <div style={{ maxWidth:960, margin:"0 auto" }}>
+            <div style={{ fontSize:11, color:muted, fontWeight:600, textTransform:"uppercase", letterSpacing:0.8, marginBottom:14 }}>
+              Choose a colour theme — applies to all 3 timer modes
+            </div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:10 }}>
+              {THEMES.map(th => {
+                const isActive = themeId === th.id;
+                return (
+                  <button key={th.id} onClick={()=>setThemeId(th.id)}
+                    title={th.label}
+                    style={{
+                      display:"flex", flexDirection:"column", alignItems:"center", gap:6,
+                      padding:"10px 12px", borderRadius:10, cursor:"pointer",
+                      border:`2px solid ${isActive ? th.swatch : border}`,
+                      background: isActive ? `${th.swatch}18` : "transparent",
+                      transition:"all 0.15s", minWidth:72,
+                    }}
+                    onMouseEnter={e=>{ if(!isActive) e.currentTarget.style.borderColor = th.swatch; }}
+                    onMouseLeave={e=>{ if(!isActive) e.currentTarget.style.borderColor = border; }}
+                  >
+                    {/* 3 mode swatches stacked */}
+                    <div style={{ display:"flex", gap:4 }}>
+                      {(["focus","short","long"] as Mode[]).map(m => (
+                        <div key={m} style={{ width:16, height:16, borderRadius:4, background:th[m].bg, border:"1px solid rgba(0,0,0,0.1)" }}/>
+                      ))}
+                    </div>
+                    <span style={{ fontSize:11, fontWeight:600, color: isActive ? th.swatch : text_c, whiteSpace:"nowrap" }}>
+                      {th.label}
+                    </span>
+                    {isActive && <span style={{ fontSize:9, color:th.swatch, fontWeight:700 }}>✓ Active</span>}
+                  </button>
+                );
+              })}
+            </div>
+            {/* live preview strip */}
+            <div style={{ marginTop:16, display:"flex", gap:8, alignItems:"center" }}>
+              <span style={{ fontSize:11, color:muted, fontWeight:600 }}>Preview:</span>
+              {(["focus","short","long"] as Mode[]).map(m => (
+                <div key={m} style={{ background:activeTheme[m].bg, borderRadius:7, padding:"6px 14px", fontSize:12, fontWeight:700, color: activeTheme[m].textOnBg==="light" ? "#fff" : "#1a1a2e" }}>
+                  {MODE_CONFIG[m].label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <div className="main-grid">
 
         {/* ════ LEFT — TIMER & TASKS ════ */}
@@ -466,7 +632,7 @@ export default function PomodoroPage() {
           <div style={{ display:"flex", gap:5, background:"rgba(0,0,0,0.2)", borderRadius:50, padding:"5px", marginBottom:36 }}>
             {(["focus","short","long"] as Mode[]).map(m=>(
               <button key={m} onClick={()=>switchMode(m)}
-                style={{ padding:"7px 18px", borderRadius:50, border:"none", cursor:"pointer", fontSize:13, fontWeight:600, background:mode===m?MODE_CONFIG[m].color:"transparent", color:"rgba(255,255,255,0.85)", transition:"all 0.2s" }}>
+                style={{ padding:"7px 18px", borderRadius:50, border:"none", cursor:"pointer", fontSize:13, fontWeight:600, background:mode===m?activeTheme[m].color:"transparent", color:onBg, transition:"all 0.2s", opacity:mode===m?1:0.7 }}>
                 {MODE_CONFIG[m].label}
               </button>
             ))}
@@ -475,17 +641,17 @@ export default function PomodoroPage() {
           {/* Timer ring */}
           <div style={{ position:"relative", marginBottom:24 }} className={alarmRinging?"alarm-ring":running?"pulse-ring":""}>
             <svg width={260} height={260} style={{transform:"rotate(-90deg)"}}>
-              <circle cx={130} cy={130} r={R} fill="none" strokeWidth={10} stroke="rgba(255,255,255,0.12)"/>
+              <circle cx={130} cy={130} r={R} fill="none" strokeWidth={10} stroke={onBgSubtle}/>
               <circle cx={130} cy={130} r={R} fill="none" strokeWidth={10}
-                stroke={alarmRinging?"#fff":mc.color}
+                stroke={alarmRinging?onBg:mc.color}
                 strokeDasharray={C} strokeDashoffset={C*(1-progress)} strokeLinecap="round"
                 style={{transition:"stroke-dashoffset 1s linear, stroke 0.3s"}}/>
             </svg>
             <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-              <div className="timer-font" style={{ fontSize:62, fontWeight:700, color:"#fff", lineHeight:1, letterSpacing:2 }}>
+              <div className="timer-font" style={{ fontSize:62, fontWeight:700, color:onBg, lineHeight:1, letterSpacing:2 }}>
                 {alarmRinging ? "🔔" : fmt(secs)}
               </div>
-              <div style={{ fontSize:12, color:"rgba(255,255,255,0.6)", marginTop:6, fontWeight:500, letterSpacing:1, textTransform:"uppercase" }}>
+              <div style={{ fontSize:12, color:onBgMuted, marginTop:6, fontWeight:500, letterSpacing:1, textTransform:"uppercase" }}>
                 {alarmRinging ? "Time's Up!" : mc.label}
               </div>
             </div>
@@ -494,13 +660,13 @@ export default function PomodoroPage() {
           {/* Round dots */}
           <div style={{ display:"flex", gap:8, marginBottom:24 }}>
             {Array.from({length:cfgLongAfter}).map((_,i)=>(
-              <div key={i} style={{ width:10, height:10, borderRadius:"50%", background:i<(round-1)?"rgba(255,255,255,0.9)":"rgba(255,255,255,0.22)", transition:"background 0.3s" }}/>
+              <div key={i} style={{ width:10, height:10, borderRadius:"50%", background:i<(round-1)?onBg:onBgSubtle, transition:"background 0.3s" }}/>
             ))}
           </div>
 
           {/* Active task label */}
           {activeTask && !alarmRinging && (
-            <div style={{ fontSize:12, color:"rgba(255,255,255,0.75)", marginBottom:16, background:"rgba(0,0,0,0.15)", padding:"5px 14px", borderRadius:50, maxWidth:300, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+            <div style={{ fontSize:12, color:onBgMuted, marginBottom:16, background:"rgba(0,0,0,0.15)", padding:"5px 14px", borderRadius:50, maxWidth:300, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               🎯 {tasks.find(t=>t.id===activeTask)?.text ?? ""}
             </div>
           )}
@@ -508,13 +674,13 @@ export default function PomodoroPage() {
           {/* Controls */}
           <div style={{ display:"flex", gap:12, marginBottom:32 }}>
             <button onClick={startStop}
-              style={{ padding:"14px 44px", fontSize:15, fontWeight:800, fontFamily:"'Outfit',sans-serif", letterSpacing:1.5, textTransform:"uppercase", background:alarmRinging?"#fff":"#fff", color:alarmRinging?"#ef4444":mc.bg, border:"none", borderRadius:50, cursor:"pointer", boxShadow:"0 4px 20px rgba(0,0,0,0.25)", transition:"all 0.15s" }}
+              style={{ padding:"14px 44px", fontSize:15, fontWeight:800, fontFamily:"'Outfit',sans-serif", letterSpacing:1.5, textTransform:"uppercase", background:onBg, color:alarmRinging?"#ef4444":mc.bg, border:"none", borderRadius:50, cursor:"pointer", boxShadow:"0 4px 20px rgba(0,0,0,0.25)", transition:"all 0.15s" }}
               onMouseEnter={e=>(e.currentTarget.style.transform="scale(1.04)")}
               onMouseLeave={e=>(e.currentTarget.style.transform="scale(1)")}>
               {alarmRinging ? "⏹ Stop Alarm" : running ? "⏸ Pause" : "▶ Start"}
             </button>
             <button onClick={resetTimer}
-              style={{ padding:"14px 18px", fontSize:18, background:"rgba(255,255,255,0.15)", color:"#fff", border:"1px solid rgba(255,255,255,0.3)", borderRadius:50, cursor:"pointer" }}
+              style={{ padding:"14px 18px", fontSize:18, background:onBgSubtle, color:onBg, border:`1px solid ${onBgMuted}`, borderRadius:50, cursor:"pointer" }}
               title="Reset">↺</button>
           </div>
 
@@ -526,8 +692,8 @@ export default function PomodoroPage() {
               { label:"Sessions", val:`${pomoDone} 🍅`},
             ].map(({label,val})=>(
               <div key={label} style={{textAlign:"center"}}>
-                <div style={{fontSize:20,fontWeight:700,color:"#fff",fontFamily:"'JetBrains Mono',monospace"}}>{val}</div>
-                <div style={{fontSize:10,color:"rgba(255,255,255,0.5)",marginTop:2,textTransform:"uppercase",letterSpacing:0.8}}>{label}</div>
+                <div style={{fontSize:20,fontWeight:700,color:onBg,fontFamily:"'JetBrains Mono',monospace"}}>{val}</div>
+                <div style={{fontSize:10,color:onBgMuted,marginTop:2,textTransform:"uppercase",letterSpacing:0.8}}>{label}</div>
               </div>
             ))}
           </div>
@@ -535,60 +701,60 @@ export default function PomodoroPage() {
           {/* ── TASKS ── */}
           <div style={{ width:"100%", maxWidth:420 }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
-              <span style={{ fontSize:12, fontWeight:700, color:"rgba(255,255,255,0.85)", textTransform:"uppercase", letterSpacing:1 }}>Tasks</span>
+              <span style={{ fontSize:12, fontWeight:700, color:onBg, textTransform:"uppercase", letterSpacing:1 }}>Tasks</span>
               <button onClick={()=>{ if(confirm("Clear all tasks?")){ setTasks([]); setActiveTask(null); } }}
-                style={{ fontSize:11, color:"rgba(255,255,255,0.4)", background:"transparent", border:"none", cursor:"pointer" }}>Clear all</button>
+                style={{ fontSize:11, color:onBgMuted, background:"transparent", border:"none", cursor:"pointer" }}>Clear all</button>
             </div>
 
             <div style={{ display:"flex", flexDirection:"column", gap:7, marginBottom:10, maxHeight:260, overflowY:"auto" }}>
               {tasks.map(task=>(
                 <div key={task.id}
-                  style={{ background:activeTask===task.id?"rgba(255,255,255,0.18)":"rgba(255,255,255,0.08)", borderRadius:10, padding:"10px 13px", border:`1px solid ${activeTask===task.id?"rgba(255,255,255,0.35)":"rgba(255,255,255,0.1)"}`, cursor:"pointer", transition:"background 0.15s" }}
+                  style={{ background:activeTask===task.id?onBgSubtle:"rgba(0,0,0,0.12)", borderRadius:10, padding:"10px 13px", border:`1px solid ${activeTask===task.id?onBgMuted:"rgba(0,0,0,0.1)"}`, cursor:"pointer", transition:"background 0.15s" }}
                   onClick={()=>setActiveTask(id=>id===task.id?null:task.id)}
                 >
                   <div style={{display:"flex",alignItems:"center",gap:9}}>
                     <button onClick={e=>{e.stopPropagation();toggleFinished(task.id);}}
-                      style={{ width:20,height:20,borderRadius:"50%",border:"2px solid rgba(255,255,255,0.45)",background:task.finished?"rgba(255,255,255,0.9)":"transparent",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:"#333" }}>
+                      style={{ width:20,height:20,borderRadius:"50%",border:`2px solid ${onBgMuted}`,background:task.finished?onBg:"transparent",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:mc.bg }}>
                       {task.finished?"✓":""}
                     </button>
-                    <span style={{ flex:1, fontSize:13, color:"rgba(255,255,255,0.9)", textDecoration:task.finished?"line-through":"none", opacity:task.finished?0.5:1 }}>{task.text}</span>
-                    <span style={{ fontSize:11, color:"rgba(255,255,255,0.5)", fontFamily:"'JetBrains Mono',monospace", whiteSpace:"nowrap" }}>{task.done}/{task.est}🍅</span>
-                    <button onClick={e=>{e.stopPropagation();setExpandedTask(t=>t===task.id?null:task.id);}} style={{ background:"transparent",border:"none",color:"rgba(255,255,255,0.45)",cursor:"pointer",fontSize:14 }}>⋯</button>
-                    <button onClick={e=>{e.stopPropagation();deleteTask(task.id);}} style={{ background:"transparent",border:"none",color:"rgba(255,255,255,0.35)",cursor:"pointer",fontSize:14 }}>✕</button>
+                    <span style={{ flex:1, fontSize:13, color:onBg, textDecoration:task.finished?"line-through":"none", opacity:task.finished?0.5:1 }}>{task.text}</span>
+                    <span style={{ fontSize:11, color:onBgMuted, fontFamily:"'JetBrains Mono',monospace", whiteSpace:"nowrap" }}>{task.done}/{task.est}🍅</span>
+                    <button onClick={e=>{e.stopPropagation();setExpandedTask(t=>t===task.id?null:task.id);}} style={{ background:"transparent",border:"none",color:onBgMuted,cursor:"pointer",fontSize:14 }}>⋯</button>
+                    <button onClick={e=>{e.stopPropagation();deleteTask(task.id);}} style={{ background:"transparent",border:"none",color:onBgMuted,cursor:"pointer",fontSize:14 }}>✕</button>
                   </div>
                   {expandedTask===task.id && task.note && (
-                    <div style={{ marginTop:7, fontSize:12, color:"rgba(255,255,255,0.55)", paddingLeft:29, fontStyle:"italic" }}>{task.note}</div>
+                    <div style={{ marginTop:7, fontSize:12, color:onBgMuted, paddingLeft:29, fontStyle:"italic" }}>{task.note}</div>
                   )}
-                  <div style={{ marginTop:7, height:3, background:"rgba(255,255,255,0.12)", borderRadius:2, overflow:"hidden" }}>
-                    <div style={{ height:"100%", width:`${Math.min(100,(task.done/task.est)*100)}%`, background:"rgba(255,255,255,0.7)", borderRadius:2, transition:"width 0.3s" }}/>
+                  <div style={{ marginTop:7, height:3, background:"rgba(0,0,0,0.15)", borderRadius:2, overflow:"hidden" }}>
+                    <div style={{ height:"100%", width:`${Math.min(100,(task.done/task.est)*100)}%`, background:onBg, borderRadius:2, transition:"width 0.3s", opacity:0.7 }}/>
                   </div>
                 </div>
               ))}
             </div>
 
             {addingTask ? (
-              <div className="slide-in" style={{ background:"rgba(255,255,255,0.1)", borderRadius:10, padding:14, border:"1px solid rgba(255,255,255,0.2)" }}>
+              <div className="slide-in" style={{ background:"rgba(0,0,0,0.15)", borderRadius:10, padding:14, border:`1px solid ${onBgSubtle}` }}>
                 <input autoFocus placeholder="What are you working on?" value={newTaskText} onChange={e=>setNewTaskText(e.target.value)}
                   onKeyDown={e=>{ if(e.key==="Enter") addTask(); if(e.key==="Escape") setAddingTask(false); }}
-                  style={{ width:"100%", background:"transparent", border:"none", outline:"none", color:"#fff", fontSize:14, marginBottom:10 }}/>
+                  style={{ width:"100%", background:"transparent", border:"none", outline:"none", color:onBg, fontSize:14, marginBottom:10 }}/>
                 <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-                  <span style={{fontSize:12,color:"rgba(255,255,255,0.6)"}}>Est:</span>
+                  <span style={{fontSize:12,color:onBgMuted}}>Est:</span>
                   {[1,2,3,4,5,6].map(n=>(
                     <button key={n} onClick={()=>setNewTaskEst(n)}
-                      style={{ width:26,height:26,borderRadius:"50%",border:"1px solid rgba(255,255,255,0.35)",background:newTaskEst===n?"rgba(255,255,255,0.9)":"transparent",color:newTaskEst===n?"#333":"rgba(255,255,255,0.8)",cursor:"pointer",fontSize:12,fontWeight:700 }}>{n}</button>
+                      style={{ width:26,height:26,borderRadius:"50%",border:`1px solid ${onBgMuted}`,background:newTaskEst===n?onBg:"transparent",color:newTaskEst===n?mc.bg:onBg,cursor:"pointer",fontSize:12,fontWeight:700 }}>{n}</button>
                   ))}
-                  <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>🍅</span>
+                  <span style={{fontSize:12,color:onBgMuted}}>🍅</span>
                 </div>
                 <input placeholder="Note (optional)" value={newTaskNote} onChange={e=>setNewTaskNote(e.target.value)}
-                  style={{ width:"100%", background:"transparent", border:"none", borderTop:"1px solid rgba(255,255,255,0.15)", outline:"none", color:"rgba(255,255,255,0.65)", fontSize:12, paddingTop:8 }}/>
+                  style={{ width:"100%", background:"transparent", border:"none", borderTop:`1px solid ${onBgSubtle}`, outline:"none", color:onBgMuted, fontSize:12, paddingTop:8 }}/>
                 <div style={{ display:"flex", gap:8, marginTop:10 }}>
-                  <button onClick={addTask} style={{ padding:"7px 20px", background:"rgba(255,255,255,0.9)", color:"#333", border:"none", borderRadius:6, cursor:"pointer", fontWeight:700, fontSize:13 }}>Add</button>
-                  <button onClick={()=>setAddingTask(false)} style={{ padding:"7px 16px", background:"transparent", color:"rgba(255,255,255,0.55)", border:"1px solid rgba(255,255,255,0.2)", borderRadius:6, cursor:"pointer", fontSize:13 }}>Cancel</button>
+                  <button onClick={addTask} style={{ padding:"7px 20px", background:onBg, color:mc.bg, border:"none", borderRadius:6, cursor:"pointer", fontWeight:700, fontSize:13 }}>Add</button>
+                  <button onClick={()=>setAddingTask(false)} style={{ padding:"7px 16px", background:"transparent", color:onBgMuted, border:`1px solid ${onBgSubtle}`, borderRadius:6, cursor:"pointer", fontSize:13 }}>Cancel</button>
                 </div>
               </div>
             ) : (
               <button onClick={()=>setAddingTask(true)}
-                style={{ width:"100%", padding:"11px", background:"rgba(255,255,255,0.07)", border:"1.5px dashed rgba(255,255,255,0.28)", borderRadius:10, color:"rgba(255,255,255,0.65)", cursor:"pointer", fontSize:13, fontWeight:600, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+                style={{ width:"100%", padding:"11px", background:"rgba(0,0,0,0.1)", border:`1.5px dashed ${onBgMuted}`, borderRadius:10, color:onBgMuted, cursor:"pointer", fontSize:13, fontWeight:600, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
                 ＋ Add Task
               </button>
             )}
