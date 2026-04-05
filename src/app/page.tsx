@@ -106,7 +106,7 @@ const tools = [
     path: "/finance-calculators/goal",
     cat: "finance",
   },
-  
+
 
   // ── MEDIA ──
   {
@@ -156,27 +156,29 @@ const tools = [
   //   cat: "productivity",
   // },
   {
-    href: "/tools/notepad",
+    href: "/tools/online-notepad",
     icon: "📝",
-    tag: "New",
+    // tag: "New",
+    tag: "Live",
     tagClass: "tag-new",
     name: "Notepad",
     desc: "Distraction-free notepad with word count, font controls, auto-save to browser, and .txt download.",
-    path: "/tools/notepad",
+    path: "/tools/online-notepad",
     cat: "productivity",
   },
   {
-    href: "/tools/scheduler",
+    href: "/tools/pomodoro-timer",
     icon: "⏰",
-    tag: "New",
+    // tag: "New",
+    tag: "Live",
     tagClass: "tag-new",
     name: "Focus Timer",
     desc: "Distraction-free Focus timer with session tracking, streaks, and daily focus reports.",
-    path: "/tools/scheduler",
+    path: "/tools/pomodoro-timer",
     cat: "productivity",
   },
 
-  
+
 ];
 
 const steps = [
@@ -519,7 +521,7 @@ export default function Home() {
                     : activeCategory === "finance"
                       ? "Finance Tools"
                       : activeCategory.charAt(0).toUpperCase() +
-                        activeCategory.slice(1)}
+                      activeCategory.slice(1)}
                 </div>
                 <div className="tool-desc" style={{ textAlign: "center" }}>
                   {totalInCategory - INITIAL_LIMIT} more available
