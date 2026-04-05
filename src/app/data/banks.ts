@@ -1,0 +1,111 @@
+export const banksData: Record<string, {
+    name: string;
+    homeRate: string;
+    carRate: string;
+    personalRate: string;
+    maxTenure: number;
+    minLoan: number;
+    maxLoan: number;
+    desc: string;
+}> = {
+    sbi: {
+        name: "SBI (State Bank of India)",
+        homeRate: "8.50",
+        carRate: "8.85",
+        personalRate: "11.15",
+        maxTenure: 30,
+        minLoan: 100000,
+        maxLoan: 10000000,
+        desc: "India's largest public sector bank offering competitive home, car and personal loan rates.",
+    },
+    hdfc: {
+        name: "HDFC Bank",
+        homeRate: "8.75",
+        carRate: "8.90",
+        personalRate: "10.85",
+        maxTenure: 30,
+        minLoan: 500000,
+        maxLoan: 15000000,
+        desc: "India's leading private bank known for fast loan approvals and competitive interest rates.",
+    },
+    icici: {
+        name: "ICICI Bank",
+        homeRate: "8.75",
+        carRate: "9.00",
+        personalRate: "10.85",
+        maxTenure: 30,
+        minLoan: 200000,
+        maxLoan: 10000000,
+        desc: "ICICI Bank offers flexible loan products with digital-first processing for quick disbursals.",
+    },
+    axis: {
+        name: "Axis Bank",
+        homeRate: "8.75",
+        carRate: "9.10",
+        personalRate: "11.25",
+        maxTenure: 30,
+        minLoan: 300000,
+        maxLoan: 10000000,
+        desc: "Axis Bank provides home and auto loans with minimal documentation and quick approvals.",
+    },
+    kotak: {
+        name: "Kotak Mahindra Bank",
+        homeRate: "8.75",
+        carRate: "8.99",
+        personalRate: "10.99",
+        maxTenure: 20,
+        minLoan: 500000,
+        maxLoan: 10000000,
+        desc: "Kotak offers digital loan journeys with competitive rates and doorstep service.",
+    },
+    bob: {
+        name: "Bank of Baroda",
+        homeRate: "8.40",
+        carRate: "8.80",
+        personalRate: "11.05",
+        maxTenure: 30,
+        minLoan: 200000,
+        maxLoan: 10000000,
+        desc: "Bank of Baroda provides affordable home and vehicle loans with government bank reliability.",
+    },
+    pnb: {
+        name: "Punjab National Bank",
+        homeRate: "8.45",
+        carRate: "8.75",
+        personalRate: "11.40",
+        maxTenure: 30,
+        minLoan: 100000,
+        maxLoan: 10000000,
+        desc: "PNB is a leading PSU bank offering low interest home loans and flexible repayment options.",
+    },
+    canara: {
+        name: "Canara Bank",
+        homeRate: "8.40",
+        carRate: "8.70",
+        personalRate: "11.35",
+        maxTenure: 30,
+        minLoan: 100000,
+        maxLoan: 7500000,
+        desc: "Canara Bank offers one of the lowest home loan rates among public sector banks in India.",
+    },
+    union: {
+        name: "Union Bank of India",
+        homeRate: "8.35",
+        carRate: "8.70",
+        personalRate: "11.20",
+        maxTenure: 30,
+        minLoan: 200000,
+        maxLoan: 7500000,
+        desc: "Union Bank provides competitive loan products with special rates for government employees.",
+    },
+    idbi: {
+        name: "IDBI Bank",
+        homeRate: "8.55",
+        carRate: "8.90",
+        personalRate: "11.00",
+        maxTenure: 30,
+        minLoan: 500000,
+        maxLoan: 10000000,
+        desc: "IDBI Bank offers a wide range of loan products with digital processing and quick approvals.",
+    },
+};
