@@ -106,6 +106,7 @@ const tools = [
     path: "/finance-calculators/goal",
     cat: "finance",
   },
+  
 
   // ── MEDIA ──
   {
@@ -144,23 +145,61 @@ const tools = [
   },
 
   // ── PRODUCTIVITY ──
+  // {
+  //   href: "/tools/pomodoro",
+  //   icon: "⏱",
+  //   tag: "Soon",
+  //   tagClass: "tag-coming",
+  //   name: "Focus Timer",
+  //   desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
+  //   path: "/tools/pomodoro",
+  //   cat: "productivity",
+  // },
   {
-    href: "/tools/pomodoro",
-    icon: "⏱",
-    tag: "Soon",
-    tagClass: "tag-coming",
-    name: "Focus Timer",
-    desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
-    path: "/tools/pomodoro",
+    href: "/tools/notepad",
+    icon: "📝",
+    tag: "New",
+    tagClass: "tag-new",
+    name: "Notepad",
+    desc: "Distraction-free notepad with word count, font controls, auto-save to browser, and .txt download.",
+    path: "/tools/notepad",
     cat: "productivity",
   },
+  {
+    href: "/tools/scheduler",
+    icon: "⏰",
+    tag: "New",
+    tagClass: "tag-new",
+    name: "Focus Timer",
+    desc: "Distraction-free Focus timer with session tracking, streaks, and daily focus reports.",
+    path: "/tools/scheduler",
+    cat: "productivity",
+  },
+
+  
 ];
 
 const steps = [
-  { num: "01", title: "Pick a tool", desc: "Browse the hub or jump directly to a URL like /calculator/emi. Every tool is one click away." },
-  { num: "02", title: "Use it instantly", desc: "No sign-up. No paywall. Tools run entirely in your browser — your data stays with you." },
-  { num: "03", title: "Bookmark & share", desc: "Every tool has a clean, shareable URL. Save it, share it, or link it from anywhere." },
-  { num: "04", title: "More coming", desc: "New tools drop regularly. Subscribe to get notified when something new gets forged." },
+  {
+    num: "01",
+    title: "Pick a tool",
+    desc: "Browse the hub or jump directly to a URL like /calculator/emi. Every tool is one click away.",
+  },
+  {
+    num: "02",
+    title: "Use it instantly",
+    desc: "No sign-up. No paywall. Tools run entirely in your browser — your data stays with you.",
+  },
+  {
+    num: "03",
+    title: "Bookmark & share",
+    desc: "Every tool has a clean, shareable URL. Save it, share it, or link it from anywhere.",
+  },
+  {
+    num: "04",
+    title: "More coming",
+    desc: "New tools drop regularly. Subscribe to get notified when something new gets forged.",
+  },
 ];
 
 export default function Home() {
@@ -205,13 +244,19 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
-    document.querySelectorAll(".tool-card, .step").forEach((el) => observer.observe(el));
+    document
+      .querySelectorAll(".tool-card, .step")
+      .forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [activeCategory, showAll]);
 
-  function animateCount(setter: (v: number) => void, target: number, duration: number) {
+  function animateCount(
+    setter: (v: number) => void,
+    target: number,
+    duration: number,
+  ) {
     let start = 0;
     const step = target / (duration / 16);
     const timer = setInterval(() => {
@@ -238,18 +283,21 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-
   function handleSubscribe() {
-    if (!email.includes("@")) { alert("Please enter a valid email."); return; }
+    if (!email.includes("@")) {
+      alert("Please enter a valid email.");
+      return;
+    }
     setEmail("");
     setSubscribed(true);
   }
 
   // Update filtered tools logic
   const filteredTools = (() => {
-    const base = activeCategory === "all"
-      ? tools
-      : tools.filter((t) => t.cat === activeCategory);
+    const base =
+      activeCategory === "all"
+        ? tools
+        : tools.filter((t) => t.cat === activeCategory);
 
     if (!showAll) {
       return base.slice(0, INITIAL_LIMIT);
@@ -257,9 +305,10 @@ export default function Home() {
     return base;
   })();
 
-  const totalInCategory = activeCategory === "all"
-    ? tools.length
-    : tools.filter(t => t.cat === activeCategory).length;
+  const totalInCategory =
+    activeCategory === "all"
+      ? tools.length
+      : tools.filter((t) => t.cat === activeCategory).length;
 
   const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
 
@@ -295,19 +344,34 @@ export default function Home() {
           ForgeCodeHub
         </a>
         <ul className="nav-links">
-          <li><a href="#tools">Tools</a></li>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="#tools">Tools</a>
+          </li>
+          <li>
+            <a href="#how">How it works</a>
+          </li>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
         </ul>
         <div className="hamburger" onClick={() => setMobileNavOpen(true)}>
-          <span></span><span></span><span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </nav>
 
       {/* MOBILE NAV */}
       <div className={`mobile-nav ${mobileNavOpen ? "open" : ""}`}>
-        <button className="mobile-nav-close" onClick={() => setMobileNavOpen(false)}>✕</button>
+        <button
+          className="mobile-nav-close"
+          onClick={() => setMobileNavOpen(false)}
+        >
+          ✕
+        </button>
         {["tools", "how", "about", "contact"].map((id) => (
           <a key={id} href={`#${id}`} onClick={() => setMobileNavOpen(false)}>
             {id.charAt(0).toUpperCase() + id.slice(1)}
@@ -321,13 +385,21 @@ export default function Home() {
         <div className="particles" id="particles"></div>
         <div className="hero-badge">⚡ New tools dropping soon</div>
         <h1>
-          Tools forged<br />
+          Tools forged
+          <br />
           <span className="line2">for builders</span>
         </h1>
-        <p>A growing collection of developer utilities, calculators, and productivity apps — built lean, fast, and purpose-driven.</p>
+        <p>
+          A growing collection of developer utilities, calculators, and
+          productivity apps — built lean, fast, and purpose-driven.
+        </p>
         <div className="hero-ctas">
-          <a href="#tools" className="btn-primary">Explore Tools →</a>
-          <a href="#how" className="btn-secondary">How it works</a>
+          <a href="#tools" className="btn-primary">
+            Explore Tools →
+          </a>
+          <a href="#how" className="btn-secondary">
+            How it works
+          </a>
         </div>
         <div className="scroll-hint">
           <span>Scroll</span>
@@ -342,15 +414,23 @@ export default function Home() {
           <span className="stat-label">Tools &amp; Apps</span>
         </div>
         <div className="stat">
-          <span className="stat-num">{userCount}<span>+</span></span>
+          <span className="stat-num">
+            {userCount}
+            <span>+</span>
+          </span>
           <span className="stat-label">Monthly Users</span>
         </div>
         <div className="stat">
-          <span className="stat-num">{uptime}<span>%</span></span>
+          <span className="stat-num">
+            {uptime}
+            <span>%</span>
+          </span>
           <span className="stat-label">Uptime</span>
         </div>
         <div className="stat">
-          <span className="stat-num">Free<span style={{ color: "var(--accent)" }}>.</span></span>
+          <span className="stat-num">
+            Free<span style={{ color: "var(--accent)" }}>.</span>
+          </span>
           <span className="stat-label">Always</span>
         </div>
       </div>
@@ -360,7 +440,10 @@ export default function Home() {
         <div className="container">
           <div className="section-label">What we build</div>
           <h2 className="section-title">All tools, one hub</h2>
-          <p className="section-desc">Everything is free, fast, and focused. No bloat, no accounts required.</p>
+          <p className="section-desc">
+            Everything is free, fast, and focused. No bloat, no accounts
+            required.
+          </p>
 
           <div className="categories">
             {["all", "finance", "media", "dev", "productivity"].map((cat) => (
@@ -372,23 +455,36 @@ export default function Home() {
                   setShowAll(false); // ← reset on every tab switch
                 }}
               >
-                {cat === "finance" ? "💹 Finance Tools" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat === "finance"
+                  ? "💹 Finance Tools"
+                  : cat.charAt(0).toUpperCase() + cat.slice(1)}
               </button>
             ))}
           </div>
 
           <div className="tools-grid">
             {filteredTools.map((tool) => (
-              <a key={tool.path} href={tool.href} className={`tool-card ${showAll ? "visible" : ""}`}
+              <a
+                key={tool.path}
+                href={tool.href}
+                className={`tool-card ${showAll ? "visible" : ""}`}
                 onMouseMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
-                  e.currentTarget.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
-                  e.currentTarget.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+                  e.currentTarget.style.setProperty(
+                    "--mx",
+                    ((e.clientX - r.left) / r.width) * 100 + "%",
+                  );
+                  e.currentTarget.style.setProperty(
+                    "--my",
+                    ((e.clientY - r.top) / r.height) * 100 + "%",
+                  );
                 }}
               >
                 <div className="tool-card-header">
                   <div className="tool-icon">{tool.icon}</div>
-                  <span className={`tool-tag ${tool.tagClass}`}>{tool.tag}</span>
+                  <span className={`tool-tag ${tool.tagClass}`}>
+                    {tool.tag}
+                  </span>
                 </div>
                 <div className="tool-name">{tool.name}</div>
                 <div className="tool-desc">{tool.desc}</div>
@@ -417,7 +513,13 @@ export default function Home() {
               >
                 <div style={{ fontSize: "1.75rem" }}>＋</div>
                 <div className="tool-name" style={{ textAlign: "center" }}>
-                  View all {activeCategory === "all" ? "Tools" : activeCategory === "finance" ? "Finance Tools" : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+                  View all{" "}
+                  {activeCategory === "all"
+                    ? "Tools"
+                    : activeCategory === "finance"
+                      ? "Finance Tools"
+                      : activeCategory.charAt(0).toUpperCase() +
+                        activeCategory.slice(1)}
                 </div>
                 <div className="tool-desc" style={{ textAlign: "center" }}>
                   {totalInCategory - INITIAL_LIMIT} more available
@@ -433,7 +535,9 @@ export default function Home() {
         <div className="container">
           <div className="section-label">The process</div>
           <h2 className="section-title">Simple by design</h2>
-          <p className="section-desc">No logins. No friction. Just tools that work.</p>
+          <p className="section-desc">
+            No logins. No friction. Just tools that work.
+          </p>
           <div className="steps-grid">
             {steps.map((s) => (
               <div className="step" key={s.num}>
@@ -449,7 +553,9 @@ export default function Home() {
       {/* CTA */}
       <section className="cta-section" id="contact">
         <div className="cta-box">
-          <div className="section-label" style={{ justifyContent: "center" }}>Stay in the loop</div>
+          <div className="section-label" style={{ justifyContent: "center" }}>
+            Stay in the loop
+          </div>
           <h2>Get notified when new tools drop</h2>
           <p>No spam. Just a heads-up when something worth using is ready.</p>
           <div className="email-form">
@@ -460,16 +566,25 @@ export default function Home() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button className="btn-primary" onClick={handleSubscribe}>Notify me</button>
+            <button className="btn-primary" onClick={handleSubscribe}>
+              Notify me
+            </button>
           </div>
-          {subscribed && <p className="subscribe-msg">✓ You&apos;re on the list!</p>}
+          {subscribed && (
+            <p className="subscribe-msg">✓ You&apos;re on the list!</p>
+          )}
         </div>
       </section>
 
       {/* FOOTER */}
       <footer>
         <a href="#" className="logo">
-          <div className="logo-icon" style={{ width: 22, height: 22, fontSize: 11 }}>⚒</div>
+          <div
+            className="logo-icon"
+            style={{ width: 22, height: 22, fontSize: 11 }}
+          >
+            ⚒
+          </div>
           ForgeCodeHub
         </a>
         <div className="footer-links">
