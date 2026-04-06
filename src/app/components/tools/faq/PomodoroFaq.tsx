@@ -3,16 +3,7 @@
 import { useState } from "react";
 import { pomodoroFaqs } from "@/lib/pomodoro-faq";
 
-type FAQItem = {
-    question: string;
-    answer: string;
-};
-
-export default function PomodoroFaq({
-    faqs,
-}: {
-    faqs: FAQItem[];
-}) {
+export default function PomodoroFaq() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
