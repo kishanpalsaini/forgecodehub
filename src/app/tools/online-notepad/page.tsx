@@ -5,6 +5,7 @@ import OnlineNotepadFaq from "../../components/tools/faq/OnlineNotepadFaq";
 import faqSchema from "./faqSchema";
 import NotepadClient from "./NotepadClient";
 import type { Metadata } from "next";
+import RelatedTools from "@/app/components/RelatedTools";
 
 export const metadata: Metadata = {
   title: "Online Notepad — Free, No Login | ForgeCodeHub",
@@ -23,6 +24,15 @@ export default function OnlineNotepadPage() {
 
       {/* The full notepad tool — all "use client" logic lives here */}
       <NotepadClient />
+
+
+      {/* Related tools — auto-pulls same category */}
+      <div className="container">
+        <RelatedTools
+          currentPath="/tools/online-notepad"
+          category="productivity"
+        />
+      </div>
 
       {/* FAQ section below the tool */}
       <div
