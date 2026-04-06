@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { pomodoroFaqs } from "@/lib/pomodoro-faq";
+import { onlineNotepadFaqs } from "@/lib/online-notepad-faqs";
 
 type FAQItem = {
     question: string;
     answer: string;
 };
 
-export default function PomodoroFaq({
+export default function OnlineNotepadFaq({
     faqs,
 }: {
     faqs?: FAQItem[];
@@ -22,11 +22,11 @@ export default function PomodoroFaq({
             </h2>
 
             <p className="mt-3 mb-8 text-lg text-gray-500">
-                Everything you need to know about using the Pomodoro Timer.
+                Everything you need to know about using the Online Notepad.
             </p>
 
             <div className="space-y-4">
-                {pomodoroFaqs?.map((faq, index) => {
+                {onlineNotepadFaqs?.map((faq, index) => {
                     const isOpen = openIndex === index;
 
                     return (
