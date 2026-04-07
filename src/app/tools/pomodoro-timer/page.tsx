@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import PomodoroFaq from '../../components/tools/faq/PomodoroFaq'
 import { faqSchema } from "./faqSchema";
 import { pomodoroFaqs } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
