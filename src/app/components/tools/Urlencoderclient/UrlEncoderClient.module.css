@@ -1,0 +1,58 @@
+.page {  margin: 0 auto; padding: 2rem 1.25rem 4rem;  background: #16161e;
+ }
+.header { margin-bottom: 1.5rem; }
+.badge { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 99px; background: #fff7ed; color: #c2410c; margin-bottom: 10px; font-weight: 500; }
+.h1 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: #ececee; margin-bottom: 0.4rem;   color: #f0eeff;
+}
+.desc { font-size: 15px; color: #e5e7eb; }
+
+.controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.modeSwitch { display: flex; gap: 8px; }
+.modeBtn { padding: 7px 18px; border-radius: 8px; border: 1px solid #d1d5db; background: #fff; color: #6b7280; font-size: 14px; cursor: pointer; transition: all 0.15s; }
+.modeBtn:hover { background: #f9fafb; }
+.modeBtnActive { background: #c2410c; border-color: #c2410c; color: #fff; font-weight: 500; }
+
+.optionGroup { display: flex; align-items: center; gap: 8px; }
+.optLabel { font-size: 13px; color: #6b7280; }
+.select { font-size: 13px; padding: 6px 10px; border-radius: 6px; border: 1px solid #d1d5db; background: #fff; color: #374151; cursor: pointer; }
+
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+@media (max-width: 768px) { .panels { grid-template-columns: 1fr; } }
+
+.panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.panelHeader { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #e5e7eb; background: #f9fafb; }
+.panelTitle { font-size: 13px; font-weight: 600; color: #374151; }
+.panelActions { display: flex; gap: 6px; }
+.actionBtn { font-size: 12px; padding: 4px 10px; border-radius: 6px; border: 1px solid #d1d5db; background: #fff; color: #374151; cursor: pointer; }
+.actionBtn:hover:not(:disabled) { background: #f3f4f6; }
+.actionBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.textarea { flex: 1; min-height: 220px; padding: 14px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.7; border: none; outline: none; resize: vertical; color: #111827; }
+.outputBox { flex: 1; min-height: 220px; padding: 14px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.7; color: #111827; word-break: break-all; white-space: pre-wrap; overflow: auto; }
+.placeholder { color: #9ca3af; font-style: italic; }
+.errorBox { padding: 8px 14px; background: #fef2f2; border-top: 1px solid #fecaca; color: #dc2626; font-size: 12px; }
+
+/* URL Parser */
+.parserSection { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; }
+.parserTitle { font-size: 15px; font-weight: 600; color: #93a2c4; margin-bottom: 1rem; }
+.parserGrid { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+.parserRow { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: baseline; }
+.parserLabel { font-size: 12px; font-weight: 500; color: #6b7280; }
+.parserValue { font-size: 13px; font-family: monospace; color: #111827; word-break: break-all; }
+
+.paramsTable { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+.paramsHeader { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-size: 13px; font-weight: 500; color: #374151; }
+.paramsCount { font-size: 12px; color: #9ca3af; font-weight: 400; }
+.paramRow { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: 13px; font-family: monospace; }
+.paramRow:last-child { border-bottom: none; }
+.paramKey { color: #1d4ed8; font-weight: 500; }
+.paramEq { color: #9ca3af; }
+.paramVal { color: #059669; flex: 1; }
+.paramCopy { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #e5e7eb; background: #f9fafb; color: #6b7280; cursor: pointer; margin-left: auto; }
+.paramCopy:hover { background: #e5e7eb; }
+
+.seoSection { border-top: 1px solid #e5e7eb; padding-top: 2rem; margin-top: 2rem; }
+.seoSection h2 { font-size: 1.2rem; font-weight: 600; color: #64bb88; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+.seoSection h2:first-child { margin-top: 0; }
+.seoSection p { font-size: 15px; color: #6b7280; line-height: 1.75; }
+.seoSection code { font-family: monospace; background: #f3f4f6; padding: 1px 5px; border-radius: 4px; font-size: 13px; }

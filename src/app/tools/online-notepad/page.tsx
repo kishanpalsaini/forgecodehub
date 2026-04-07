@@ -37,7 +37,7 @@ export default function OnlineNotepadPage() {
       {/* FAQ section below the tool */}
       <div
         style={{
-          background: "#252537",
+          background: "rgb(37, 37, 55)",
           padding: "0 24px 80px",
           display: "flex",
           // justifyContent: "center",

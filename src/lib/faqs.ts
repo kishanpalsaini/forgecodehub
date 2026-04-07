@@ -178,3 +178,181 @@ export const pomodoroFaqs = [
             "Absolutely. It is ideal for study sessions, coding, office work, and deep focus.",
     },
 ];
+
+export const BASE64_FAQS = [
+  {
+    question: "What is Base64 encoding?",
+    answer: "Base64 is a binary-to-text encoding scheme that converts binary data into an ASCII string made up of 64 safe characters (A–Z, a–z, 0–9, +, /). It is commonly used to safely transmit binary data — like images, files, or API credentials — through text-based systems like HTTP headers, JSON, or email.",
+  },
+  {
+    question: "Is Base64 a form of encryption?",
+    answer: "No. Base64 is encoding, not encryption. It simply represents binary data in a different format — anyone can decode it instantly without a key. Never use Base64 to secure sensitive data. For security, use proper encryption algorithms like AES or RSA.",
+  },
+  {
+    question: "Is my data safe when using this tool?",
+    answer: "Yes — completely safe. This tool runs entirely in your browser. Your text or files are never uploaded to any server, stored, or logged. All encoding and decoding happens locally on your device using native browser APIs.",
+  },
+  {
+    question: "What is URL-safe Base64?",
+    answer: "Standard Base64 uses + and / characters that have special meaning in URLs. URL-safe Base64 (RFC 4648) replaces + with - and / with _, and removes the = padding. This makes the encoded string safe to use directly in URLs, filenames, and query parameters without percent-encoding.",
+  },
+  {
+    question: "Why does Base64 output end with = or == signs?",
+    answer: "Base64 encodes 3 bytes at a time into 4 characters. If the input length is not divisible by 3, = padding is added to complete the last group. One = means 1 byte of padding was added; == means 2 bytes. URL-safe Base64 usually omits this padding.",
+  },
+  {
+    question: "Can I encode images or files to Base64?",
+    answer: "Yes — click the Upload File button to select any file. The tool reads it using the browser's FileReader API and converts it to Base64. If you upload an image and switch to decode mode, the tool will also show an inline image preview.",
+  },
+  {
+    question: "Why does my Base64 decode show garbled characters?",
+    answer: "This usually means the original data was binary (like an image or PDF) rather than plain text. Base64 can encode any binary data, but decoding it as a text string will produce garbled output. For binary files, download the result instead of viewing it as text.",
+  },
+  {
+    question: "What is the size overhead of Base64 encoding?",
+    answer: "Base64 encoded output is approximately 33% larger than the original binary input — every 3 bytes of input becomes 4 characters of Base64 output. This is why Base64-encoded images embedded in CSS or HTML increase page size.",
+  },
+];
+
+
+export const URL_FAQS = [
+  {
+    question: "What is URL encoding?",
+    answer: "URL encoding (also called percent-encoding) converts characters that are not allowed in a URL into a safe format. Each unsafe character is replaced by a % sign followed by its two-digit hexadecimal ASCII code. For example, a space becomes %20, and & becomes %26.",
+  },
+  {
+    question: "Why do I need to encode URLs?",
+    answer: "URLs can only contain a limited set of ASCII characters. Special characters like spaces, ampersands, equals signs, and non-ASCII characters (like accented letters or emoji) must be encoded before being placed in a URL. Without encoding, the URL may be misinterpreted or rejected by servers and browsers.",
+  },
+  {
+    question: "What is the difference between encodeURIComponent and encodeURI?",
+    answer: "encodeURIComponent encodes nearly all special characters including /, ?, =, &, and # — use it for individual query parameter values. encodeURI is designed for a full URL string and intentionally leaves URL-structural characters (like :, /, ?, &, #) unencoded so the URL structure remains intact.",
+  },
+  {
+    question: "Is my data safe when using this tool?",
+    answer: "Yes — completely safe. All encoding and decoding happens entirely in your browser using JavaScript's built-in encodeURIComponent and decodeURIComponent functions. Nothing is sent to any server.",
+  },
+  {
+    question: "What does the URL parser section show?",
+    answer: "When you enter a full URL (starting with http:// or https://), the tool automatically breaks it down into its components: protocol, host, pathname, query string, and hash/fragment. It also lists each query parameter as a separate key-value pair that you can copy individually.",
+  },
+  {
+    question: "What is the difference between %20 and + for spaces?",
+    answer  : "Both represent a space, but in different contexts. %20 is the standard percent-encoding for a space and works everywhere in a URL. The + sign represents a space only in the query string portion of a URL (application/x-www-form-urlencoded format). Use %20 when in doubt — it's universally safe.",
+  },
+  {
+    question: "Can I decode a full URL with multiple parameters?",
+    answer: "Yes — paste any full URL or encoded string into the input and switch to Decode mode. The tool will decode all percent-encoded sequences in the entire string at once. The URL Breakdown section also parses each query parameter separately for easy inspection.",
+  },
+  {
+    question: "Why does my decoded URL still show some encoded characters?",
+    answer: "Some characters are intentionally left encoded even after decoding — particularly characters that would change the structure of the URL if decoded (like %2F for / within a path segment). These are usually left encoded by design to preserve the intended URL meaning.",
+  },
+];
+
+
+export const JSON_FAQS = [
+  {
+    question: "What is a JSON Formatter?",
+    answer: "A JSON Formatter (also called a JSON Beautifier or JSON Pretty Printer) takes raw or minified JSON text and adds proper indentation and line breaks to make it human-readable. It also validates your JSON for syntax errors and highlights exactly where the problem is.",
+  },
+  {
+    question: "Is my JSON data safe? Does it get uploaded to a server?",
+    answer: "Yes — completely safe. This tool runs 100% in your browser using JavaScript. Your JSON data is never sent to any server, stored, or logged. Everything stays on your device.",
+  },
+  {
+    question: "What is the difference between formatting and minifying JSON?",
+    answer: "Formatting (beautifying) adds whitespace and indentation to make JSON readable by humans. Minifying removes all unnecessary whitespace to make the file as small as possible — ideal for production APIs and network transmission.",
+  },
+  {
+    question: "Why is my JSON showing a syntax error?",
+    answer: "Common JSON syntax errors include: trailing commas after the last item in an object or array, using single quotes instead of double quotes for strings, missing quotes around object keys, or unescaped special characters inside strings. The error message shown tells you where in the input the problem is.",
+  },
+  {
+    question: "What is the JSON Tree View?",
+    answer: "The Tree View renders your JSON as an interactive, collapsible hierarchy — similar to how browser DevTools display JSON responses. You can expand and collapse nested objects and arrays to explore large JSON structures without scrolling through long text.",
+  },
+  {
+    question: "Can I format very large JSON files?",
+    answer: "Yes — since processing happens in your browser, performance depends on your device. Most JSON files up to a few MB will format instantly. For extremely large files (10MB+), the tree view may be slow; use the formatted text view instead.",
+  },
+  {
+    question: "What indentation size should I use — 2 or 4 spaces?",
+    answer: "Both are widely used conventions. Most JavaScript and Node.js projects use 2 spaces (the default). Python and many other languages prefer 4 spaces. For APIs and data exchange, use minified JSON with no indentation.",
+  },
+  {
+    question: "How do I download the formatted JSON?",
+    answer: "Click the Download button in the output panel. The tool will save a file named 'formatted.json' directly to your device. The file will contain the current output — formatted, minified, or as shown.",
+  },
+];
+
+
+export const HTML_FAQS = [
+  {
+    question: "What is HTML minification?",
+    answer: "HTML minification removes all unnecessary characters from HTML source code without changing how it renders in the browser. This includes whitespace between tags, HTML comments, optional closing tags like </li> and </p>, and unnecessary attribute quotes. The result is a smaller file that loads faster.",
+  },
+  {
+    question: "Is it safe to minify HTML?",
+    answer: "Yes — for standard HTML. Minification removes only characters that have no effect on how the browser renders the page. The one area to be careful about is whitespace-sensitive content like <pre> blocks or inline elements where spacing matters — our tool's collapse whitespace option handles these correctly.",
+  },
+  {
+    question: "How much file size can I save by minifying HTML?",
+    answer: "Typically 10–30% reduction in raw file size. When combined with Gzip or Brotli server compression (which you should also enable), total transfer savings can reach 70–90% compared to uncompressed original HTML.",
+  },
+  {
+    question: "Is my HTML data sent to a server?",
+    answer: "No — everything runs entirely in your browser. Your HTML code is never uploaded, stored, or sent anywhere. The minification happens locally using JavaScript, so your code remains completely private.",
+  },
+  {
+    question: "What does 'remove optional tags' do?",
+    answer: "The HTML specification allows certain closing tags to be omitted — including </li>, </td>, </th>, </p>, </dt>, </dd>, and </option>. Browsers know to close these automatically. Removing them saves bytes without any visual difference. However, some parsers or legacy tools may expect explicit closing tags.",
+  },
+  {
+    question: "What does 'remove attribute quotes' mean?",
+    answer: "In HTML, attribute values that consist of a single word with no spaces or special characters don't technically need quotes. For example, class=\"btn\" can be written as class=btn. This option removes quotes only where safe to do so.",
+  },
+  {
+    question: "Should I minify HTML in development or production?",
+    answer: "Always keep the original unminified HTML in your source code for development — it's much easier to read and debug. Minify only in your production build process. Most frameworks like Next.js, Vite, and Webpack do this automatically during build.",
+  },
+  {
+    question: "Can I minify inline CSS and JavaScript inside HTML?",
+    answer: "Yes — enable the 'Inline CSS/JS minification' option. This applies basic whitespace removal to <style> and <script> blocks embedded in your HTML. For full JavaScript optimization, use a dedicated JS minifier after.",
+  },
+];
+
+export const CSS_FAQS = [
+  {
+    question: "What is CSS minification?",
+    answer: "CSS minification removes all characters from your stylesheet that are not needed for it to function — whitespace, comments, redundant semicolons, and verbose values like #ffffff (which can be shortened to #fff). The result is a smaller CSS file that browsers download and parse faster.",
+  },
+  {
+    question: "Will minifying CSS break my website's styles?",
+    answer: "No — when done correctly, minification never changes how styles are applied. It only removes characters that have no effect on rendering. Our tool applies each optimization conservatively to ensure the output is functionally identical to the input.",
+  },
+  {
+    question: "Is my CSS code sent to a server?",
+    answer: "No — all minification runs entirely in your browser using JavaScript. Your stylesheet is never uploaded, stored, or sent to any server. It stays completely private on your device.",
+  },
+  {
+    question: "How much can CSS minification reduce file size?",
+    answer: "Typical CSS files see a 20–40% size reduction from minification alone. With server-side Gzip or Brotli compression applied on top, total transfer size reduction can reach 80–90%. Both minification and compression should be used together for best performance.",
+  },
+  {
+    question: "What does 'shorten hex colors' mean?",
+    answer: "A 6-digit hex color like #ffffff can be written as #fff when both digits in each pair are the same. Similarly, #aabbcc becomes #abc. This option automatically converts all eligible 6-digit hex colors to their 3-digit shorthand, saving a small number of bytes per color.",
+  },
+  {
+    question: "What does 'remove zero units' do?",
+    answer: "In CSS, a value of 0 never needs a unit — 0px, 0em, 0rem, and 0% are all identical to just 0. This option strips the unit from any zero value, which is valid CSS and saves a few bytes per occurrence across your stylesheet.",
+  },
+  {
+    question: "Should I minify CSS in development or only in production?",
+    answer: "Always keep your original readable CSS during development. Minify only for production builds. Most frameworks (Next.js, Vite, Webpack) minify CSS automatically during the build step. This online tool is useful for manually optimizing CSS files or checking how much compression you can achieve.",
+  },
+  {
+    question: "What is the difference between CSS minification and CSS compression?",
+    answer: "Minification modifies the CSS source itself to remove unnecessary characters — it's a one-time transformation of the file content. Compression (Gzip or Brotli) is applied by your web server at the transport layer when sending the file to a browser, and doesn't change the file on disk. You should do both for maximum performance.",
+  },
+];

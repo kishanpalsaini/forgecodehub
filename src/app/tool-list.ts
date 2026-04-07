@@ -1,4 +1,3 @@
-
 export const tools = [
   // ── FINANCE TOOLS ──
 
@@ -33,6 +32,7 @@ export const tools = [
     desc: "Add or remove GST instantly. Full CGST/SGST/IGST split for all Indian tax rates.",
     path: "/finance-calculators/gst",
     cat: "finance",
+    related: ["emi", "sip", "tax", "loan", "fd"],
   },
   {
     href: "/finance-calculators/tax",
@@ -43,6 +43,7 @@ export const tools = [
     desc: "FY 2025–26 tax computation. Old vs New regime comparison with net take-home.",
     path: "/finance-calculators/tax",
     cat: "finance",
+    related: ["emi", "gst", "sip", "loan", "fd"],
   },
   {
     href: "/finance-calculators/sip",
@@ -53,6 +54,7 @@ export const tools = [
     desc: "Project SIP wealth over time with step-up mode, milestones & inflation-adjusted returns.",
     path: "/finance-calculators/sip",
     cat: "finance",
+    related: ["emi", "gst", "tax", "loan", "fd"],
   },
   {
     href: "/finance-calculators/loan",
@@ -63,6 +65,7 @@ export const tools = [
     desc: "Know your maximum loan amount. FOIR-based with CIBIL score adjustment.",
     path: "/finance-calculators/loan",
     cat: "finance",
+    related: ["emi", "gst", "tax", "sip", "fd"],
   },
   {
     href: "/finance-calculators/fd",
@@ -73,6 +76,7 @@ export const tools = [
     desc: "Fixed & recurring deposit maturity, compounding frequency comparison.",
     path: "/finance-calculators/fd",
     cat: "finance",
+    related: ["emi", "gst", "tax", "sip", "loan"],
   },
   {
     href: "/finance-calculators/retirement",
@@ -83,6 +87,7 @@ export const tools = [
     desc: "Corpus needed, SIP gap analysis and inflation-adjusted projections.",
     path: "/finance-calculators/retirement",
     cat: "finance",
+    related: ["emi", "gst", "tax", "sip", "loan", "fd"],
   },
   {
     href: "/finance-calculators/networth",
@@ -93,6 +98,7 @@ export const tools = [
     desc: "Track assets vs liabilities, donut breakdown and financial health score.",
     path: "/finance-calculators/networth",
     cat: "finance",
+    related: ["emi", "gst", "tax", "sip", "loan", "fd"],
   },
   {
     href: "/finance-calculators/goal",
@@ -103,6 +109,7 @@ export const tools = [
     desc: "Plan for home, car, education — with inflation-adjusted SIP targets.",
     path: "/finance-calculators/goal",
     cat: "finance",
+    related: ["emi", "gst", "tax", "sip", "loan", "fd"],
   },
 
 
@@ -116,14 +123,64 @@ export const tools = [
     desc: "Plan and schedule your Instagram Reels and short-form content with smart timing recommendations.",
     path: "/reel-scheduler",
     cat: "media",
+    related: [],
   },
 
   // ── DEV ──
   {
+    href: "/tools/Json-formatter",
+    icon: "📋",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "JSON Formatter",
+    desc: "Beautify, validate, minify and explore JSON with tree view, syntax highlighting and error detection.",
+    path: "/tools/Json-formatter",
+    cat: "dev",
+    related: ["/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker"],
+  },
+  {
+    href: "/tools/Base64client",
+    icon: "🔐",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "Base64 Encode / Decode",
+    desc: "Encode text or files to Base64, decode Base64 strings. Supports UTF-8, URL-safe mode and image preview.",
+    path: "/tools/Base64client",
+    cat: "dev",
+  },
+  {
+    href: "/tools/url-encoder-decoder",
+    icon: "🔗",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "URL Encoder / Decoder",
+    desc: "Encode special characters for safe URL transmission, decode percent-encoded strings. Parse URL into parts.",
+    path: "/tools/url-encoder-decoder",
+    cat: "dev",
+  },
+  {
+    href: "/tools/html-minifier",
+    icon: "🗜️",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "HTML Minifier",
+    desc: "Compress HTML by removing whitespace, comments and optional tags. See exact byte savings instantly.",
+    path: "/tools/html-minifier",
+    cat: "dev",
+  },
+  {
+    href: "/tools/css-minifier",
+    icon: "✨",
+    tag: "Live",
+    tagClass: "tag-live",
+    name: "CSS Minifier",
+    desc: "Minify CSS by collapsing whitespace, shortening hex colors and removing redundant semicolons.",
+    path: "/tools/css-minifier",
+    cat: "dev",
+  },
+  {
     href: "/tools/pdf-converter",
     icon: "📄",
-    // tag: "New",
-    // tagClass: "tag-new",
     tag: "Soon",
     tagClass: "tag-coming",
     name: "PDF Converter",
@@ -143,20 +200,9 @@ export const tools = [
   },
 
   // ── PRODUCTIVITY ──
-  // {
-  //   href: "/tools/pomodoro",
-  //   icon: "⏱",
-  //   tag: "Soon",
-  //   tagClass: "tag-coming",
-  //   name: "Focus Timer",
-  //   desc: "Distraction-free Pomodoro timer with session tracking, streaks, and daily focus reports.",
-  //   path: "/tools/pomodoro",
-  //   cat: "productivity",
-  // },
   {
     href: "/tools/online-notepad",
     icon: "📝",
-    // tag: "New",
     tag: "Live",
     tagClass: "tag-new",
     name: "Notepad",
@@ -167,7 +213,6 @@ export const tools = [
   {
     href: "/tools/pomodoro-timer",
     icon: "⏰",
-    // tag: "New",
     tag: "Live",
     tagClass: "tag-new",
     name: "Focus Timer",
@@ -175,6 +220,4 @@ export const tools = [
     path: "/tools/pomodoro-timer",
     cat: "productivity",
   },
-
-
 ];
