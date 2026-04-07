@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import PomodoroFaq from '../../components/tools/faq/PomodoroFaq'
 import { faqSchema } from "./faqSchema";
+import { pomodoroFaqs } from "@/lib/faqs";
+import ToolFaq from "@/app/components/tools/faq/ToolFaq";
 
 /* ─────────────────────────────────────────────
    TYPES & CONSTANTS
@@ -879,7 +881,12 @@ export default function PomodoroPage() {
               </div>
             )}
           </section>
-          <PomodoroFaq  />
+          {/* <PomodoroFaq  /> */}
+          <ToolFaq
+                  faqs={pomodoroFaqs}
+                  title="Frequently Asked Questions"
+                  subtitle="Everything you need to know about using the Online Notepad."
+                />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

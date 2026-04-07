@@ -151,7 +151,6 @@ export const onlineNotepadFaqs = [
     },
 ];
 
-
 export const pomodoroFaqs = [
     {
         question: "Is this pomodoro timer free?",

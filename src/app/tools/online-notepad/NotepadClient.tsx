@@ -459,7 +459,7 @@ export default function NotepadClient() {
 
   return (
     <div style={{background:"#252537"}}>
-      <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column", maxWidth:"1400px", margin:"0 auto", boxShadow:"0 0 12px rgba(0,0,0,0.08)" }}>
+      <div style={{ minHeight:"100vh", background:bg, color:text_c, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column", margin:"0 auto", boxShadow:"0 0 12px rgba(0,0,0,0.08)" }}>
 
         <input ref={fileInputRef} type="file" accept="*/*" style={{ display:"none" }} onChange={handleFileRead} />
 
