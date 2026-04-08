@@ -1,11 +1,11 @@
-import { onlineNotepadFaqs } from "@/lib/online-notepad-faqs";
-// import OnlineNotepadFaq from "@/components/tools/faq/OnlineNotepadFaq";
-import OnlineNotepadFaq from "../../components/tools/faq/OnlineNotepadFaq";
-// import faqSchema from "@/lib/online-notepad-faq-schema";
 import faqSchema from "./faqSchema";
 import NotepadClient from "./NotepadClient";
 import type { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
+import  { onlineNotepadFaqs } from "@/lib/faqs";
+import ToolFaq from "@/app/components/tools/faq/ToolFaq";
+
+
 
 export const metadata: Metadata = {
   title: "Online Notepad — Free, No Login | ForgeCodeHub",
@@ -27,7 +27,7 @@ export default function OnlineNotepadPage() {
 
 
       {/* Related tools — auto-pulls same category */}
-      <div className="container">
+      <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
           currentPath="/tools/online-notepad"
           category="productivity"
@@ -37,13 +37,17 @@ export default function OnlineNotepadPage() {
       {/* FAQ section below the tool */}
       <div
         style={{
-          background: "#252537",
+          background: "rgb(37, 37, 55)",
           padding: "0 24px 80px",
           display: "flex",
-          justifyContent: "center",
+          // justifyContent: "center",
         }}
       >
-        <OnlineNotepadFaq faqs={onlineNotepadFaqs} />
+        <ToolFaq
+        faqs={onlineNotepadFaqs}
+        title="Frequently Asked Questions"
+        subtitle="Everything you need to know about using the Online Notepad."
+      />
       </div>
     </>
   );

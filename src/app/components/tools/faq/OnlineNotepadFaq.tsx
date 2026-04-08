@@ -16,7 +16,7 @@ export default function OnlineNotepadFaq({
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
-        <section className="mt-16 max-w-4xl rounded-3xl bg-white p-8 shadow-xl border border-gray-200">
+        <section className="mt-16 max-w-4xl rounded-3xl bg-white p-8 shadow-xl border border-gray-200"  style={{ margin:"auto", width:"100%", maxWidth:"1600px"}}>
             <h2 className="text-4xl font-bold text-gray-900">
                 Frequently Asked Questions
             </h2>

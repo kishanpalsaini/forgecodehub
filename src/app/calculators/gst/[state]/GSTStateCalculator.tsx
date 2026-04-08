@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-// import { statesData } from "../../data/states";
 import { statesData } from '../../../data/states'
 
 type StateData = typeof statesData[string];

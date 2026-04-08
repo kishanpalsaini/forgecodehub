@@ -12,7 +12,7 @@ export const pomodoroFaqs = [
     {
         question: "Can I customize the timer duration?",
         answer:
-            "Yes, you can change focus, short break, and long break durations.",
+            "Yes, you can easily adjust the focus, short break, and long break durations through the settings panel.",
     },
     {
         question: "Does it save my sessions?",
