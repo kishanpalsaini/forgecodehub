@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import s from "./Base64Client.module.css";
+import s from "./base-64-client.module.css";
 // import Faq from "./Faq";
 import ToolFaq from "../faq/ToolFaq";
 import { onlineNotepadFaqs } from "@/lib/faqs";

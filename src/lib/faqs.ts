@@ -356,3 +356,107 @@ export const CSS_FAQS = [
     answer: "Minification modifies the CSS source itself to remove unnecessary characters — it's a one-time transformation of the file content. Compression (Gzip or Brotli) is applied by your web server at the transport layer when sending the file to a browser, and doesn't change the file on disk. You should do both for maximum performance.",
   },
 ];
+
+
+export const cryptoEncryptDecryptFaqs = [
+  {
+    question: "What is AES encryption?",
+    answer:
+      "AES (Advanced Encryption Standard) is a symmetric encryption algorithm widely used to secure data. It encrypts and decrypts data using the same secret key, making it fast and highly secure.",
+  },
+  {
+    question: "Is this AES encryption tool free to use?",
+    answer:
+      "Yes, this tool is completely free with no sign-up, no subscription, and no hidden charges.",
+  },
+  {
+    question: "Do I need an account to use this tool?",
+    answer:
+      "No account is required. Simply enter your text and secret key, then encrypt or decrypt instantly.",
+  },
+  {
+    question: "Is my data sent to any server?",
+    answer:
+      "No. All encryption and decryption happens entirely in your browser using JavaScript. Your text and keys never leave your device.",
+  },
+  {
+    question: "What mode does this tool use for AES encryption?",
+    answer:
+      "This tool uses AES in CBC (Cipher Block Chaining) mode with PKCS7 padding via the CryptoJS library, which is a widely adopted and secure configuration.",
+  },
+  {
+    question: "What is the output format of the encrypted text?",
+    answer:
+      "The encrypted output is a Base64-encoded string, which is safe to store in databases, transmit over networks, and use in URLs.",
+  },
+  {
+    question: "Can I decrypt text encrypted by other AES tools?",
+    answer:
+      "Yes, as long as the other tool uses the same AES mode (CBC), padding (PKCS7), and the same secret key, you can decrypt the output here.",
+  },
+  {
+    question: "Is there a limit to how much text I can encrypt?",
+    answer:
+      "There is no hard limit. You can encrypt short strings, long paragraphs, JSON payloads, or any plain text content.",
+  },
+  {
+    question: "What makes a strong encryption key?",
+    answer:
+      "A strong key should be long (16, 24, or 32 characters for AES-128, AES-192, or AES-256), random, and contain a mix of letters, numbers, and symbols.",
+  },
+  {
+    question: "Can I use this to encrypt passwords?",
+    answer:
+      "AES is designed for data encryption, not password storage. For passwords, use hashing algorithms like bcrypt or Argon2. AES is ideal for encrypting sensitive data like API keys, tokens, or personal information.",
+  },
+  {
+    question: "What happens if I use the wrong key to decrypt?",
+    answer:
+      "If you use an incorrect key, the decryption will either fail and return an error, or produce garbled, unreadable output.",
+  },
+  {
+    question: "Does this tool work on mobile devices?",
+    answer:
+      "Yes, the tool is fully responsive and works on Android and iOS browsers as well as on tablets and desktops.",
+  },
+  {
+    question: "Can I copy the encrypted output with one click?",
+    answer:
+      "Yes, a copy button lets you instantly copy the encrypted or decrypted result to your clipboard.",
+  },
+  {
+    question: "What is Base64 encoding?",
+    answer:
+      "Base64 is a way to represent binary data as a text string using 64 safe ASCII characters. It is commonly used to transmit encrypted data over text-based channels like email or HTTP.",
+  },
+  {
+    question: "Is AES encryption reversible?",
+    answer:
+      "Yes, AES is a symmetric cipher, meaning the same key that encrypts the data can also decrypt it. This is different from hashing, which is one-way.",
+  },
+  {
+    question: "Can I use this tool to secure API keys or tokens?",
+    answer:
+      "Yes, this is a common use case. You can encrypt sensitive strings like API keys, tokens, or credentials before storing them, then decrypt when needed.",
+  },
+  {
+    question: "Does this tool support AES-128, AES-192, and AES-256?",
+    answer:
+      "Yes. CryptoJS automatically selects the AES variant based on your key length — 16 characters for AES-128, 24 for AES-192, and 32 for AES-256.",
+  },
+  {
+    question: "What is the difference between encryption and hashing?",
+    answer:
+      "Encryption is reversible — you can recover the original data with the correct key. Hashing is a one-way process used for verification, not data recovery.",
+  },
+  {
+    question: "Can I use this tool to encrypt JSON data?",
+    answer:
+      "Yes. Paste your JSON string into the input field, provide a key, and encrypt it. The output will be a Base64-encoded encrypted version of your JSON.",
+  },
+  {
+    question: "Does it work offline?",
+    answer:
+      "Yes. Once the page is loaded, the encryption and decryption functions work entirely client-side without any internet connection.",
+  },
+];

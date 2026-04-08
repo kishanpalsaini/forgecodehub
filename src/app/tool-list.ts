@@ -128,7 +128,7 @@ export const tools = [
 
   // ── DEV ──
   {
-    href: "/tools/Json-formatter",
+    href: "/tools/json-formatter",
     icon: "📋",
     tag: "Live",
     tagClass: "tag-live",
@@ -136,10 +136,10 @@ export const tools = [
     desc: "Beautify, validate, minify and explore JSON with tree view, syntax highlighting and error detection.",
     path: "/tools/Json-formatter",
     cat: "dev",
-    related: ["/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker"],
+    related: ["/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
-    href: "/tools/Base64client",
+    href: "/tools/base-64-client",
     icon: "🔐",
     tag: "Live",
     tagClass: "tag-live",
@@ -196,6 +196,16 @@ export const tools = [
     name: "Color Palette Gen",
     desc: "Generate accessible color palettes from a single hex. Export to CSS, Figma, or Tailwind format.",
     path: "/tools/color-picker",
+    cat: "dev",
+  },
+    {
+    href: "/tools/crypto-encrypt-decrypt",
+    icon: "📝",
+    tag: "Live",
+    tagClass: "tag-new",
+    name: "AES Encrypt/Decrypt",
+    desc: "Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.",
+    path: "/tools/crypto-encrypt-decrypt",
     cat: "dev",
   },
 

@@ -1,14 +1,10 @@
 import { Metadata } from "next";
-// import JsonFormatterClient from "@/components/tools/Json-Formatter/JsonFormatterClient";
-import JsonFormatterClient from "@/app/components/tools/Json-Formatter/Jsonformatterclient";
-
 import RelatedTools from "@/app/components/RelatedTools";
-import  { JSON_FAQS } from "@/lib/faqs";
+import  { BASE64_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
 import { faqSchema } from "../pomodoro-timer/faqSchema";
+import Base64Client from "@/app/components/tools/base-64-client/base-64-client";
 import Navbar from "@/app/components/Navbar";
-
-// import faqSchema from "./components/tools/Json-Formatter/faqSchema";
 
 
 export const metadata: Metadata = {
@@ -47,18 +43,17 @@ export default function JsonFormatterPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-         {/* Top-bar */}
-
-         <Navbar />
-
+        {/* Top-bar */}
+          <Navbar />
+          
       {/* The full JsonFormatterClient tool — all "use client" logic lives here */}
-      <JsonFormatterClient />
+      <Base64Client />
 
 
       {/* Related tools — auto-pulls same category */}
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
-          currentPath="/tools/json-formatter"
+          currentPath="/tools/Base64client"
           category="dev"
         />
       </div>
@@ -73,9 +68,9 @@ export default function JsonFormatterPage() {
         }}
       >
         <ToolFaq
-        faqs={JSON_FAQS}
+        faqs={BASE64_FAQS}
         title="Frequently Asked Questions"
-        subtitle="Everything you need to know about using the JSON Formatter."
+        subtitle="Everything you need to know about using the Base64 Encoder/Decoder."
       />
       </div>
     </>
