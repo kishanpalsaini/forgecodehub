@@ -200,7 +200,7 @@ export const tools = [
   },
     {
     href: "/tools/crypto-encrypt-decrypt",
-    icon: "📝",
+    icon: "🔑",
     tag: "Live",
     tagClass: "tag-new",
     name: "AES Encrypt/Decrypt",

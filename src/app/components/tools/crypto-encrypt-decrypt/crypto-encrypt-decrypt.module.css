@@ -271,18 +271,18 @@
   top: 8px;
   right: 8px;
   background: #1e1e30;
-  border: 1px solid #2a2a42;
+  border: 1px solid #ffffff;
   border-radius: 6px;
-  color: #64748b;
-  font-size: 11px;
+  color: #ffffff;
+  font-size: 15px;
   padding: 3px 8px;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .copyBtn:hover {
-  background: #2a2a42;
-  color: #cbd5e1;
+  background: #f9f9fa;
+  color: #000000;
 }
 
 .copyBtnSuccess {

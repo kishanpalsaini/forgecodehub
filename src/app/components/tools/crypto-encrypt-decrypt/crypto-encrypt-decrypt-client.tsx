@@ -101,6 +101,14 @@ export default function CryptoEncryptDecryptClient() {
     }
   }, [decInput, decKey]);
 
+  const formatJSON = (data: string) => {
+  try {
+    return JSON.stringify(JSON.parse(data), null, 2);
+  } catch {
+    return data; // fallback if not valid JSON
+  }
+};
+
   return (
     <div className={styles.page}>
       {/* Security notice */}
@@ -277,7 +285,9 @@ export default function CryptoEncryptDecryptClient() {
                   {decError ? (
                     decError
                   ) : decOutput ? (
-                    decOutput
+                    <pre style={{ margin: 0 }}>
+      {formatJSON(decOutput)}
+    </pre>
                   ) : (
                     <span className={styles.outputPlaceholder}>
                       Decrypted result will appear here...
