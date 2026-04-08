@@ -23,6 +23,23 @@ export const tools = [
     path: "/finance-calculators/emi",
     cat: "finance",
     related: ["gst", "sip", "tax", "loan", "fd"],
+    guide: {
+      slug: "how-to-calculate-emi",
+      title: "How to Calculate EMI — Formula, Examples & Calculator",
+      metaDesc: "Learn how EMI is calculated with formula and worked examples. Use our free EMI calculator for instant results.",
+      whatIs: "EMI (Equated Monthly Instalment) is the fixed amount you pay every month to repay a loan. It includes both principal and interest.",
+      formula: "EMI = P × r × (1+r)^n / ((1+r)^n - 1)",
+      formulaVars: [
+        { var: "P", meaning: "Principal loan amount" },
+        { var: "r",  meaning: "Monthly interest rate (annual rate ÷ 12 ÷ 100)" },
+        { var: "n",  meaning: "Total number of monthly payments" },
+      ],
+      useCases: ["Home loans", "Car loans", "Personal loans", "Education loans"],
+      faqs: [
+        { q: "Does EMI change if interest rate changes?", a: "For floating rate loans yes, for fixed rate loans no." },
+        { q: "Can I reduce my EMI?", a: "Yes, by increasing the tenure or making a partial prepayment." },
+      ],
+    },
   },
   {
     href: "/finance-calculators/gst",
