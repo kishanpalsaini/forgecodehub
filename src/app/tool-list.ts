@@ -147,6 +147,7 @@ export const tools = [
     desc: "Encode text or files to Base64, decode Base64 strings. Supports UTF-8, URL-safe mode and image preview.",
     path: "/tools/Base64client",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
     href: "/tools/url-encoder-decoder",
@@ -157,6 +158,7 @@ export const tools = [
     desc: "Encode special characters for safe URL transmission, decode percent-encoded strings. Parse URL into parts.",
     path: "/tools/url-encoder-decoder",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
     href: "/tools/html-minifier",
@@ -167,6 +169,7 @@ export const tools = [
     desc: "Compress HTML by removing whitespace, comments and optional tags. See exact byte savings instantly.",
     path: "/tools/html-minifier",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/url-encoder-decoder", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
     href: "/tools/css-minifier",
@@ -177,6 +180,7 @@ export const tools = [
     desc: "Minify CSS by collapsing whitespace, shortening hex colors and removing redundant semicolons.",
     path: "/tools/css-minifier",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
     href: "/tools/pdf-converter",
@@ -187,6 +191,7 @@ export const tools = [
     desc: "Convert documents between PDF, Word, and image formats directly in your browser — no uploads.",
     path: "/tools/pdf-converter",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
   },
   {
     href: "/tools/color-picker",
@@ -197,6 +202,7 @@ export const tools = [
     desc: "Generate accessible color palettes from a single hex. Export to CSS, Figma, or Tailwind format.",
     path: "/tools/color-picker",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/crypto-encrypt-decrypt"],
   },
     {
     href: "/tools/crypto-encrypt-decrypt",
@@ -207,7 +213,10 @@ export const tools = [
     desc: "Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.",
     path: "/tools/crypto-encrypt-decrypt",
     cat: "dev",
+    related: ["/tools/json-formatter", "/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker"],
   },
+
+  
 
   // ── PRODUCTIVITY ──
   {
@@ -219,6 +228,7 @@ export const tools = [
     desc: "Distraction-free notepad with word count, font controls, auto-save to browser, and .txt download.",
     path: "/tools/online-notepad",
     cat: "productivity",
+    related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/png-to-jpg", "/tools/jpg-to-png"],
   },
   {
     href: "/tools/pomodoro-timer",
@@ -229,5 +239,42 @@ export const tools = [
     desc: "Distraction-free Focus timer with session tracking, streaks, and daily focus reports.",
     path: "/tools/pomodoro-timer",
     cat: "productivity",
+    related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/png-to-jpg", "/tools/jpg-to-png"],
+  },
+
+  {
+    href: "/tools/images/png-to-jpg",
+    icon: "�️",
+    tag: "Live",
+    tagClass: "tag-new",
+    name: "PNG to JPG Converter",
+    desc: "Convert PNG images to JPG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
+    path: "/tools/images/png-to-jpg",
+    cat: "productivity",
+    related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png"],
+  },
+
+  {
+    href: "/tools/images/jpg-to-png",
+    icon: "️",
+    tag: "Live",
+    tagClass: "tag-new",
+    name: "JPG to PNG Converter",
+    desc: "Convert JPG images to PNG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
+    path: "/tools/images/jpg-to-png",
+    cat: "productivity",
+    related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png"],
+  },
+
+  {
+    href: "/tools/images/Universal-image-converter",
+    icon: "️",
+    tag: "Live",
+    tagClass: "tag-new",
+    name: "Universal Image Converter",
+    desc: "Convert images between various formats online. Adjust output quality, preserve transparency with white background, and download instantly.",
+    path: "/tools/images/Universal-image-converter",
+    cat: "productivity",
+    related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png", "/tools/images/Universal-image-converter"],
   },
 ];

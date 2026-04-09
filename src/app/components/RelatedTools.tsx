@@ -7,7 +7,7 @@ import { tools } from "../tool-list";
 export default function RelatedTools({
   currentPath,
   category,
-  limit = 6,
+  // limit = 6,
 }: {
   currentPath: string;
   category: string;
@@ -15,7 +15,7 @@ export default function RelatedTools({
 }) {
   const related = tools
     .filter((t) => t.cat === category && t.path !== currentPath)
-    .slice(0, limit);
+    // .slice(0, limit);
 
   return (
     <section style={{ marginTop: "4rem", padding: "0 0 4rem" }}>
