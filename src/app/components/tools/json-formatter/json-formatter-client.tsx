@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import s from "./Jsonformatterclient.module.css";
+import s from "./json-formatter-client.module.css";
 
 type ViewMode = "formatted" | "minified" | "tree";
 

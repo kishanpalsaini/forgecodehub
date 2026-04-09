@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 // import JsonFormatterClient from "@/components/tools/Json-Formatter/JsonFormatterClient";
-import JsonFormatterClient from "@/app/components/tools/Json-Formatter/Jsonformatterclient";
+import JsonFormatterClient from "@/app/components/tools/json-formatter/json-formatter-client";
 
 import RelatedTools from "@/app/components/RelatedTools";
 import  { HTML_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
 import { faqSchema } from "../pomodoro-timer/faqSchema";
 import Navbar from "@/app/components/Navbar";
-import HtmlMinifierClient from "@/app/components/tools/html-minifier/Htmlminifierclient";
+import HtmlMinifierClient from "@/app/components/tools/html-minifier/html-minifier-client";
 
 // import faqSchema from "./components/tools/Json-Formatter/faqSchema";
 

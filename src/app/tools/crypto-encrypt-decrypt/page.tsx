@@ -1,40 +1,37 @@
 import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
-import  {  CSS_FAQS } from "@/lib/faqs";
+import  { cryptoEncryptDecryptFaqs } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
-import CssMinifierClient from "@/app/components/tools/css-minifier/css-minifier-client";
+import CryptoEncryptDecryptClient from "@/app/components/tools/crypto-encrypt-decrypt/crypto-encrypt-decrypt-client";
+
 
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator Online — ForgeCodeHub",
+  title: "AES Encryption — ForgeCodeHub",
   description:
-    "Free online JSON formatter, validator, and minifier. Beautify, validate, and minify JSON instantly. Supports syntax highlighting, tree view, and error detection.",
+    "Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.",
   keywords: [
-    "json formatter",
-    "json validator",
-    "json beautifier",
-    "json minifier",
-    "online json formatter",
-    "json pretty print",
-    "json viewer",
-    "json tree view",
-    "format json online",
-    "validate json",
+    "AES encryption",
+    "AES decryption",
+    "online AES tool",  
+    "encrypt text online",
+    "decrypt text online",
+   
   ],
   openGraph: {
-    title: "JSON Formatter & Validator — ForgeCodeHub",
+    title: "AES Encryption — ForgeCodeHub",
     description:
-      "Beautify, validate, and minify JSON online. Free, instant, no signup required.",
-    url: "https://www.forgecodehub.com/tools/json-formatter",
+      "Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.",
+    url: "https://www.forgecodehub.com/tools/crypto-encrypt-decrypt",
   },
 };
 
-export default function JsonFormatterPage() {
+export default function CryptoEncryptDecryptPage() {
   return (
     // <main>
-    //   <JsonFormatterClient />
+    //   <CryptoEncryptDecryptClient />
     // </main>
     <>
       {/* JSON-LD FAQ schema for Google rich results */}
@@ -43,17 +40,18 @@ export default function JsonFormatterPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-        {/* Top-bar */}
-          <Navbar />
-          
+         {/* Top-bar */}
+
+         <Navbar />
+
       {/* The full JsonFormatterClient tool — all "use client" logic lives here */}
-      <CssMinifierClient />
+      <CryptoEncryptDecryptClient />
 
 
       {/* Related tools — auto-pulls same category */}
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
-          currentPath="/tools/css-minifier"
+          currentPath="/tools/crypto-encrypt-decrypt"
           category="dev"
         />
       </div>
@@ -68,9 +66,9 @@ export default function JsonFormatterPage() {
         }}
       >
         <ToolFaq
-        faqs={CSS_FAQS}
+        faqs={cryptoEncryptDecryptFaqs}
         title="Frequently Asked Questions"
-        subtitle="Everything you need to know about using the CSS Minifier."
+        subtitle="Everything you need to know about using the Crypto Encrypt/Decrypt tool."
       />
       </div>
     </>

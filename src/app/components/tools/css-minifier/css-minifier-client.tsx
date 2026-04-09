@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import s from "./CssMinifierClient.module.css";
+import s from "./css-minifier-client.module.css";
 
 
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import s from "./UrlEncoderClient.module.css";
+import s from "./url-encoder-client.module.css";
 
 
 

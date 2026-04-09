@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import s from "./HtmlMinifierClient.module.css";
-
-
+import s from "./html-minifier-client.module.css";
 
 interface MinifyOptions {
   removeComments: boolean;
@@ -17,32 +15,27 @@ interface MinifyOptions {
 function minifyHtml(html: string, opts: MinifyOptions): string {
   let result = html;
 
-  // Remove HTML comments (but not conditional comments like <!--[if IE]>)
   if (opts.removeComments) {
     result = result.replace(/<!--(?!\[if\s)[\s\S]*?-->/gi, "");
   }
 
-  // Collapse whitespace between tags
   if (opts.collapseWhitespace) {
     result = result
-      .replace(/\s+/g, " ")                         // collapse all whitespace to single space
-      .replace(/>\s+</g, "><")                        // remove space between tags
-      .replace(/\s+>/g, ">")                          // remove space before >
-      .replace(/<\s+/g, "<")                          // remove space after <
+      .replace(/\s+/g, " ")
+      .replace(/>\s+</g, "><")
+      .replace(/\s+>/g, ">")
+      .replace(/<\s+/g, "<")
       .trim();
   }
 
-  // Remove quotes from attributes where safe (single word values)
   if (opts.removeAttributeQuotes) {
     result = result.replace(/="([^"'\s>\/=]+)"/g, "=$1");
   }
 
-  // Remove empty attributes
   if (opts.removeEmptyAttributes) {
     result = result.replace(/\s+(?:class|id|style|title|alt|lang|dir)=""/g, "");
   }
 
-  // Remove optional closing tags: </li>, </td>, </th>, </p>, </dt>, </dd>, </option>
   if (opts.removeOptionalTags) {
     result = result.replace(/<\/(li|td|th|p|dt|dd|option)>/gi, "");
   }
@@ -74,29 +67,39 @@ const SAMPLE_HTML = `<!DOCTYPE html>
   </body>
 </html>`;
 
+const OPTION_LABELS: Record<keyof MinifyOptions, string> = {
+  removeComments: "remove comments",
+  collapseWhitespace: "collapse whitespace",
+  removeAttributeQuotes: "remove attribute quotes",
+  removeEmptyAttributes: "remove empty attributes",
+  removeOptionalTags: "remove optional tags",
+};
+
 export default function HtmlMinifierClient() {
+  const defaultOpts: MinifyOptions = {
+    removeComments: true,
+    collapseWhitespace: true,
+    removeAttributeQuotes: false,
+    removeEmptyAttributes: true,
+    removeOptionalTags: false,
+  };
+
   const [input, setInput] = useState(SAMPLE_HTML);
-  const [output, setOutput] = useState(() => minifyHtml(SAMPLE_HTML, {
-    removeComments: true,
-    collapseWhitespace: true,
-    removeAttributeQuotes: false,
-    removeEmptyAttributes: true,
-    removeOptionalTags: false,
-  }));
-  const [options, setOptions] = useState<MinifyOptions>({
-    removeComments: true,
-    collapseWhitespace: true,
-    removeAttributeQuotes: false,
-    removeEmptyAttributes: true,
-    removeOptionalTags: false,
-  });
+  const [output, setOutput] = useState(() => minifyHtml(SAMPLE_HTML, defaultOpts));
+  const [options, setOptions] = useState<MinifyOptions>(defaultOpts);
   const [copied, setCopied] = useState(false);
 
-  const process = useCallback((html: string, opts: MinifyOptions = options) => {
-    setInput(html);
-    if (!html.trim()) { setOutput(""); return; }
-    setOutput(minifyHtml(html, opts));
-  }, [options]);
+  const process = useCallback(
+    (html: string, opts: MinifyOptions = options) => {
+      setInput(html);
+      if (!html.trim()) {
+        setOutput("");
+        return;
+      }
+      setOutput(minifyHtml(html, opts));
+    },
+    [options]
+  );
 
   const updateOption = (key: keyof MinifyOptions, val: boolean) => {
     const newOpts = { ...options, [key]: val };
@@ -121,29 +124,53 @@ export default function HtmlMinifierClient() {
 
   const originalSize = new Blob([input]).size;
   const minifiedSize = new Blob([output]).size;
-  const savings = originalSize > 0 ? Math.round(((originalSize - minifiedSize) / originalSize) * 100) : 0;
+  const savings =
+    originalSize > 0
+      ? Math.round(((originalSize - minifiedSize) / originalSize) * 100)
+      : 0;
 
   return (
     <div className={s.page}>
+      {/* ── Header ── */}
       <div className={s.header}>
         <div className={s.badge}>Developer Tool</div>
-        <h1 className={s.h1}>HTML Minifier & Compressor</h1>
+        <h1 className={s.h1}>HTML Minifier &amp; Compressor</h1>
         <p className={s.desc}>
-          Remove whitespace, comments, and unnecessary characters from your HTML. Reduce file size for faster page loads.
+          Remove whitespace, comments, and unnecessary characters from your
+          HTML. Reduce file size for faster page loads.
         </p>
       </div>
 
-      {/* Stats */}
+      {/* ── Stats ── */}
       {input && (
         <div className={s.statsRow}>
-          <div className={s.stat}><span className={s.statVal}>{originalSize.toLocaleString()}B</span><span className={s.statLabel}>original</span></div>
-          <div className={s.stat}><span className={s.statVal}>{minifiedSize.toLocaleString()}B</span><span className={s.statLabel}>minified</span></div>
-          <div className={s.stat}><span className={s.statVal} style={{ color: savings > 0 ? "#15803d" : "#6b7280" }}>-{savings}%</span><span className={s.statLabel}>saved</span></div>
-          <div className={s.stat}><span className={s.statVal}>{(originalSize - minifiedSize).toLocaleString()}B</span><span className={s.statLabel}>removed</span></div>
+          <div className={s.stat}>
+            <span className={s.statVal}>{originalSize.toLocaleString()}B</span>
+            <span className={s.statLabel}>original</span>
+          </div>
+          <div className={s.stat}>
+            <span className={s.statVal}>{minifiedSize.toLocaleString()}B</span>
+            <span className={s.statLabel}>minified</span>
+          </div>
+          <div className={s.stat}>
+            <span
+              className={s.statVal}
+              style={{ color: savings > 0 ? "#10b981" : "#3d4f6e" }}
+            >
+              -{savings}%
+            </span>
+            <span className={s.statLabel}>saved</span>
+          </div>
+          <div className={s.stat}>
+            <span className={s.statVal}>
+              {(originalSize - minifiedSize).toLocaleString()}B
+            </span>
+            <span className={s.statLabel}>removed</span>
+          </div>
         </div>
       )}
 
-      {/* Options */}
+      {/* ── Options ── */}
       <div className={s.optionsCard}>
         <span className={s.optionsTitle}>Options</span>
         <div className={s.optionsGrid}>
@@ -154,19 +181,34 @@ export default function HtmlMinifierClient() {
                 checked={options[key]}
                 onChange={(e) => updateOption(key, e.target.checked)}
               />
-              <span>{key.replace(/([A-Z])/g, " $1").toLowerCase()}</span>
+              <span>{OPTION_LABELS[key]}</span>
             </label>
           ))}
         </div>
       </div>
 
+      {/* ── Editor Panels ── */}
       <div className={s.panels}>
+        {/* Input */}
         <div className={s.panel}>
           <div className={s.panelHeader}>
             <span className={s.panelTitle}>Original HTML</span>
             <div className={s.panelActions}>
-              <button className={s.actionBtn} onClick={() => process(SAMPLE_HTML)}>Sample</button>
-              <button className={s.actionBtn} onClick={() => { setInput(""); setOutput(""); }}>Clear</button>
+              <button
+                className={s.actionBtn}
+                onClick={() => process(SAMPLE_HTML)}
+              >
+                Sample
+              </button>
+              <button
+                className={s.actionBtn}
+                onClick={() => {
+                  setInput("");
+                  setOutput("");
+                }}
+              >
+                Clear
+              </button>
             </div>
           </div>
           <textarea
@@ -178,35 +220,54 @@ export default function HtmlMinifierClient() {
           />
         </div>
 
+        {/* Output */}
         <div className={s.panel}>
           <div className={s.panelHeader}>
             <span className={s.panelTitle}>Minified HTML</span>
             <div className={s.panelActions}>
-              <button className={s.actionBtn} onClick={handleCopy} disabled={!output}>{copied ? "Copied!" : "Copy"}</button>
-              <button className={s.actionBtn} onClick={handleDownload} disabled={!output}>Download</button>
+              <button
+                className={s.actionBtn}
+                onClick={handleCopy}
+                disabled={!output}
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+              <button
+                className={s.actionBtn}
+                onClick={handleDownload}
+                disabled={!output}
+              >
+                Download
+              </button>
             </div>
           </div>
           <div className={s.outputBox}>
-            {output || <span className={s.placeholder}>Minified output will appear here...</span>}
+            {output || (
+              <span className={s.placeholder}>
+                Minified output will appear here...
+              </span>
+            )}
           </div>
         </div>
       </div>
 
+      {/* ── SEO Section ── */}
       <section className={s.seoSection}>
         <h2>What is HTML Minification?</h2>
         <p>
-          HTML minification removes unnecessary characters from HTML source code without changing its functionality —
-          whitespace, comments, optional closing tags, and redundant attribute quotes are stripped to reduce file size.
-          Smaller HTML means faster downloads, quicker browser parsing, and better Core Web Vitals scores.
+          HTML minification removes unnecessary characters from HTML source code
+          without changing its functionality — whitespace, comments, optional
+          closing tags, and redundant attribute quotes are stripped to reduce
+          file size. Smaller HTML means faster downloads, quicker browser
+          parsing, and better Core Web Vitals scores.
         </p>
         <h2>How much can HTML minification save?</h2>
         <p>
-          Typically, HTML minification reduces file size by 10–30%. When combined with Gzip or Brotli compression
-          on your server, total savings can reach 70–90% compared to the original uncompressed file.
+          Typically, HTML minification reduces file size by 10–30%. When
+          combined with Gzip or Brotli compression on your server, total savings
+          can reach 70–90% compared to the original uncompressed file.
         </p>
       </section>
-
-      
     </div>
   );
 }
