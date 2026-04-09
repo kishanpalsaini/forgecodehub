@@ -1,14 +1,14 @@
 // src/app/blog/[slug]/page.tsx  — Server Component
 // import { tools } from "@/data/tools";
-import { tools } from "../../tool-list"; // adjust path as needed
+import { tools } from "../../data/tools"; // adjust path as needed
 import { notFound } from "next/navigation";
 
 // generates /blog/how-to-calculate-emi,
 //           /blog/how-to-calculate-gst, etc. at build time
 export async function generateStaticParams() {
   return tools
-    .filter((t) => t.guide)
-    .map((t) => ({ slug: t.guide!.slug }));
+    .filter((t: any) => t?.guide)
+    .map((t: any) => ({ slug: t.guide?.slug }));
 }
 
 export async function generateMetadata({ params }: any) {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function GuidePage({ params }:any) {
+export default async function GuidePage({ params }: any) {
   const { slug } = await params;
   const tool = tools.find((t) => t.guide?.slug === slug);
   if (!tool || !tool.guide) notFound();
