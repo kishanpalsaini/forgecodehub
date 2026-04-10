@@ -107,7 +107,7 @@ export default function ToolsFaq() {
   }, [faqs, selectedTool]);
 
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto", fontFamily: "'Segoe UI', system-ui, sans-serif", color: "#1e293b" }}>
+    <div style={{  margin: "0 auto", fontFamily: "'Segoe UI', system-ui, sans-serif", color: "#1e293b" }}>
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 6px" }}>Help & FAQ</h1>

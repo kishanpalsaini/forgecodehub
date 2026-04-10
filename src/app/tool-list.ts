@@ -256,7 +256,7 @@ export const tools = [
 
   {
     href: "/tools/images/jpg-to-png",
-    icon: "️",
+    icon: "🖼️",
     tag: "Live",
     tagClass: "tag-new",
     name: "JPG to PNG Converter",
@@ -268,7 +268,7 @@ export const tools = [
 
   {
     href: "/tools/images/Universal-image-converter",
-    icon: "️",
+    icon: "️🌐",
     tag: "Live",
     tagClass: "tag-new",
     name: "Universal Image Converter",

@@ -7,7 +7,7 @@ import Navbar from "@/app/components/Navbar";
 import CssMinifierClient from "@/app/components/tools/css-minifier/css-minifier-client";
 import PngToJpgClient from "@/app/components/tools/images/png-to-jpg/PngToJpgClient";
 import ToolsFaq from "@/app/components/tools/images/ImageToolFaq";
-import UniversalImageConverter from "@/app/components/tools/images/Universal-image-converter/Universalimageconverter";
+import UniversalImageConverter from "@/app/components/tools/images/universalPage";
 
 
 export const metadata: Metadata = {
