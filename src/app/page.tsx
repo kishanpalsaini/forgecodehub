@@ -423,7 +423,7 @@ export default function Home() {
                 fontSize: "1rem",
               }}
             >
-              No tools found for "<strong>{searchQuery}</strong>"
+              No tools found for <strong>{searchQuery}</strong>
             </div>
           )}
         </div>
