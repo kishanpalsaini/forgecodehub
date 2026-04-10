@@ -253,39 +253,46 @@ export const URL_FAQS = [
 
 export const JSON_FAQS = [
   {
-    question: "What is a JSON Formatter?",
-    answer: "A JSON Formatter (also called a JSON Beautifier or JSON Pretty Printer) takes raw or minified JSON text and adds proper indentation and line breaks to make it human-readable. It also validates your JSON for syntax errors and highlights exactly where the problem is.",
+    question: "Are JSON tools free to use?",
+    answer: "Yes, all JSON tools are completely free with no sign-up, subscription, or hidden charges.",
   },
   {
-    question: "Is my JSON data safe? Does it get uploaded to a server?",
-    answer: "Yes — completely safe. This tool runs 100% in your browser using JavaScript. Your JSON data is never sent to any server, stored, or logged. Everything stays on your device.",
+    question: "Is my data safe when using these tools?",
+    answer: "Yes, all JSON processing happens locally in your browser. Your data never leaves your device and is not sent to any server.",
   },
   {
-    question: "What is the difference between formatting and minifying JSON?",
-    answer: "Formatting (beautifying) adds whitespace and indentation to make JSON readable by humans. Minifying removes all unnecessary whitespace to make the file as small as possible — ideal for production APIs and network transmission.",
+    question: "Can I use these tools offline?",
+    answer: "Yes, once the page loads, you can continue using all tools without an internet connection since everything runs in your browser.",
   },
   {
-    question: "Why is my JSON showing a syntax error?",
-    answer: "Common JSON syntax errors include: trailing commas after the last item in an object or array, using single quotes instead of double quotes for strings, missing quotes around object keys, or unescaped special characters inside strings. The error message shown tells you where in the input the problem is.",
+    question: "What is JSONPath?",
+    answer: "JSONPath is a query language for JSON, similar to XPath for XML. It allows you to extract specific data from complex JSON structures using path expressions.",
   },
   {
-    question: "What is the JSON Tree View?",
-    answer: "The Tree View renders your JSON as an interactive, collapsible hierarchy — similar to how browser DevTools display JSON responses. You can expand and collapse nested objects and arrays to explore large JSON structures without scrolling through long text.",
+    question: "Can I validate JSON against a schema?",
+    answer: "Yes, the JSON Validator tool supports JSON Schema validation. You can validate your data against any JSON Schema definition.",
   },
   {
-    question: "Can I format very large JSON files?",
-    answer: "Yes — since processing happens in your browser, performance depends on your device. Most JSON files up to a few MB will format instantly. For extremely large files (10MB+), the tree view may be slow; use the formatted text view instead.",
+    question: "How do I convert JSON to CSV?",
+    answer: "Use the JSON to CSV tool. Your JSON must be an array of objects with consistent keys. Each object becomes a row, and keys become column headers.",
   },
   {
-    question: "What indentation size should I use — 2 or 4 spaces?",
-    answer: "Both are widely used conventions. Most JavaScript and Node.js projects use 2 spaces (the default). Python and many other languages prefer 4 spaces. For APIs and data exchange, use minified JSON with no indentation.",
+    question: "What's the difference between Format and Minify?",
+    answer: "Format adds indentation and line breaks for readability. Minify removes all whitespace to create the smallest possible file size.",
   },
   {
-    question: "How do I download the formatted JSON?",
-    answer: "Click the Download button in the output panel. The tool will save a file named 'formatted.json' directly to your device. The file will contain the current output — formatted, minified, or as shown.",
+    question: "Can I compare two JSON files?",
+    answer: "Yes, the JSON Diff tool compares two JSON objects and highlights added, removed, and modified properties with color-coded differences.",
+  },
+  {
+    question: "Do these tools work on mobile?",
+    answer: "Yes, all tools are fully responsive and work seamlessly on mobile phones, tablets, and desktop devices.",
+  },
+  {
+    question: "Can I download or copy the results?",
+    answer: "Yes, all tools provide copy to clipboard and download options for easy export of results.",
   },
 ];
-
 
 export const HTML_FAQS = [
   {

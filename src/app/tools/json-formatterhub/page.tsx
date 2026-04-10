@@ -1,17 +1,18 @@
 import { Metadata } from "next";
-import JsonFormatterClient from "@/app/components/tools/json-formatter/json-formatter-client";
-
 import RelatedTools from "@/app/components/RelatedTools";
 import  { JSON_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
+import { faqSchema } from "./jsonhubfaqSchema";
 import Navbar from "@/app/components/Navbar";
-import { faqSchema } from "./faqSchema";
+import JSONToolsHub from "@/app/components/tools/json-tools/JSONToolsHub";
+import { Suspense } from "react";
+
 
 // import faqSchema from "./components/tools/Json-Formatter/faqSchema";
 
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator Online — ForgeCodeHub",
+  title: "JSON Formatter & Validator — ForgeCodeHub",
   description:
     "Free online JSON formatter, validator, and minifier. Beautify, validate, and minify JSON instantly. Supports syntax highlighting, tree view, and error detection.",
   keywords: [
@@ -20,17 +21,28 @@ export const metadata: Metadata = {
     "json beautifier",
     "json minifier",
     "online json formatter",
+    "online json validator",
+    "online json minifier",
     "json pretty print",
     "json viewer",
     "json tree view",
     "format json online",
     "validate json",
+    "minify json online",
+    "json error detection",
+    "json syntax highlighting",
+    "json formatting tool",
+    "json validation tool",
+    "json minification tool",
+    "json linter",
+    "json parser",
+    "json editor",
   ],
   openGraph: {
     title: "JSON Formatter & Validator — ForgeCodeHub",
     description:
       "Beautify, validate, and minify JSON online. Free, instant, no signup required.",
-    url: "https://www.forgecodehub.com/tools/json-formatter",
+    url: "https://www.forgecodehub.com/tools/json-formatterhub",
   },
 };
 
@@ -51,13 +63,15 @@ export default function JsonFormatterPage() {
          <Navbar />
 
       {/* The full JsonFormatterClient tool — all "use client" logic lives here */}
-      <JsonFormatterClient />
+       <Suspense fallback={<div>Loading...</div>}>
+              <JSONToolsHub />
+            </Suspense>
 
 
       {/* Related tools — auto-pulls same category */}
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
-          currentPath="/tools/json-formatter"
+          currentPath="/tools/json-formatterhub"
           category="dev"
         />
       </div>
@@ -74,7 +88,7 @@ export default function JsonFormatterPage() {
         <ToolFaq
         faqs={JSON_FAQS}
         title="Frequently Asked Questions"
-        subtitle="Everything you need to know about using the JSON Formatter."
+        subtitle="Everything you need to know about using the JSON Formatter and Validator."
       />
       </div>
     </>
