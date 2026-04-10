@@ -5,7 +5,7 @@ import JsonFormatterClient from "@/app/components/tools/json-formatter/json-form
 import RelatedTools from "@/app/components/RelatedTools";
 import  { HTML_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
 import HtmlMinifierClient from "@/app/components/tools/html-minifier/html-minifier-client";
 

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
 import  {  CSS_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
 import CssMinifierClient from "@/app/components/tools/css-minifier/css-minifier-client";
 

@@ -1,11 +1,7 @@
 import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
-import  {  CSS_FAQS } from "@/lib/faqs";
-import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
-import CssMinifierClient from "@/app/components/tools/css-minifier/css-minifier-client";
-import PngToJpgClient from "@/app/components/tools/images/png-to-jpg/PngToJpgClient";
 import ToolsFaq from "@/app/components/tools/images/ImageToolFaq";
 import UniversalImageConverter from "@/app/components/tools/images/universalPage";
 

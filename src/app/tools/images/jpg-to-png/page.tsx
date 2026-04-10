@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
-import  {  CSS_FAQS } from "@/lib/faqs";
+import  { jpgToPngFaqs } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
 import JpgToPngClient from "@/app/components/tools/images/jpg-to-png/JpgToPngClient";
 
@@ -66,7 +66,7 @@ export default function JpgToPngPage() {
         }}
       >
         <ToolFaq
-        faqs={CSS_FAQS}
+        faqs={jpgToPngFaqs}
         title="Frequently Asked Questions"
         subtitle="Everything you need to know about using the JPG to PNG Converter."
       />

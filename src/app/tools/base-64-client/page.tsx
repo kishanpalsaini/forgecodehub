@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
 import  { BASE64_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Base64Client from "@/app/components/tools/base-64-client/base-64-client";
 import Navbar from "@/app/components/Navbar";
 

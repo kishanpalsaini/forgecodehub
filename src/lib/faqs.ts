@@ -460,3 +460,285 @@ export const cryptoEncryptDecryptFaqs = [
       "Yes. Once the page is loaded, the encryption and decryption functions work entirely client-side without any internet connection.",
   },
 ];
+
+export const pngToJpgFaqs = [
+    {
+        question: "Will converting PNG to JPG lose quality?",
+        answer:
+            "Yes, some quality loss occurs because JPG uses lossy compression. Using the 'High' quality setting minimizes visible differences from the original PNG.",
+    },
+    {
+        question: "Is this PNG to JPG converter free?",
+        answer:
+            "Yes, this converter is completely free with no sign-up, no subscription, and no hidden charges.",
+    },
+    {
+        question: "Are my images uploaded to a server?",
+        answer:
+            "No, all conversion happens in your browser using the Canvas API. Your images never leave your device.",
+    },
+    {
+        question: "What happens to transparent areas in my PNG?",
+        answer:
+            "PNG transparency is replaced with a white background because JPG does not support alpha channels or transparency.",
+    },
+    {
+        question: "How much smaller will the JPG file be?",
+        answer:
+            "Photographs typically shrink 60–80%. Graphics with flat colors may compress less, but still result in significant size reduction.",
+    },
+    {
+        question: "What quality setting should I use?",
+        answer:
+            "High quality (95%) for print or large displays. Medium (75%) for balanced web use. Low (50%) when file size is the priority.",
+    },
+    {
+        question: "Can I convert multiple PNG images at once?",
+        answer:
+            "Currently, the tool converts one image at a time. For batch conversion, convert each PNG individually.",
+    },
+    {
+        question: "Does the tool work offline?",
+        answer:
+            "Yes, once loaded you can convert images without internet since all processing happens locally in your browser.",
+    },
+    {
+        question: "Can I use this on my phone or tablet?",
+        answer:
+            "Yes, it works seamlessly on Android and iOS browsers, tablets, and desktop devices with a fully responsive design.",
+    },
+    {
+        question: "Does conversion change image dimensions?",
+        answer:
+            "No, the width and height in pixels remain exactly the same. Only the format and file size change.",
+    },
+    {
+        question: "Can I download the converted JPG file?",
+        answer:
+            "Yes, after conversion you can download the JPG directly to your device with one click.",
+    },
+    {
+        question: "Can I convert PNG screenshots to JPG?",
+        answer:
+            "Yes, but JPG may blur text and UI elements. PNG is better for screenshots, but JPG works if file size is critical.",
+    },
+    {
+        question: "Does it work on all browsers?",
+        answer:
+            "Yes, it works on Chrome, Firefox, Safari, Edge, and Opera on both desktop and mobile platforms.",
+    },
+    {
+        question: "Can I convert back to PNG after converting to JPG?",
+        answer:
+            "Yes, but each lossy conversion adds more compression artifacts. Always keep the original PNG to avoid quality degradation.",
+    },
+    {
+        question: "What is the maximum file size I can convert?",
+        answer:
+            "The tool handles various sizes, but very large files may take longer depending on your device. Most images convert instantly.",
+    },
+    {
+        question: "When should I convert PNG to JPG?",
+        answer:
+            "Convert when you need smaller file sizes for web use, email attachments, or storage, especially for photos where slight quality loss is acceptable.",
+    },
+    {
+        question: "Is JPG better than PNG for websites?",
+        answer:
+            "For photos, yes — JPG is smaller. For logos, icons, or images with transparency or text, PNG is better.",
+    },
+    {
+        question: "Can I choose a custom background color for transparent areas?",
+        answer:
+            "The tool uses white by default. Some advanced converters allow custom background colors for transparency.",
+    },
+    {
+        question: "Will converting to JPG reduce sharpness?",
+        answer:
+            "JPG compression can soften edges and text. High quality settings minimize this but don't eliminate it entirely.",
+    },
+    {
+        question: "Is JPG suitable for logos and icons?",
+        answer:
+            "No, PNG or SVG are better. JPG creates artifacts around text and sharp edges and doesn't support transparency.",
+    },
+    {
+        question: "Can I use the converted JPG in Photoshop or GIMP?",
+        answer:
+            "Yes, the output JPG is standard format and fully compatible with all image editing software.",
+    },
+    {
+        question: "Does the converter preserve metadata or EXIF data?",
+        answer:
+            "The tool focuses on visual conversion. Metadata may not be fully preserved. Use specialized tools if you need EXIF data.",
+    },
+    {
+        question: "Why do colors look different after conversion?",
+        answer:
+            "JPG uses lossy compression that approximates colors. Subtle gradients may shift slightly. High quality settings reduce this.",
+    },
+    {
+        question: "Can I convert PNG illustrations to JPG?",
+        answer:
+            "Yes, but JPG may introduce artifacts in flat-color areas. For illustrations, PNG or SVG formats are generally preferable.",
+    },
+    {
+        question: "Does JPG support as many colors as PNG?",
+        answer:
+            "Yes, both support 24-bit true color (16.7 million colors), but JPG's lossy compression may alter them slightly.",
+    },
+];
+
+
+export const jpgToPngFaqs = [
+    {
+        question: "Does converting JPG to PNG lose quality?",
+        answer:
+            "No, converting to PNG does not lose additional quality. PNG is lossless, so once converted, no further degradation occurs. However, original JPG compression artifacts remain.",
+    },
+    {
+        question: "Is this JPG to PNG converter free?",
+        answer:
+            "Yes, this converter is completely free with no sign-up, no subscription, and no hidden charges.",
+    },
+    {
+        question: "Are my images uploaded to a server?",
+        answer:
+            "No, all conversion happens in your browser using the Canvas API. Your images never leave your device.",
+    },
+    {
+        question: "Why is the PNG file larger than the JPG?",
+        answer:
+            "PNG uses lossless compression while JPG uses lossy. PNG stores every pixel exactly, resulting in larger files than compressed JPG.",
+    },
+    {
+        question: "Does PNG support transparency?",
+        answer:
+            "Yes, PNG supports full alpha channel transparency, ideal for logos, icons, and graphics needing transparent backgrounds.",
+    },
+    {
+        question: "When should I use PNG instead of JPG?",
+        answer:
+            "Use PNG for transparency needs, logos, icons, graphics with text, or when you need lossless quality for further editing.",
+    },
+    {
+        question: "Can I convert multiple JPG images at once?",
+        answer:
+            "Currently, the tool converts one image at a time. For batch conversion, convert each JPG individually.",
+    },
+    {
+        question: "What is the maximum file size I can convert?",
+        answer:
+            "The tool handles various sizes, but very large files may take longer depending on your device. Most photos convert instantly.",
+    },
+    {
+        question: "Does the tool work offline?",
+        answer:
+            "Yes, once loaded you can convert images without internet since all processing happens locally in your browser.",
+    },
+    {
+        question: "Can I use this on my phone or tablet?",
+        answer:
+            "Yes, it works seamlessly on Android and iOS browsers, tablets, and desktop devices with a fully responsive design.",
+    },
+    {
+        question: "Does conversion change image dimensions?",
+        answer:
+            "No, the width and height in pixels remain exactly the same. Only the format and file size change.",
+    },
+    {
+        question: "Can I convert JPEG to PNG?",
+        answer:
+            "Yes, JPEG and JPG are the same format. This tool accepts both .jpg and .jpeg files and converts them to PNG.",
+    },
+    {
+        question: "Does it work on all browsers?",
+        answer:
+            "Yes, it works on Chrome, Firefox, Safari, Edge, and Opera on both desktop and mobile platforms.",
+    },
+    {
+        question: "Can I download the converted PNG file?",
+        answer:
+            "Yes, after conversion you can download the PNG directly to your device with one click.",
+    },
+    {
+        question: "Will converting to PNG improve image quality?",
+        answer:
+            "No, it won't improve quality because JPG compression already discarded data. PNG just stores the JPG data without further loss.",
+    },
+    {
+        question: "Can I convert a JPG with EXIF data?",
+        answer:
+            "The tool converts visual data. EXIF metadata like camera settings, location, and date may not be preserved in the PNG.",
+    },
+    {
+        question: "Why convert JPG to PNG for web use?",
+        answer:
+            "Convert when you need transparency for logos, require lossless quality for graphics with text, or plan to edit without quality loss.",
+    },
+    {
+        question: "Does PNG support all colors that JPG does?",
+        answer:
+            "Yes, PNG supports 24-bit true color (16.7 million colors) plus an alpha channel for transparency.",
+    },
+    {
+        question: "Can I convert a JPG screenshot to PNG?",
+        answer:
+            "Yes, JPG screenshots convert perfectly. PNG is actually better for screenshots due to lossless compression of text and UI.",
+    },
+    {
+        question: "Is PNG better than JPG for printing?",
+        answer:
+            "It depends. PNG preserves quality better for graphics and text. For photos, JPG is often preferred due to smaller sizes. Professional printing uses TIFF or RAW.",
+    },
+    {
+        question: "Can I convert PNG back to JPG later?",
+        answer:
+            "Yes, you can convert back anytime, but the original JPG artifacts remain, and converting to JPG again adds more lossy compression.",
+    },
+    {
+        question: "Does the converter preserve image resolution?",
+        answer:
+            "Yes, pixel dimensions and DPI/PPI resolution are maintained. A 1920x1080 JPG becomes a 1920x1080 PNG with identical resolution.",
+    },
+    {
+        question: "Can I use converted PNG images in Photoshop or GIMP?",
+        answer:
+            "Yes, the output PNG files are standard format and fully compatible with all image editing software.",
+    },
+    {
+        question: "Will the PNG have a transparent background?",
+        answer:
+            "No, JPG doesn't support transparency, so the PNG will have the same solid background as the JPG. Manual editing is needed for transparency.",
+    },
+    {
+        question: "Is PNG suitable for website images?",
+        answer:
+            "Yes, PNG is excellent for logos, icons, graphics with transparency, and images with text. For large photos, JPG or WebP may be better due to smaller sizes.",
+    },
+    {
+        question: "Can I convert WebP or AVIF to PNG as well?",
+        answer:
+            "Yes, the converter accepts JPG, JPEG, and WebP files and converts them all to lossless PNG format.",
+    },
+    {
+        question: "Does conversion affect color accuracy?",
+        answer:
+            "No, PNG stores colors exactly as they appear in the JPG. There's no additional color shift during conversion.",
+    },
+    {
+        question: "Can I edit the PNG after conversion?",
+        answer:
+            "Yes, PNG is ideal for editing because it's lossless. You can edit and re-save multiple times without quality degradation.",
+    },
+    {
+        question: "Why choose PNG over other formats?",
+        answer:
+            "PNG offers lossless compression, transparency support, wide compatibility, and no patent restrictions — perfect for web graphics.",
+    },
+    {
+        question: "Does the tool validate the image before conversion?",
+        answer:
+            "Yes, the tool checks if the file is a valid image format before processing and displays an error if the file is corrupted or invalid.",
+    },
+];

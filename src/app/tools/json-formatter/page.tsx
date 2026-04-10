@@ -4,7 +4,7 @@ import JsonFormatterClient from "@/app/components/tools/json-formatter/json-form
 import RelatedTools from "@/app/components/RelatedTools";
 import  { JSON_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../pomodoro-timer/faqSchema";
+import { faqSchema } from "./faqSchema";
 import Navbar from "@/app/components/Navbar";
 
 // import faqSchema from "./components/tools/Json-Formatter/faqSchema";
