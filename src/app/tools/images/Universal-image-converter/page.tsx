@@ -71,7 +71,7 @@ export default function PngToJpgPage() {
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
           currentPath="/tools/images/Universal-image-converter"
-          category="productivity"
+          category="media"
         />
       </div>
 

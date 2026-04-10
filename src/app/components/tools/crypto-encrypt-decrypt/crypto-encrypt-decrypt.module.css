@@ -1,7 +1,7 @@
 .page {
   margin: 0 auto;
   padding: 2rem 1.25rem 4rem;
-  background: #d2d2f3;
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -17,11 +17,11 @@
   font-size: 12px;
   padding: 4px 12px;
   border-radius: 99px;
-  background:  rgba(34, 82, 238, 0.1);
-  color: #f38e30;
+  background:  rgba(255, 255, 255, 0.1);
+  color: #000000;
   margin-bottom: 12px;
-  font-weight: 500;
-  border: 1px solid rgba(34, 82, 238, 0.2);
+  font-weight: 700;
+  border: 1px solid rgb(0, 0, 0);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -45,8 +45,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(34, 211, 238, 0.02);
-  border: 1px solid rgb(34, 211, 238);
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgb(0, 0, 0);
   border-radius: 10px;
   padding: 10px 16px;
   margin-bottom: 2rem;
@@ -80,7 +80,7 @@
 
 /* Panel Card */
 .panel {
-  background: #9090a3;
+  background: #ffffff;
   border: 1px solid #1e1e30;
   border-radius: 16px;
   overflow: hidden;
@@ -129,15 +129,15 @@
 }
 
 .panelTitle {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  color: #cbd5e1;
+  color: #ffffff;
   letter-spacing: 0.01em;
 }
 
 .panelSubtitle {
-  font-size: 11px;
-  color: #475569;
+  font-size: 12px;
+  color: #dbdee4;
   margin-top: 1px;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .input::placeholder {
-  color: #334155;
+  color: #dbdfe6;
 }
 
 .input:focus {
@@ -193,7 +193,7 @@
 }
 
 .inputDecrypt:focus {
-  border-color: #a78bfa;
+  border-color: #e7e5f0;
   box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.08);
 }
 
@@ -214,7 +214,7 @@
 }
 
 .textarea::placeholder {
-  color: #334155;
+  color: #f4f5f7;
 }
 
 .textarea:focus {
@@ -237,27 +237,28 @@
   border-radius: 8px;
   border: 1px solid #1e1e30;
   background: #080810;
-  color: #94a3b8;
+  color: #f6f8fa;
   font-size: 12px;
   font-family: 'Fira Code', 'Cascadia Code', monospace;
-  min-height: 72px;
+  min-height: 200px;
   line-height: 1.6;
   word-break: break-all;
   white-space: pre-wrap;
 }
 
 .outputBoxEncrypt {
-  color: #22d3ee;
+  color: #fafbfc;
   border-color: rgba(34, 211, 238, 0.12);
+  
 }
 
 .outputBoxDecrypt {
-  color: #a78bfa;
+  color: #ffffff;
   border-color: rgba(167, 139, 250, 0.12);
 }
 
 .outputPlaceholder {
-  color: #1e293b;
+  color: #ffffff;
   font-style: italic;
 }
 
@@ -337,15 +338,16 @@
   border-radius: 9px;
   border: 1px solid #1e1e30;
   background: transparent;
-  color: #475569;
-  font-size: 13px;
+  color: #000000;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.15s;
+  font-weight: 800;
 }
 
 .btnClear:hover {
   background: #1e1e30;
-  color: #94a3b8;
+  color: #feffff;
 }
 
 /* Info cards */
@@ -486,7 +488,7 @@
 .seoSection h2 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0065dd;
+  color: #00050a;
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
 }

@@ -20,7 +20,7 @@ export const mediaTools = [
     name: "PNG to JPG Converter",
     desc: "Convert PNG images to JPG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/png-to-jpg",
-    cat: "productivity",
+    cat: "media",
     related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png"],
   },
 
@@ -32,7 +32,7 @@ export const mediaTools = [
     name: "JPG to PNG Converter",
     desc: "Convert JPG images to PNG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/jpg-to-png",
-    cat: "productivity",
+    cat: "media",
     related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png"],
   },
 
@@ -44,7 +44,7 @@ export const mediaTools = [
     name: "Universal Image Converter",
     desc: "Convert images between various formats online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/Universal-image-converter",
-    cat: "productivity",
+    cat: "media",
     related: ["/tools/online-todo-list", "/tools/pomodoro-timer", "/tools/images/png-to-jpg", "/tools/images/jpg-to-png", "/tools/images/Universal-image-converter"],
   },
 ];

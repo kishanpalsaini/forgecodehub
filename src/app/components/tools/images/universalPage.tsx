@@ -1,6 +1,6 @@
 // page.tsx
 "use client";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { ConvertFrom, ConvertTo } from "./types";
 import { FROM_OPTIONS, TO_OPTIONS, ALL_FAQS } from "./constants";
 import { getFaqKey } from "./utils";
@@ -9,6 +9,8 @@ import FaqItem from "./components/FaqItem";
 import UniversalConverter from "./converters/UniversalConverter";
 import ToPdfConverter from "./converters/ToPdfConverter";
 import RotateConverter from "./converters/RotateConverter";
+import styles from "./png-to-jpg/page.module.css";
+
 
 export default function UniversalImageConverter() {
   const [from, setFrom] = useState<ConvertFrom>("jpg");
@@ -71,9 +73,10 @@ export default function UniversalImageConverter() {
           style={{
             fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
             fontWeight: 700,
-            color: "#0f172a",
+            color: "#ffffff",
             letterSpacing: "-0.025em",
             marginBottom: "0.4rem",
+            textAlign: "center",
           }}
         >
           Universal Image Converter
@@ -81,8 +84,9 @@ export default function UniversalImageConverter() {
         <p
           style={{
             fontSize: "15px",
-            color: "#64748b",
+            color: "#dfe4eb",
             lineHeight: 1.6,
+            textAlign: "center",
           }}
         >
           Convert between 10+ image formats • Rotate & flip • Create PDFs • All in your browser
@@ -96,6 +100,7 @@ export default function UniversalImageConverter() {
           border: "1px solid #e2e8f0",
           borderRadius: 16,
           padding: 24,
+          margin: "0 auto 24px",
           marginBottom: 24,
           boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
         }}
@@ -151,12 +156,18 @@ export default function UniversalImageConverter() {
           border: "1px solid #e2e8f0",
           borderRadius: 16,
           padding: 24,
+          maxWidth: "80%",
+          margin: "0 auto 24px",
           marginBottom: 24,
           boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
         }}
       >
         {renderConverter()}
       </div>
+
+
+      <hr className={styles.divider} />
+      
 
       {/* FAQ */}
       {faqs.length > 0 && (
@@ -166,15 +177,21 @@ export default function UniversalImageConverter() {
             border: "1px solid #e2e8f0",
             borderRadius: 16,
             padding: 24,
+            marginBottom: 24,
             boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           }}
         >
-          <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20 }}>
-            Frequently Asked Questions
-          </h2>
-          {faqs.map((f, i) => (
-            <FaqItem key={i} question={f.question} answer={f.answer} />
-          ))}
+            <h2 className={styles.faqTitle} style={{ color: "#000000" }}>
+              Frequently Asked Questions
+            </h2>
+          <div className={styles.seo}>
+            {faqs.map((f, i) => (
+              <Fragment key={i}>
+                <h2>{f.question}</h2>
+                <p>{f.answer}</p>
+              </Fragment>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import CryptoJS from "crypto-js";
 import styles from "./crypto-encrypt-decrypt.module.css";
 
@@ -77,81 +77,141 @@ export default function CryptoEncryptDecryptClient() {
   const [decOutput, setDecOutput] = useState("");
   const [decError, setDecError] = useState("");
 
-  const handleEncrypt = useCallback(() => {
+  // Auto-encrypt when input or key changes
+  useEffect(() => {
     setEncError("");
     setEncOutput("");
-    if (!encInput.trim()) { setEncError("Please enter text to encrypt."); return; }
-    if (!encKey.trim()) { setEncError("Please enter a secret key."); return; }
+
+    if (!encInput.trim() && !encKey.trim()) {
+      return; // Both empty, do nothing
+    }
+
+    if (!encInput.trim()) {
+      setEncError("Please enter text to encrypt.");
+      return;
+    }
+
+    if (!encKey.trim()) {
+      setEncError("Please enter a secret key.");
+      return;
+    }
+
     try {
-      setEncOutput(encryptAES(encInput, encKey));
-    } catch {
+      const encrypted = encryptAES(encInput, encKey);
+      setEncOutput(encrypted);
+    } catch (error) {
       setEncError("Encryption failed. Please try again.");
     }
   }, [encInput, encKey]);
 
-  const handleDecrypt = useCallback(() => {
+  // Auto-decrypt when input or key changes
+  useEffect(() => {
     setDecError("");
     setDecOutput("");
-    if (!decInput.trim()) { setDecError("Please enter an encrypted string."); return; }
-    if (!decKey.trim()) { setDecError("Please enter the secret key."); return; }
+
+    if (!decInput.trim() && !decKey.trim()) {
+      return; // Both empty, do nothing
+    }
+
+    if (!decInput.trim()) {
+      setDecError("Please enter an encrypted string.");
+      return;
+    }
+
+    if (!decKey.trim()) {
+      setDecError("Please enter the secret key.");
+      return;
+    }
+
     try {
-      setDecOutput(decryptAES(decInput, decKey));
-    } catch {
+      const decrypted = decryptAES(decInput, decKey);
+      setDecOutput(decrypted);
+    } catch (error) {
       setDecError("Decryption failed. Check your key and ciphertext.");
     }
   }, [decInput, decKey]);
 
   const formatJSON = (data: string) => {
-  try {
-    return JSON.stringify(JSON.parse(data), null, 2);
-  } catch {
-    return data; // fallback if not valid JSON
-  }
-};
+    try {
+      return JSON.stringify(JSON.parse(data), null, 2);
+    } catch {
+      return data; // fallback if not valid JSON
+    }
+  };
 
   return (
     <div className={styles.page}>
       {/* Security notice */}
       <div className={styles.securityNote}>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
         <span>
-          <strong>100% private</strong> — All encryption runs in your browser. Your text and keys never leave your device.
+          <strong>100% private</strong> — All encryption runs in your browser.
+          Your text and keys never leave your device.
         </span>
       </div>
 
-
-       <div className={styles.header}>
+      <div className={styles.header}>
         <div className={styles.badge}>Developer Tool</div>
         <h1 className={styles.h1}>Crypto Encrypt/Decrypt</h1>
         <p className={styles.desc}>
-          Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.
+          Free online AES encryption and decryption tool. Securely encrypt and
+          decrypt your data in the browser.
         </p>
       </div>
-
 
       {/* Info cards */}
       <div className={styles.infoRow}>
         <div className={styles.infoCard}>
-          <div className={styles.infoCardIcon} style={{ background: "rgba(34,211,238,0.1)", color: "#22d3ee" }}>🔐</div>
+          <div
+            className={styles.infoCardIcon}
+            style={{ background: "rgba(34,211,238,0.1)", color: "#22d3ee" }}
+          >
+            🔐
+          </div>
           <div>
             <div className={styles.infoCardTitle}>AES-CBC Mode</div>
-            <div className={styles.infoCardDesc}>Cipher Block Chaining with PKCS7 padding via CryptoJS</div>
+            <div className={styles.infoCardDesc}>
+              Cipher Block Chaining with PKCS7 padding via CryptoJS
+            </div>
           </div>
         </div>
         <div className={styles.infoCard}>
-          <div className={styles.infoCardIcon} style={{ background: "rgba(167,139,250,0.1)", color: "#a78bfa" }}>🔑</div>
+          <div
+            className={styles.infoCardIcon}
+            style={{ background: "rgba(167,139,250,0.1)", color: "#a78bfa" }}
+          >
+            🔑
+          </div>
           <div>
             <div className={styles.infoCardTitle}>Key-based Security</div>
-            <div className={styles.infoCardDesc}>16/24/32 char keys for AES-128, 192, or 256-bit strength</div>
+            <div className={styles.infoCardDesc}>
+              16/24/32 char keys for AES-128, 192, or 256-bit strength
+            </div>
           </div>
         </div>
         <div className={styles.infoCard}>
-          <div className={styles.infoCardIcon} style={{ background: "rgba(52,211,153,0.1)", color: "#34d399" }}>📦</div>
+          <div
+            className={styles.infoCardIcon}
+            style={{ background: "rgba(52,211,153,0.1)", color: "#34d399" }}
+          >
+            📦
+          </div>
           <div>
             <div className={styles.infoCardTitle}>Base64 Output</div>
-            <div className={styles.infoCardDesc}>Encrypted output is Base64 encoded — safe for storage and transfer</div>
+            <div className={styles.infoCardDesc}>
+              Encrypted output is Base64 encoded — safe for storage and transfer
+            </div>
           </div>
         </div>
       </div>
@@ -162,10 +222,16 @@ export default function CryptoEncryptDecryptClient() {
         <div className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitleGroup}>
-              <div className={`${styles.panelIcon} ${styles.panelIconEncrypt}`}>🔒</div>
+              <div
+                className={`${styles.panelIcon} ${styles.panelIconEncrypt}`}
+              >
+                🔒
+              </div>
               <div>
                 <div className={styles.panelTitle}>Encrypt</div>
-                <div className={styles.panelSubtitle}>Plain text → AES ciphertext</div>
+                <div className={styles.panelSubtitle}>
+                  Plain text → AES ciphertext
+                </div>
               </div>
             </div>
           </div>
@@ -195,7 +261,19 @@ export default function CryptoEncryptDecryptClient() {
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>Encrypted Output</label>
+              <label className={styles.label}>
+                Encrypted Output
+                {encOutput && (
+                  <span style={{ 
+                    marginLeft: 8, 
+                    fontSize: 11, 
+                    color: "#10b981",
+                    fontWeight: 400 
+                  }}>
+                    ✓ Auto-encrypted
+                  </span>
+                )}
+              </label>
               <div className={styles.outputWrap}>
                 <div
                   className={`${styles.outputBox} ${
@@ -212,7 +290,7 @@ export default function CryptoEncryptDecryptClient() {
                     encOutput
                   ) : (
                     <span className={styles.outputPlaceholder}>
-                      Encrypted result will appear here...
+                      Encrypted result will appear here automatically...
                     </span>
                   )}
                 </div>
@@ -222,14 +300,16 @@ export default function CryptoEncryptDecryptClient() {
           </div>
 
           <div className={styles.actionRow}>
-            <button className={`${styles.btn} ${styles.btnEncrypt}`} onClick={handleEncrypt}>
-              🔒 Encrypt
-            </button>
             <button
               className={styles.btnClear}
-              onClick={() => { setEncInput(""); setEncKey(""); setEncOutput(""); setEncError(""); }}
+              onClick={() => {
+                setEncInput("");
+                setEncKey("");
+                setEncOutput("");
+                setEncError("");
+              }}
             >
-              Clear
+              Clear All
             </button>
           </div>
         </div>
@@ -238,10 +318,16 @@ export default function CryptoEncryptDecryptClient() {
         <div className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitleGroup}>
-              <div className={`${styles.panelIcon} ${styles.panelIconDecrypt}`}>🔓</div>
+              <div
+                className={`${styles.panelIcon} ${styles.panelIconDecrypt}`}
+              >
+                🔓
+              </div>
               <div>
                 <div className={styles.panelTitle}>Decrypt</div>
-                <div className={styles.panelSubtitle}>AES ciphertext → plain text</div>
+                <div className={styles.panelSubtitle}>
+                  AES ciphertext → plain text
+                </div>
               </div>
             </div>
           </div>
@@ -271,7 +357,19 @@ export default function CryptoEncryptDecryptClient() {
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>Decrypted Output</label>
+              <label className={styles.label}>
+                Decrypted Output
+                {decOutput && (
+                  <span style={{ 
+                    marginLeft: 8, 
+                    fontSize: 11, 
+                    color: "#10b981",
+                    fontWeight: 400 
+                  }}>
+                    ✓ Auto-decrypted
+                  </span>
+                )}
+              </label>
               <div className={styles.outputWrap}>
                 <div
                   className={`${styles.outputBox} ${
@@ -285,12 +383,10 @@ export default function CryptoEncryptDecryptClient() {
                   {decError ? (
                     decError
                   ) : decOutput ? (
-                    <pre style={{ margin: 0 }}>
-      {formatJSON(decOutput)}
-    </pre>
+                    <pre style={{ margin: 0 }}>{formatJSON(decOutput)}</pre>
                   ) : (
                     <span className={styles.outputPlaceholder}>
-                      Decrypted result will appear here...
+                      Decrypted result will appear here automatically...
                     </span>
                   )}
                 </div>
@@ -300,34 +396,45 @@ export default function CryptoEncryptDecryptClient() {
           </div>
 
           <div className={styles.actionRow}>
-            <button className={`${styles.btn} ${styles.btnDecrypt}`} onClick={handleDecrypt}>
-              🔓 Decrypt
-            </button>
             <button
               className={styles.btnClear}
-              onClick={() => { setDecInput(""); setDecKey(""); setDecOutput(""); setDecError(""); }}
+              onClick={() => {
+                setDecInput("");
+                setDecKey("");
+                setDecOutput("");
+                setDecError("");
+              }}
             >
-              Clear
+              Clear All
             </button>
           </div>
         </div>
       </div>
 
-    
-
       {/* SEO section */}
       <div className={styles.seoSection}>
         <h2>What is AES Encryption?</h2>
         <p>
-          AES (Advanced Encryption Standard) is the most widely used symmetric encryption algorithm in the world. It operates on fixed-size blocks of data using a secret key to transform plain text into an unreadable ciphertext. Only someone with the correct key can reverse this process.
+          AES (Advanced Encryption Standard) is the most widely used symmetric
+          encryption algorithm in the world. It operates on fixed-size blocks of
+          data using a secret key to transform plain text into an unreadable
+          ciphertext. Only someone with the correct key can reverse this
+          process.
         </p>
         <h2>How does this tool work?</h2>
         <p>
-          This tool uses the CryptoJS library to perform AES encryption and decryption entirely in your browser. No data is transmitted to any server. The encryption uses CBC (Cipher Block Chaining) mode with PKCS7 padding, and outputs a Base64-encoded string safe for storage or transmission.
+          This tool uses the CryptoJS library to perform AES encryption and
+          decryption entirely in your browser. No data is transmitted to any
+          server. The encryption uses CBC (Cipher Block Chaining) mode with
+          PKCS7 padding, and outputs a Base64-encoded string safe for storage or
+          transmission.
         </p>
         <h2>When should you use AES encryption?</h2>
         <p>
-          AES encryption is ideal for securing sensitive data like API tokens, configuration values, personal information, or any string you want to store or transmit securely. It is not suitable for password storage — use bcrypt or Argon2 for that.
+          AES encryption is ideal for securing sensitive data like API tokens,
+          configuration values, personal information, or any string you want to
+          store or transmit securely. It is not suitable for password storage —
+          use bcrypt or Argon2 for that.
         </p>
       </div>
     </div>

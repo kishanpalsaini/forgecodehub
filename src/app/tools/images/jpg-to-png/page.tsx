@@ -52,7 +52,7 @@ export default function JpgToPngPage() {
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
         <RelatedTools
           currentPath="/tools/images/jpg-to-png"
-          category="productivity"
+          category="media"
         />
       </div>
 

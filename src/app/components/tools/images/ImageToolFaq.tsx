@@ -48,7 +48,7 @@ const ALL_FAQS: Record<ToolKey, FaqEntry[]> = {
 const TOOL_KEYS = Object.keys(TOOL_LABELS) as ToolKey[];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-function FaqItem({ question, answer, query }: FaqEntry & { query: string }) {
+function FaqCard({ question, answer, query }: FaqEntry & { query: string }) {
   const [open, setOpen] = useState(false);
 
   // Highlight matching text
@@ -63,16 +63,70 @@ function FaqItem({ question, answer, query }: FaqEntry & { query: string }) {
   };
 
   return (
-    <div style={{ borderBottom: "1px solid #e2e8f0" }}>
+    <div 
+      style={{ 
+        background: "#fff", 
+        border: "1px solid #e2e8f0", 
+        borderRadius: 12, 
+        padding: "20px",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        transition: "all 0.2s",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "0 1px 4px rgba(0,0,0,0.05)";
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
       <button
         onClick={() => setOpen(o => !o)}
-        style={{ background: "none", border: "none", cursor: "pointer", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 0", fontSize: 14, fontWeight: 500, color: "#1e293b", textAlign: "left", gap: 8 }}
+        style={{ 
+          background: "none", 
+          border: "none", 
+          cursor: "pointer", 
+          width: "100%", 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "flex-start", 
+          padding: 0, 
+          fontSize: 15, 
+          fontWeight: 600, 
+          color: "#1e293b", 
+          textAlign: "left", 
+          gap: 12,
+          marginBottom: open ? 12 : 0,
+        }}
       >
-        <span>{highlight(question)}</span>
-        <span style={{ fontSize: 11, color: "#94a3b8", flexShrink: 0, transform: open ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▼</span>
+        <span style={{ flex: 1, lineHeight: 1.5 }}>{highlight(question)}</span>
+        <span 
+          style={{ 
+            fontSize: 11, 
+            color: "#94a3b8", 
+            flexShrink: 0, 
+            transform: open ? "rotate(180deg)" : "none", 
+            transition: "transform 0.2s",
+            marginTop: 4,
+          }}
+        >
+          ▼
+        </span>
       </button>
       {open && (
-        <p style={{ margin: "0 0 14px", fontSize: 13, color: "#475569", lineHeight: 1.7, paddingLeft: 0 }}>
+        <p 
+          style={{ 
+            margin: 0, 
+            fontSize: 13, 
+            color: "#475569", 
+            lineHeight: 1.7,
+            animation: "fadeIn 0.2s ease-in",
+          }}
+        >
           {highlight(answer)}
         </p>
       )}
@@ -107,15 +161,23 @@ export default function ToolsFaq() {
   }, [faqs, selectedTool]);
 
   return (
-    <div style={{  margin: "0 auto", fontFamily: "'Segoe UI', system-ui, sans-serif", color: "#1e293b" }}>
+    <div style={{ margin: "0 auto", fontFamily: "'Segoe UI', system-ui, sans-serif", color: "#1e293b", width: "100%", padding: "40px 20px" }}>
+      {/* Add keyframe animation for fade-in */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 6px" }}>Help & FAQ</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 800, margin: "0 0 6px" ,color:"rgb(255, 255, 255)"}}>Help & FAQ</h1>
         <p style={{ margin: 0, color: "#64748b", fontSize: 14 }}>Find answers to common questions about our image tools</p>
       </div>
 
       {/* Controls */}
-      <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: 20, marginBottom: 24, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+      <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: 20,margin: "0 auto 24px", marginBottom: 24, boxShadow: "0 1px 4px rgba(0,0,0,0.05)", width: "50%" }}>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "flex-end" }}>
           {/* Tool Selector */}
           <div style={{ flex: "0 0 auto", minWidth: 200 }}>
@@ -165,7 +227,13 @@ export default function ToolsFaq() {
       </div>
 
       {/* FAQ Results */}
-      {faqs.length === 0 ? (
+      <div   style={{
+    display: "grid",
+    gridTemplateColumns: window.innerWidth < 768 ? "1fr" : "1fr 1fr",
+    gap: "16px",
+    width: "100%",
+  }}>
+    {faqs.length === 0 ? (
         <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: 40, textAlign: "center", color: "#94a3b8" }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>🤔</div>
           <p style={{ margin: 0, fontSize: 15 }}>No questions found matching your search.</p>
@@ -173,21 +241,35 @@ export default function ToolsFaq() {
         </div>
       ) : (
         Object.entries(groupedFaqs).map(([toolKey, toolFaqs]) => (
-          <div key={toolKey} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: "4px 24px 4px", marginBottom: 16, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+          <div key={toolKey} style={{ marginBottom: 32 }}>
             {selectedTool === "all" && (
-              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 0 4px" }}>
-                <span style={{ background: "#eef2ff", color: "#4338ca", fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                <span style={{ background: "#eef2ff", color: "#4338ca", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>
                   {TOOL_LABELS[toolKey as ToolKey]}
                 </span>
                 <span style={{ fontSize: 12, color: "#94a3b8" }}>{toolFaqs.length} question{toolFaqs.length !== 1 ? "s" : ""}</span>
               </div>
             )}
-            {toolFaqs.map((faq, i) => (
-              <FaqItem key={i} question={faq.question} answer={faq.answer} query={search} />
-            ))}
+            
+            {/* 3-Column Grid Layout - Responsive */}
+            <div 
+              style={{ 
+                display: "grid",
+                gap: 16,
+                background:"#000",
+                padding: 16,
+                borderRadius: 12,
+              }}
+            >
+              {toolFaqs.map((faq, i) => (
+                <FaqCard key={i} question={faq.question} answer={faq.answer} query={search} />
+              ))}
+            </div>
           </div>
         ))
       )}
+      </div>
+  
     </div>
   );
 }

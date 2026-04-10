@@ -179,7 +179,7 @@
 
 /* SEO */
 .seo { border-top: 1px solid #1e293b; padding-top: 2rem; margin-top: 1rem; }
-.seo h2 { font-size: 1.05rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+.seo h2 { font-size: 1.05rem; font-weight: 600; color: #000000; margin-bottom: 0.5rem; margin-top: 1.5rem; }
 .seo h2:first-child { margin-top: 0; }
 .seo p { font-size: 14px; color: #475569; line-height: 1.75; }
 
