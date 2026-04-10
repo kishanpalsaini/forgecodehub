@@ -2,7 +2,7 @@
 // NO "use client" — this renders as real HTML for Google
 
 import Link from "next/link";
-import { tools } from "../tool-list";
+import { tools } from "../data/tools";
 
 export default function RelatedTools({
   currentPath,

@@ -2,7 +2,8 @@
 import Head from "next/head";
 
 import { useEffect, useRef, useState } from "react";
-import { tools } from "./tool-list";
+// import { tools } from "./tool-list";
+import { tools } from "./data/tools";
 
 
 
@@ -34,6 +35,7 @@ export default function Home() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [toolCount, setToolCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [uptime, setUptime] = useState(0);
@@ -101,7 +103,7 @@ export default function Home() {
       if (entries[0].isIntersecting && !statsTriggered.current) {
         statsTriggered.current = true;
         animateCount(setToolCount, tools.length, 800);
-        animateCount(setUserCount, 1200, 1200);
+        animateCount(setUserCount, 12000, 1200);
         animateCount(setUptime, 99, 1000);
         observer.disconnect();
       }
@@ -121,14 +123,36 @@ export default function Home() {
 
   // Update filtered tools logic
   const filteredTools = (() => {
-    const base =
-      activeCategory === "all"
-        ? tools
-        : tools.filter((t) => t.cat === activeCategory);
+    const query = searchQuery.trim().toLowerCase();
 
-    if (!showAll) {
+    let base = [...tools];
+
+    // Apply category filter only when no search
+    if (activeCategory !== "all" && !query) {
+      base = base.filter((tool) => tool.cat === activeCategory);
+    }
+
+    // Apply search globally across all categories
+    if (query) {
+      base = tools.filter((tool) =>
+        [
+          tool.name,
+          tool.desc,
+          tool.path,
+          tool.cat,
+          tool.tag,
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(query)
+      );
+    }
+
+    // Apply limit only when no search
+    if (!showAll && !query) {
       return base.slice(0, INITIAL_LIMIT);
     }
+
     return base;
   })();
 
@@ -137,7 +161,14 @@ export default function Home() {
       ? tools.length
       : tools.filter((t) => t.cat === activeCategory).length;
 
-  const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
+  // const showViewAll = !showAll && totalInCategory > INITIAL_LIMIT;
+
+  const totalFilteredCount = filteredTools.length;
+
+  const showViewAll =
+    !searchQuery.trim() &&
+    !showAll &&
+    totalFilteredCount >= INITIAL_LIMIT;
 
   const schema = {
     "@context": "https://schema.org",
@@ -289,12 +320,40 @@ export default function Home() {
             ))}
           </div>
 
+          <div
+            style={{
+              marginTop: "1.5rem",
+              marginBottom: "2rem",
+              position: "relative",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Search tools like EMI, GST, SIP..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setShowAll(true);
+              }}
+              style={{
+                width: "100%",
+                padding: "14px 18px",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "#111",
+                color: "#fff",
+                outline: "none",
+                fontSize: "15px",
+              }}
+            />
+          </div>
           <div className="tools-grid">
             {filteredTools.map((tool) => (
               <a
                 key={tool.path}
                 href={tool.href}
-                className={`tool-card ${showAll ? "visible" : ""}`}
+                // className={`tool-card ${showAll ? "visible" : ""}`}
+                className={`tool-card visible`}
                 onMouseMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
                   e.currentTarget.style.setProperty(
@@ -322,7 +381,7 @@ export default function Home() {
               </a>
             ))}
 
-            {showViewAll && (
+            {!searchQuery.trim() && showViewAll && (
               <div
                 className="tool-card visible"
                 style={{
@@ -354,6 +413,19 @@ export default function Home() {
               </div>
             )}
           </div>
+          {filteredTools.length === 0 && (
+            <div
+              style={{
+                width: "100%",
+                textAlign: "center",
+                padding: "3rem 1rem",
+                color: "#888",
+                fontSize: "1rem",
+              }}
+            >
+              No tools found for <strong>{searchQuery}</strong>
+            </div>
+          )}
         </div>
       </section>
 
