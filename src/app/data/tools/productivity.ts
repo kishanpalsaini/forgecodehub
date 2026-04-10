@@ -9,6 +9,7 @@ export const productivityTools = [
         path: "/tools/online-notepad",
         cat: "productivity",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/pomodoro-timer",
@@ -20,5 +21,6 @@ export const productivityTools = [
         path: "/tools/pomodoro-timer",
         cat: "productivity",
         related: [],
+        guide: {}
     },
 ];

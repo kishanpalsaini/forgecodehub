@@ -9,5 +9,6 @@ export const mediaTools = [
         path: "/reel-scheduler",
         cat: "media",
         related: [],
+        guide: {}
     },
 ];

@@ -9,6 +9,7 @@ export const devTools = [
         path: "/tools/Json-formatter",
         cat: "dev",
         related: ["/tools/Base64client", "/tools/url-encoder-decoder", "/tools/html-minifier", "/tools/css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/crypto-encrypt-decrypt"],
+        guide: {}
     },
     {
         href: "/tools/base-64-client",
@@ -20,6 +21,7 @@ export const devTools = [
         path: "/tools/Base64client",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/url-encoder-decoder",
@@ -31,6 +33,7 @@ export const devTools = [
         path: "/tools/url-encoder-decoder",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/html-minifier",
@@ -42,6 +45,7 @@ export const devTools = [
         path: "/tools/html-minifier",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/css-minifier",
@@ -53,6 +57,7 @@ export const devTools = [
         path: "/tools/css-minifier",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/pdf-converter",
@@ -64,6 +69,7 @@ export const devTools = [
         path: "/tools/pdf-converter",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/color-picker",
@@ -75,6 +81,7 @@ export const devTools = [
         path: "/tools/color-picker",
         cat: "dev",
         related: [],
+        guide: {}
     },
     {
         href: "/tools/crypto-encrypt-decrypt",
@@ -86,5 +93,6 @@ export const devTools = [
         path: "/tools/crypto-encrypt-decrypt",
         cat: "dev",
         related: [],
+        guide: {}
     },
 ];
