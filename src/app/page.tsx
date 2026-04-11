@@ -211,6 +211,9 @@ export default function Home() {
           <li>
             <a href="/about">About</a>
           </li>
+          {/* <li>
+            <a href="/blog">Blogs</a>
+          </li> */}
           <li>
             <a href="#contact">Contact</a>
           </li>
