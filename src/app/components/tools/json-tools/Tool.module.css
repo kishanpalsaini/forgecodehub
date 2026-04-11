@@ -14,6 +14,10 @@
   border: 1px solid #e2e8f0;
 }
 
+.toolContent section {
+  padding: 0px;
+}
+
 .controlGroup {
   display: flex;
   align-items: center;
@@ -187,6 +191,10 @@
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+.editorGrid section {
+  padding: 0 !important;
 }
 
 @media (max-width: 1024px) {

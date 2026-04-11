@@ -89,22 +89,27 @@ export default function JSONToolsHub() {
     return "formatter";
   };
 
-  const [activeTool, setActiveTool] = useState<ToolType>(getToolFromURL());
+  // const [activeTool, setActiveTool] = useState<ToolType>(getToolFromURL());
 
   // Update active tool when URL changes (browser back/forward or direct navigation)
-  useEffect(() => {
-    const detectedTool = getToolFromURL();
-    setActiveTool(detectedTool);
-  }, [pathname, searchParams]);
+  // useEffect(() => {
+  //   const detectedTool = getToolFromURL();
+  //   setActiveTool(detectedTool);
+  // }, [pathname, searchParams]);
+  // ✅ Replace with this
+  const activeTool = getToolFromURL();
 
   // Handle tool change via tab click
   const handleToolChange = (toolId: ToolType) => {
-    setActiveTool(toolId);
-    
+    // setActiveTool(toolId);
+
     // Update URL without page reload
-    const url = new URL(window.location.href);
-    url.searchParams.set("tool", toolId);
-    router.push(url.pathname + url.search, { scroll: false });
+    // const url = new URL(window.location.href);
+    // url.searchParams.set("tool", toolId);
+    // router.push(url.pathname + url.search, { scroll: false });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tool", toolId);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   // Render the active tool component
