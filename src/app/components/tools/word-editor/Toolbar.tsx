@@ -4,20 +4,11 @@ import { Editor } from "@tiptap/react";
 import { useState, useRef, useCallback } from "react";
 import styles from "./Toolbar.module.css";
 
-export interface MarginSettings {
-  top: number; right: number; bottom: number; left: number;
-  applyTo: "all" | "current";
-  unit: "mm" | "cm" | "in" | "px";
-}
-
 interface ToolbarProps {
   editor: Editor;
   onInsertImage: (src: string, alt?: string) => void;
   onInsertTable: () => void;
   onFind?: () => void;
-  margins: MarginSettings;
-  onMarginsChange: (m: MarginSettings) => void;
-  selectedPage?: number | null;
 }
 
 const FONT_FAMILIES = [
@@ -56,202 +47,12 @@ function Tip({ label, shortcut, children }: { label: string; shortcut?: string; 
   );
 }
 
-/* ── SideInputs (reusable margin side input grid) ───────────────────────── */
-function SideInputs({
-  values, onChange,
-}: {
-  values: Pick<MarginSettings, "top" | "right" | "bottom" | "left">;
-  onChange: (key: "top" | "right" | "bottom" | "left", val: number) => void;
-}) {
-  const sides = [
-    { key: "top" as const, icon: "↑", label: "Top" },
-    { key: "right" as const, icon: "→", label: "Right" },
-    { key: "bottom" as const, icon: "↓", label: "Bottom" },
-    { key: "left" as const, icon: "←", label: "Left" },
-  ];
-  return (
-    <div className={styles.mpSidesGrid}>
-      {sides.map(s => (
-        <div key={s.key} className={styles.mpSideField}>
-          <span className={styles.mpSideLabel}>
-            <span className={styles.mpSideIcon}>{s.icon}</span>{s.label}
-          </span>
-          <div className={styles.mpInputRow}>
-            <button className={styles.mpStep} onClick={() => onChange(s.key, Math.max(0, values[s.key] - 1))}>−</button>
-            <input type="number" min={0} max={200} step={0.5}
-              value={values[s.key]} className={styles.mpNumInput}
-              onChange={e => onChange(s.key, parseFloat(e.target.value) || 0)} />
-            <button className={styles.mpStep} onClick={() => onChange(s.key, values[s.key] + 1)}>+</button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Margin Panel ────────────────────────────────────────────────────────── */
-function MarginPanel({
-  margins, onChange, onClose, selectedPage,
-}: {
-  margins: MarginSettings;
-  onChange: (m: MarginSettings) => void;
-  onClose: () => void;
-  selectedPage?: number | null;
-}) {
-  const [local, setLocal] = useState<MarginSettings>({ ...margins });
-  const [currentVals, setCurrentVals] = useState({
-    top: margins.top, right: margins.right, bottom: margins.bottom, left: margins.left,
-  });
-
-  const PRESETS = [
-    { label: "Normal", vals: { top: 25.4, right: 25.4, bottom: 25.4, left: 25.4 } },
-    { label: "Narrow", vals: { top: 12.7, right: 12.7, bottom: 12.7, left: 12.7 } },
-    { label: "Wide",   vals: { top: 25.4, right: 50.8, bottom: 25.4, left: 50.8 } },
-    { label: "Mirror", vals: { top: 25.4, right: 25.4, bottom: 25.4, left: 31.7 } },
-  ];
-
-  const isPreset = (p: typeof PRESETS[0]) =>
-    local.top === p.vals.top && local.right === p.vals.right &&
-    local.bottom === p.vals.bottom && local.left === p.vals.left;
-
-  return (
-    <div className={styles.marginPanel}>
-      <div className={styles.mpHeader}>
-        <span className={styles.mpTitle}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="3" width="18" height="18" rx="1"/><rect x="7" y="7" width="10" height="10"/>
-          </svg>
-          Page Margins
-          {selectedPage !== null && selectedPage !== undefined && (
-            <span style={{ fontSize: 11, color: "#7eb3ff", marginLeft: 6, fontWeight: 400 }}>
-              (Page {selectedPage + 1} selected)
-            </span>
-          )}
-        </span>
-        <button className={styles.mpClose} onClick={onClose}>✕</button>
-      </div>
-
-      <div className={styles.mpBody}>
-
-        {/* Presets */}
-        <div>
-          <div className={styles.mpSectionTitle}>Quick Presets</div>
-          <div className={styles.mpPresets}>
-            {PRESETS.map(p => (
-              <button key={p.label}
-                className={`${styles.mpPreset} ${isPreset(p) ? styles.selected : ""}`}
-                onClick={() => setLocal(l => ({ ...l, ...p.vals }))}>
-                <div className={styles.mpPreviewMini}>
-                  <div style={{
-                    position:"absolute",
-                    top:`${(p.vals.top/297)*100}%`, left:`${(p.vals.left/210)*100}%`,
-                    right:`${(p.vals.right/210)*100}%`, bottom:`${(p.vals.bottom/297)*100}%`,
-                    background:"#7eb3ff", borderRadius:1, opacity:0.6,
-                  }}/>
-                </div>
-                {p.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Two columns: current page | all pages */}
-        <div className={styles.mpTwoCol}>
-          {/* Current page override */}
-          <div className={styles.mpColCard}>
-            <div className={styles.mpColHeader}>
-              <span className={`${styles.mpColBadge} ${styles.current}`}>
-                {selectedPage !== null && selectedPage !== undefined
-                  ? `Page ${selectedPage + 1}`
-                  : "Current Page"}
-              </span>
-            </div>
-            <SideInputs
-              values={currentVals}
-              onChange={(k, v) => setCurrentVals(c => ({ ...c, [k]: v }))}
-            />
-          </div>
-
-          {/* All pages */}
-          <div className={styles.mpColCard}>
-            <div className={styles.mpColHeader}>
-              <span className={`${styles.mpColBadge} ${styles.all}`}>All Pages</span>
-            </div>
-            <SideInputs
-              values={local}
-              onChange={(k, v) => setLocal(l => ({ ...l, [k]: v }))}
-            />
-          </div>
-        </div>
-
-        {/* Unit */}
-        <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-          <div style={{ flex: 1 }}>
-            <div className={styles.mpSectionTitle}>Unit</div>
-            <div className={styles.mpUnitRow}>
-              {(["mm","cm","in","px"] as const).map(u => (
-                <button key={u}
-                  className={`${styles.mpUnitBtn} ${local.unit===u ? styles.mpUnitActive : ""}`}
-                  onClick={() => setLocal(l => ({ ...l, unit: u }))}>{u}</button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Live preview */}
-        <div>
-          <div className={styles.mpSectionTitle}>Live Preview (all pages)</div>
-          <div className={styles.mpPreviewWrap}>
-            <div className={styles.mpPreviewPage}>
-              <div className={styles.mpPreviewContent} style={{
-                top:    `${Math.min((local.top/297)*100,35)}%`,
-                left:   `${Math.min((local.left/210)*100,35)}%`,
-                right:  `${Math.min((local.right/210)*100,35)}%`,
-                bottom: `${Math.min((local.bottom/297)*100,35)}%`,
-              }}>
-                {[80,65,90,55,75,60].map((w,i) => (
-                  <div key={i} className={styles.mpPreviewLine} style={{ width:`${w}%` }}/>
-                ))}
-              </div>
-            </div>
-            <div className={styles.mpPreviewLabels}>
-              <span className={styles.mpPreviewLabel}>↑ Top: {local.top}{local.unit}</span>
-              <span className={styles.mpPreviewLabel}>→ Right: {local.right}{local.unit}</span>
-              <span className={styles.mpPreviewLabel}>↓ Bottom: {local.bottom}{local.unit}</span>
-              <span className={styles.mpPreviewLabel}>← Left: {local.left}{local.unit}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.mpFooter}>
-        <button className={styles.mpCancel} onClick={onClose}>Cancel</button>
-        {selectedPage !== null && selectedPage !== undefined && (
-          <button className={`${styles.mpApply}`} style={{ background: "linear-gradient(135deg,#1e4a7a,#2563eb)", marginRight: 8 }}
-            onClick={() => {
-              onChange({ ...currentVals, unit: local.unit, applyTo: "current" });
-              onClose();
-            }}>
-            Apply to Page {selectedPage + 1}
-          </button>
-        )}
-        <button className={styles.mpApply}
-          onClick={() => { onChange({ ...local, applyTo: "all" }); onClose(); }}>
-          Apply to All Pages
-        </button>
-      </div>
-    </div>
-  );
-}
-
 /* ── Main Toolbar ────────────────────────────────────────────────────────── */
 export default function Toolbar({
   editor, onInsertImage, onInsertTable, onFind,
-  margins, onMarginsChange, selectedPage,
 }: ToolbarProps) {
   const [fontSize, setFontSize] = useState("12");
   const [fontFamily, setFontFamily] = useState("Calibri");
-  const [showMargins, setShowMargins] = useState(false);
   const imageRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLInputElement>(null);
@@ -442,37 +243,15 @@ export default function Toolbar({
           </div>
           <div className={styles.divider}/>
 
-          {/* Page */}
+          {/* Tools */}
           <div className={styles.grp}>
             <div className={styles.grpRow}>
-              <Tip label={selectedPage != null ? `Set margins for page ${selectedPage+1} or all pages` : "Page Margins"}>
-                <button className={`${styles.btn} ${styles.accentBtn} ${showMargins?styles.active:""}`} onClick={() => setShowMargins(v => !v)}>
-                  <MarginSvg/>
-                  <span style={{fontSize:10,marginLeft:3,letterSpacing:"0.03em"}}>
-                    {selectedPage != null ? `Pg ${selectedPage+1}` : "Margins"}
-                  </span>
-                </button>
-              </Tip>
               <Tip label="Find & Replace" shortcut="Ctrl+H"><button className={styles.btn} onClick={onFind}><SearchSvg/></button></Tip>
             </div>
-            <span className={styles.grpLabel}>Page</span>
+            <span className={styles.grpLabel}>Tools</span>
           </div>
 
         </div>
-
-        {/* Margin panel — drops below toolbar */}
-        {showMargins && (
-          <div style={{ position:"absolute", top:"100%", left:0, right:0, zIndex:400, display:"flex", justifyContent:"center", paddingTop:8, pointerEvents:"none" }}>
-            <div style={{ pointerEvents:"all" }}>
-              <MarginPanel
-                margins={margins}
-                onChange={onMarginsChange}
-                onClose={() => setShowMargins(false)}
-                selectedPage={selectedPage}
-              />
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
@@ -512,4 +291,3 @@ const AddColSvg= () => <svg {...s()}><rect x="3" y="3" width="10" height="18" rx
 const DelRowSvg= () => <svg {...s()}><rect x="3" y="3" width="18" height="10" rx="1"/><line x1="3" y1="8" x2="21" y2="8"/><line x1="9" y1="19" x2="15" y2="19"/></svg>;
 const DelColSvg= () => <svg {...s()}><rect x="3" y="3" width="10" height="18" rx="1"/><line x1="8" y1="3" x2="8" y2="21"/><line x1="17" y1="9" x2="23" y2="15"/><line x1="23" y1="9" x2="17" y2="15"/></svg>;
 const DelTableSvg=()=><svg {...s()}><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>;
-const MarginSvg= () => <svg {...s()}><rect x="3" y="3" width="18" height="18" rx="1"/><rect x="7" y="7" width="10" height="10"/></svg>;
