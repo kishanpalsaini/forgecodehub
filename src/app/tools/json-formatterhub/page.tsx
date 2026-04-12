@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RelatedTools from "@/app/components/RelatedTools";
 import  { JSON_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "./jsonhubfaqSchema";
+import { faqSchema } from "./JsonfaqhubSchema";
 import Navbar from "@/app/components/Navbar";
 import JSONToolsHub from "@/app/components/tools/json-tools/JSONToolsHub";
 import { Suspense } from "react";

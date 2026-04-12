@@ -1,0 +1,58 @@
+.statusBar {
+  margin: 1rem 10px 2rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.value {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.autoSave {
+  color: #10b981;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.autoSave::before {
+  content: "💾 ";
+}
+
+@media (max-width: 768px) {
+  .statusBar {
+    gap: 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .stat {
+    flex: 1 1 auto;
+    min-width: 45%;
+  }
+
+  .autoSave {
+    flex: 1 1 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+}

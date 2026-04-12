@@ -1,0 +1,314 @@
+/* WordEditor.module.css — fixed page separation + faithful layout */
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #c8ccd8;
+  min-height: 100vh;
+  transition: background 0.3s;
+}
+.darkMode { background: #0d1117; color: #e2e8f0; }
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  max-width: 100%;
+  padding: 1.1rem 1.5rem 0.7rem;
+  text-align: center;
+  background: #1e2433;
+  border-bottom: 1px solid #0d1117;
+}
+.darkMode .header { background: #0d1117; }
+
+.badge {
+  display: inline-block;
+  background: rgba(122,179,255,0.12); color: #7eb3ff;
+  font-size: 0.68rem; font-weight: 800;
+  padding: 0.25rem 0.85rem; border-radius: 9999px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 0.55rem; border: 1px solid rgba(122,179,255,0.2);
+}
+.titleSection { margin-bottom: 0.45rem; }
+.documentTitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem); font-weight: 700; color: #e8eeff;
+  border: none; background: transparent; text-align: center; outline: none;
+  width: 100%; max-width: 560px; padding: 0.3rem;
+  border-bottom: 2px solid transparent; transition: border-color 0.2s;
+}
+.documentTitle:focus { border-bottom-color: #5b9bd5; }
+.description { font-size: 0.8rem; color: #6b7a99; margin: 0.2rem 0 0; }
+
+/* ── Editor Wrapper ──────────────────────────────────────────────────────── */
+.editorWrapper {
+  display: flex;
+  /* Fill viewport height minus header+menubar+toolbar (~160px) */
+  height: calc(100vh - 160px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Settings panel (left side) */
+.stylePanel {
+  width: 220px; flex-shrink: 0;
+  background: #1e2433; border-right: 1px solid #2d3549;
+  padding: 1.25rem; overflow-y: auto;
+}
+.darkMode .stylePanel { background: #0d1117; border-color: #1e2433; }
+.stylePanel h3 { font-size: 0.85rem; font-weight: 700; margin: 0 0 1rem; color: #e8eeff; }
+.setting { margin-bottom: 1rem; }
+.setting label {
+  display: block; font-size: 0.68rem; font-weight: 700; color: #6b7a99;
+  margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.setting select {
+  width: 100%; padding: 0.38rem 0.5rem; border: 1px solid #2d3549;
+  border-radius: 6px; font-size: 0.8rem; background: #0d1117; color: #c8d0e8; cursor: pointer; outline: none;
+}
+.setting select:focus { border-color: #4a6fa5; }
+.marginSummary { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3549; }
+.marginSummaryTitle { font-size: 0.66rem; font-weight: 800; color: #6b7a99; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.marginSummaryRow { display: flex; justify-content: space-between; font-size: 0.76rem; color: #c8d0e8; padding: 3px 0; }
+
+/* ── Page Scroller ───────────────────────────────────────────────────────── */
+/*
+ * This is the KEY fix — the scroller takes full height of editorWrapper
+ * and shows its OWN scrollbar beside the editor, not at screen edge.
+ */
+.pageScroller {
+  flex: 1;
+  overflow-y: auto;      /* ← scrollbar appears HERE, beside the pages */
+  overflow-x: auto;
+  background: #b0b5c4;  /* the grey "desk" */
+  padding: 32px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #6b7a99 #b0b5c4;
+}
+.pageScroller::-webkit-scrollbar { width: 10px; }
+.pageScroller::-webkit-scrollbar-track { background: #b0b5c4; }
+.pageScroller::-webkit-scrollbar-thumb { background: #7a8899; border-radius: 5px; border: 2px solid #b0b5c4; }
+.pageScroller::-webkit-scrollbar-thumb:hover { background: #5b6a7a; }
+
+.darkMode .pageScroller { background: #1a1f2e; scrollbar-color: #2d3549 #1a1f2e; }
+
+/* ── Pages Stack ─────────────────────────────────────────────────────────── */
+.pagesStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;  /* visible gap BETWEEN pages */
+}
+
+/* ── Individual Page ─────────────────────────────────────────────────────── */
+.page {
+  background: #ffffff;
+  /*
+   * Fixed pixel size — set by inline style (pageWpx × pageHpx).
+   * overflow:hidden clips content to the page boundary.
+   */
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.18),
+    0 4px 18px rgba(0,0,0,0.22),
+    0 12px 40px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s, outline 0.15s;
+}
+.page:hover {
+  box-shadow:
+    0 0 0 2px rgba(91,155,213,0.4),
+    0 4px 20px rgba(0,0,0,0.25),
+    0 12px 40px rgba(0,0,0,0.12);
+}
+.pageSelected {
+  outline: 2px solid #5b9bd5;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px rgba(91,155,213,0.6),
+    0 4px 20px rgba(0,0,0,0.28),
+    0 12px 40px rgba(0,0,0,0.14);
+}
+.darkMode .page { background: #1e2a3a; }
+
+/* Margin guide dashed lines (light grey, inside the page) */
+.marginGuide {
+  position: absolute;
+  border: 1px dashed rgba(0,0,0,0.1);
+  pointer-events: none;
+  z-index: 2;
+}
+.darkMode .page .marginGuide { border-color: rgba(255,255,255,0.08); }
+
+/* Page number label */
+.pageNum {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 10px;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 5;
+  letter-spacing: 0.04em;
+}
+.darkMode .page .pageNum { color: #4a5a6a; }
+
+/* Per-page override tag */
+.overrideTag {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 9px;
+  background: rgba(91,155,213,0.2);
+  color: #7eb3ff;
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid rgba(91,155,213,0.3);
+  pointer-events: none;
+  z-index: 5;
+  letter-spacing: 0.04em;
+}
+
+/* Page info bar */
+.pageInfo {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #7a8899;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+/* ── Editor (the actual Tiptap content) ─────────────────────────────────── */
+.editor { width: 100%; }
+
+/* ── ProseMirror ─────────────────────────────────────────────────────────── */
+.proseMirror {
+  outline: none;
+  min-height: 200px;
+  font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+  font-size: 12pt;
+  line-height: 1.6;
+  color: #000000;
+  word-break: break-word;
+  /* Allow wrapping properly — no overflow on text lines */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.proseMirror p {
+  margin: 0 0 0.7em 0;
+  color: inherit;
+  /* Prevent orphaned words at page edges */
+  orphans: 2;
+  widows: 2;
+}
+
+.darkMode .page .proseMirror { color: #d8e0f0; }
+.darkMode .page .proseMirror p { color: inherit; }
+
+/* Headings */
+.proseMirror h1 { font-size: 2em;    font-weight: 700; margin: 0.8em 0 0.4em; line-height: 1.2; color: inherit; }
+.proseMirror h2 { font-size: 1.5em;  font-weight: 600; margin: 0.75em 0 0.35em; line-height: 1.3; color: inherit; }
+.proseMirror h3 { font-size: 1.25em; font-weight: 600; margin: 0.65em 0 0.3em; color: inherit; }
+.proseMirror h4,.proseMirror h5,.proseMirror h6 { font-size: 1em; font-weight: 600; margin: 0.6em 0 0.25em; color: inherit; }
+
+.darkMode .page .proseMirror h1,
+.darkMode .page .proseMirror h2,
+.darkMode .page .proseMirror h3,
+.darkMode .page .proseMirror h4 { color: #eef2ff; }
+
+/* Lists */
+.proseMirror ul,.proseMirror ol { padding-left: 1.5em; margin: 0.5em 0; }
+.proseMirror li { margin: 0.2em 0; }
+
+/* Tables */
+.proseMirror table {
+  border-collapse: collapse; width: 100%; margin: 1em 0;
+  table-layout: fixed; word-break: break-word;
+}
+.proseMirror table + table { margin-top: 1.5em; }
+.proseMirror th,.proseMirror td {
+  border: 1px solid #cbd5e1; padding: 6px 10px; vertical-align: top; position: relative; min-width: 40px;
+}
+.darkMode .page .proseMirror th,.darkMode .page .proseMirror td { border-color: #3a4a6a; color: #c8d8f0; }
+.proseMirror th { background: #f1f5f9; font-weight: 700; text-align: left; }
+.darkMode .page .proseMirror th { background: #243050; }
+
+/* Column resize */
+.proseMirror .column-resize-handle {
+  position: absolute; right: -3px; top: 0; bottom: 0; width: 6px; cursor: col-resize; background: transparent; z-index: 20;
+}
+.proseMirror .column-resize-handle:hover { background: rgba(91,155,213,0.5); }
+.proseMirror.resize-cursor { cursor: col-resize; }
+.proseMirror .selectedCell::after { z-index: 2; position: absolute; content: ""; inset: 0; background: rgba(91,155,213,0.12); pointer-events: none; }
+
+/* HR */
+.proseMirror hr { border: none; border-top: 2px solid #e2e8f0; margin: 1.25em 0; }
+.darkMode .page .proseMirror hr { border-top-color: #3a4a6a; }
+
+/* Media */
+.proseMirror img { max-width: 100%; height: auto; display: block; margin: 0.75em 0; border-radius: 4px; }
+.proseMirror audio { width: 100%; margin: 0.5em 0; }
+.proseMirror video { max-width: 100%; border-radius: 8px; margin: 0.75em 0; }
+
+/* Links */
+.proseMirror a { color: #2563eb; text-decoration: underline; cursor: pointer; }
+.darkMode .page .proseMirror a { color: #7eb3ff; }
+
+/* Blockquote */
+.proseMirror blockquote {
+  border-left: 3px solid #5b9bd5; padding-left: 1em;
+  margin: 1em 0; font-style: italic; color: #64748b;
+}
+.darkMode .page .proseMirror blockquote { color: #7a8faa; border-left-color: #4a6fa5; }
+
+/* Code */
+.proseMirror code { background: #f1f5f9; padding: 0.15em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.9em; }
+.proseMirror pre { background: #1e293b; color: #e2e8f0; padding: 1em; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; margin: 1em 0; }
+
+/* Task list */
+.proseMirror ul[data-type="taskList"] { list-style: none; padding-left: 0; }
+.proseMirror ul[data-type="taskList"] li { display: flex; align-items: flex-start; gap: 0.5em; }
+.proseMirror ul[data-type="taskList"] li > label { flex: 0 0 auto; }
+.proseMirror ul[data-type="taskList"] li > div { flex: 1; }
+
+/* Placeholder */
+.proseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder); float: left; color: #94a3b8; pointer-events: none; height: 0;
+}
+
+/* ── SEO ─────────────────────────────────────────────────────────────────── */
+.seo {
+  max-width: 860px; margin: 2rem auto 4rem; padding: 2rem;
+  background: #1e2433; border-radius: 14px; border: 1px solid #2d3549;
+}
+.darkMode .seo { background: #0d1117; border-color: #1e2433; }
+.seo h2 { font-size: 1.1rem; font-weight: 700; color: #c8d0e8; margin: 1.25rem 0 0.65rem; }
+.seo h2:first-child { margin-top: 0; }
+.seo p { font-size: 0.86rem; color: #6b7a99; line-height: 1.7; margin: 0 0 0.65rem; }
+
+/* ── Loading ─────────────────────────────────────────────────────────────── */
+.loading { text-align: center; padding: 4rem; font-size: 1rem; color: #6b7a99; background: #1e2433; min-height: 100vh; }
+
+/* ── Print ───────────────────────────────────────────────────────────────── */
+@media print {
+  .header,.stylePanel { display: none !important; }
+  .editorWrapper { height: auto; overflow: visible; }
+  .pageScroller { overflow: visible; background: white; padding: 0; }
+  .pagesStack { gap: 0; }
+  .page {
+    box-shadow: none; border-radius: 0; overflow: visible;
+    page-break-after: always; break-after: page;
+    height: auto !important;
+  }
+  .marginGuide,.pageNum,.overrideTag { display: none !important; }
+  .proseMirror { color: #000 !important; }
+  .column-resize-handle { display: none !important; }
+}

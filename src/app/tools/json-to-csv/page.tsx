@@ -5,7 +5,7 @@ import JSONToolsHub from "@/app/components/tools/json-tools/JSONToolsHub";
 import RelatedTools from "@/app/components/RelatedTools";
 import { JSON_FAQS } from "@/lib/faqs";
 import ToolFaq from "@/app/components/tools/faq/ToolFaq";
-import { faqSchema } from "../json-formatterhub/jsonhubfaqSchema";
+import { faqSchema } from "../json-formatterhub/JsonfaqhubSchema";
 
 export const metadata: Metadata = {
   title: "JSON to CSV Converter — ForgeCodeHub",
