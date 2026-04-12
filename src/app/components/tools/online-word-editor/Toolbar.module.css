@@ -1,0 +1,115 @@
+/* Toolbar.module.css — dark ribbon toolbar */
+.toolbarWrapper {
+  background: #1e2433; border-bottom: 1px solid #0d1117;
+  user-select: none; width: 100%; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.toolbar {
+  display: flex; align-items: stretch; padding: 6px 12px 0;
+  flex-wrap: wrap; min-height: 72px; max-width: 1400px; margin: 0 auto;
+}
+.grp { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 6px 0; min-width: fit-content; }
+.grpLabel {
+  font-size: 9px; color: #6b7a99; text-align: center; width: 100%;
+  padding: 4px 0 4px; border-top: 1px solid #2d3549; margin-top: auto;
+  letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+}
+.grpRow { display: flex; align-items: center; gap: 2px; flex-wrap: nowrap; margin-bottom: 2px; }
+.divider { width: 1px; background: #2d3549; margin: 8px 3px; align-self: stretch; flex-shrink: 0; }
+.miniDivider { width: 1px; height: 22px; background: #2d3549; margin: 0 3px; flex-shrink: 0; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 5px; border-radius: 5px;
+  border: 1px solid transparent; background: transparent;
+  color: #c8d0e8; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s; gap: 2px; position: relative;
+}
+.btn svg { flex-shrink: 0; }
+.btn:hover:not(:disabled) { background: #2d3a56; border-color: #3d4f73; color: #e8eeff; }
+.btn:active:not(:disabled) { background: #263350; transform: scale(0.97); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn.active { background: #2a3f6f; border-color: #4a6fa5; color: #7eb3ff; }
+.accentBtn { color: #7eb3ff; }
+.accentBtn:hover:not(:disabled) { background: #1e3a5f; border-color: #4a6fa5; color: #a8d1ff; }
+.dangerBtn { color: #f87171; }
+.dangerBtn:hover:not(:disabled) { background: #3a1a1a; border-color: #7a3535; color: #fca5a5; }
+.mediaBtn { gap: 4px; padding: 0 7px; }
+.mediaBtn span { font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.imgBtn { color: #86efac; } .audioBtn { color: #c4b5fd; } .videoBtn { color: #93c5fd; }
+
+.sel {
+  padding: 3px 5px; border-radius: 5px; border: 1px solid #2d3549;
+  background: #151b2d; color: #c8d0e8; font-size: 12px; cursor: pointer; height: 30px; outline: none;
+}
+.sel:hover { border-color: #4a6fa5; }
+.sel:focus { border-color: #5b9bd5; }
+.sel option { background: #1e2433; color: #c8d0e8; }
+.selStyle { width: 118px; font-size: 11px; } .selFont { width: 138px; font-size: 11px; } .selSize { width: 50px; }
+
+.colorBtn { flex-direction: column; gap: 2px; cursor: pointer; position: relative; }
+.colorStripe { width: 16px; height: 3px; border-radius: 2px; }
+.hiddenColor { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+
+.tipWrap { position: relative; display: inline-flex; }
+.tooltip {
+  position: fixed; z-index: 9999; transform: translateX(-50%);
+  background: #0d1117; color: #e8eeff; border-radius: 6px;
+  padding: 5px 10px; font-size: 11px; white-space: nowrap; pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  display: flex; align-items: center; gap: 7px; border: 1px solid #2d3549;
+}
+.tooltip::before {
+  content: ""; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-bottom-color: #2d3549; border-top: none;
+}
+.tipLabel { font-weight: 600; }
+.tipShortcut { font-size: 10px; color: #6b7a99; background: #1a2235; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #2d3549; }
+
+/* Margin panel */
+.marginPanel {
+  background: #1a2235; border: 1px solid #2d3549; border-radius: 14px;
+  width: 580px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.6); overflow: hidden;
+}
+.mpHeader { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #2d3549; background: #151b2d; }
+.mpTitle { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #e8eeff; }
+.mpClose { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #2d3549; background: transparent; color: #6b7a99; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.mpClose:hover { background: #2d3549; color: #e8eeff; }
+.mpBody { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+.mpSectionTitle { font-size: 10px; font-weight: 800; color: #6b7a99; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+.mpTwoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mpColCard { background: #151b2d; border: 1px solid #2d3549; border-radius: 10px; padding: 12px; }
+.mpColHeader { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.mpColBadge { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
+.mpColBadge.current { background: rgba(122,179,255,0.15); color: #7eb3ff; border: 1px solid rgba(122,179,255,0.25); }
+.mpColBadge.all { background: rgba(134,239,172,0.12); color: #86efac; border: 1px solid rgba(134,239,172,0.2); }
+.mpSidesGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mpSideField { display: flex; flex-direction: column; gap: 4px; }
+.mpSideLabel { font-size: 10px; color: #6b7a99; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.mpSideIcon { font-size: 12px; opacity: 0.7; }
+.mpInputRow { display: flex; align-items: center; background: #0d1117; border: 1px solid #2d3549; border-radius: 6px; overflow: hidden; }
+.mpInputRow:focus-within { border-color: #4a6fa5; }
+.mpStep { width: 24px; height: 28px; background: #1a2235; border: none; color: #6b7a99; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.mpStep:hover { color: #e8eeff; background: #2d3549; }
+.mpNumInput { flex: 1; border: none; background: transparent; color: #e8eeff; font-size: 12px; font-weight: 600; text-align: center; padding: 0; outline: none; min-width: 0; }
+.mpNumInput::-webkit-inner-spin-button { -webkit-appearance: none; }
+.mpPresets { display: flex; gap: 8px; }
+.mpPreset { flex: 1; background: #0d1117; border: 1px solid #2d3549; border-radius: 8px; padding: 8px 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #c8d0e8; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.mpPreset:hover { border-color: #4a6fa5; background: #1a2235; color: #e8eeff; }
+.mpPreset.selected { border-color: #5b9bd5; background: #1e3a5f; color: #7eb3ff; }
+.mpPreviewMini { width: 32px; height: 42px; background: #1a2235; border: 1px solid #2d3549; border-radius: 3px; position: relative; overflow: hidden; }
+.mpUnitRow { display: flex; gap: 4px; }
+.mpUnitBtn { flex: 1; height: 28px; background: #0d1117; border: 1px solid #2d3549; border-radius: 5px; color: #6b7a99; font-size: 11px; font-weight: 700; cursor: pointer; }
+.mpUnitBtn:hover { border-color: #4a6fa5; color: #c8d0e8; }
+.mpUnitActive { background: #1e3a5f !important; border-color: #5b9bd5 !important; color: #7eb3ff !important; }
+.mpPreviewWrap { display: flex; gap: 16px; align-items: center; }
+.mpPreviewPage { width: 80px; height: 110px; background: #e8eeff; border-radius: 4px; position: relative; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.mpPreviewContent { position: absolute; background: #c8d0e8; border-radius: 2px; display: flex; flex-direction: column; justify-content: flex-start; padding: 3px; }
+.mpPreviewLine { height: 4px; background: #6b7a99; border-radius: 2px; margin-bottom: 4px; }
+.mpPreviewLabels { display: flex; flex-direction: column; gap: 4px; }
+.mpPreviewLabel { font-size: 11px; color: #6b7a99; font-family: 'Courier New', monospace; font-weight: 600; }
+.mpFooter { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid #2d3549; background: #151b2d; }
+.mpCancel { height: 34px; padding: 0 16px; border-radius: 8px; border: 1px solid #2d3549; background: transparent; color: #c8d0e8; font-size: 13px; font-weight: 600; cursor: pointer; }
+.mpCancel:hover { background: #2d3549; }
+.mpApply { height: 34px; padding: 0 20px; border-radius: 8px; border: none; background: linear-gradient(135deg,#3b5ea6,#2563eb); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(37,99,235,0.4); }
+.mpApply:hover { opacity: 0.9; transform: translateY(-1px); }
