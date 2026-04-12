@@ -11,21 +11,20 @@ import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
-import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Placeholder from "@tiptap/extension-placeholder";
 import CharacterCount from "@tiptap/extension-character-count";
 import { Extension } from "@tiptap/core";
+import { AudioNode, VideoNode } from "./Mediaextensions";
+// Use ResizableImage instead of @tiptap/extension-image — it registers the
+// same "image" node type but adds drag-to-resize handles.
+import { ResizableImage } from "./resizableImageExtension";
 
-// ── Custom FontSize extension ─────────────────────────────────────────────────
-// Tiptap's TextStyle extension supports arbitrary CSS attributes, but font-size
-// must be explicitly declared so it is (a) stored in the mark and (b) rendered
-// as an inline style. We extend TextStyle to add the fontSize attribute.
-const FontSizeExtension = Extension.create({
+// FontSize stored as a TextStyle attribute
+const FontSize = Extension.create({
   name: "fontSize",
-
   addGlobalAttributes() {
     return [
       {
@@ -33,63 +32,50 @@ const FontSizeExtension = Extension.create({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: (element) =>
-              element.style.fontSize?.replace(/['"]+/g, "") || null,
-            renderHTML: (attributes) => {
-              if (!attributes.fontSize) return {};
-              return { style: `font-size: ${attributes.fontSize}` };
-            },
+            parseHTML: (el) => (el as HTMLElement).style.fontSize || null,
+            renderHTML: (attrs) =>
+              attrs.fontSize ? { style: `font-size: ${attrs.fontSize}` } : {},
           },
         },
       },
     ];
   },
-
-  addCommands() {
-    return {
-      setFontSize:
-        (fontSize: string) =>
-        ({ chain }: any) => {
-          return chain().setMark("textStyle", { fontSize }).run();
-        },
-      unsetFontSize:
-        () =>
-        ({ chain }: any) => {
-          return chain()
-            .setMark("textStyle", { fontSize: null })
-            .removeEmptyTextStyle()
-            .run();
-        },
-    } as any;
-  },
 });
 
 export const editorExtensions = [
-  StarterKit.configure({
-    // heading levels 1-6 by default
-  }),
+  StarterKit.configure({ codeBlock: {} }),
+
+  Table.configure({ resizable: true, HTMLAttributes: { class: "editor-table" } }),
+  TableRow,
+  TableHeader,
+  TableCell,
+
   Underline,
+  TextStyle,
+  FontFamily.configure({ types: ["textStyle"] }),
+  FontSize,
+  Color,
+  Highlight.configure({ multicolor: true }),
+
   TextAlign.configure({
     types: ["heading", "paragraph"],
     alignments: ["left", "center", "right", "justify"],
   }),
-  // TextStyle must come before Color and FontFamily so they can extend it
-  TextStyle,
-  FontSizeExtension,
-  Color,
-  Highlight.configure({ multicolor: true }),
-  FontFamily.configure({ types: ["textStyle"] }),
-  Table.configure({ resizable: true }),
-  TableRow,
-  TableHeader,
-  TableCell,
-  Image.configure({ inline: true, allowBase64: true }),
+
+  // ResizableImage replaces @tiptap/extension-image entirely.
+  // Do NOT import both — they share the node name "image" and will conflict.
+  ResizableImage,
+
+  AudioNode,
+  VideoNode,
+
   Link.configure({
     openOnClick: false,
     HTMLAttributes: { target: "_blank", rel: "noopener noreferrer" },
   }),
+
   TaskList,
   TaskItem.configure({ nested: true }),
-  Placeholder.configure({ placeholder: "Start typing your document..." }),
   CharacterCount.configure({ limit: null }),
+  Placeholder.configure({ placeholder: "Start typing your document…" }),
 ];

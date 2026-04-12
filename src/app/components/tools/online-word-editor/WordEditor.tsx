@@ -193,12 +193,15 @@ export default function WordEditor() {
     localStorage.removeItem("wed-title");
   };
 
-  const handleInsertImage = useCallback(
+    const handleInsertImage = useCallback(
     (src: string, alt?: string) => {
-      editor?.chain().focus().setImage({ src, alt: alt ?? "" }).run();
-    },
-    [editor]
-  );
+       editor?.chain().focus().insertContent({
+         type: "image",
+         attrs: { src, alt: alt ?? "" },
+       }).run();
+     },
+     [editor]
+   );
 
   const handleInsertTable = () => {
     editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
