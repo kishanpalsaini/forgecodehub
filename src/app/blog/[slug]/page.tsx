@@ -1,108 +1,134 @@
-// src/app/blog/[slug]/page.tsx  — Server Component
-// import { tool } from "@/data/tool";
-import { tools, } from "../../data/tools";
 import { notFound } from "next/navigation";
-
-
-// data/tool.ts (or wherever your types are)
-
-export interface Guide {
-  slug: string;
-  title: string;
-  metaDesc?: string;
-  whatIs?: string;
-  formula?: string;
-  formulaVars?: { var: string; meaning: string }[];
-  useCases?: string[];
-  faqs?: { q: string; a: string }[];
-}
-
-export interface Tool {
-  name: string;
-  path: string;
-  guide?: Guide; // ← optional, so tool without guide won't error
-  // ...other fields
-}
-
-export const tool: Tool[] = tools.map((t) => ({
-  ...t,
-  guide: t.guide && 'slug' in t.guide && 'title' in t.guide
-    ? (t.guide as Guide)
-    : undefined,
-}));
+import Link from "next/link";
+// import { blogPosts } from "../../../data/blog";
+import { blogPosts } from "../../data/blog";
+import styles from "./post.module.css";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
-  return tool
-    .filter((t) => t?.guide)
-    .map((t) => ({ slug: t.guide?.slug }));
+  return blogPosts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const selectedTool = tool.find((t) => t.guide?.slug === slug);
-  if (!selectedTool?.guide) return {};
+  const post = blogPosts.find((p) => p.slug === slug);
+  if (!post) return {};
+
   return {
-    title: selectedTool.guide.title,
-    description: selectedTool.guide.metaDesc,
+    title: `${post.title} — ForgeCodeHub`,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `https://forgecodehub.com/blog/${post.slug}`,
+      type: "article",
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+    },
   };
 }
 
-export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const selectedTool = tool?.find((t) => t.guide?.slug === slug);
-  if (!selectedTool || !selectedTool.guide) notFound();
+const CATEGORY_COLORS: Record<string, string> = {
+  Finance: "#f97316",
+  Developer: "#0ea5e9",
+  Media: "#8b5cf6",
+  Productivity: "#10b981",
+};
 
-  const g = selectedTool.guide; // Now TypeScript knows g is Guide, not undefined
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug);
+  if (!post) notFound();
+
+  const related = blogPosts
+    .filter((p) => p.slug !== slug && p.category === post.category)
+    .slice(0, 2);
 
   return (
-    <article className="container" style={{ maxWidth: 760, padding: "8rem 2rem 4rem" }}>
-      <div className="section-label">Guide</div>
-      <h1 className="section-title" style={{ fontSize: "clamp(1.8rem,4vw,2.5rem)" }}>
-        {g.title}
-      </h1>
+    <main className={styles.page}>
+      <article className={styles.article}>
 
-      {g.whatIs && (
-        <>
-          <h2>What is {selectedTool.name}?</h2>
-          <p>{g.whatIs}</p>
-        </>
-      )}
+        {/* Back */}
+        <Link href="/blog" className={styles.back}>← All posts</Link>
 
-      {g.formula && (
-        <>
-          <h2>The Formula</h2>
-          <pre><code>{g.formula}</code></pre>
-          {g.formulaVars && g.formulaVars.length > 0 && (
-            <ul>
-              {g.formulaVars.map((v) => (
-                <li key={v.var}><strong>{v.var}</strong> — {v.meaning}</li>
-              ))}
-            </ul>
-          )}
-        </>
-      )}
-
-      {g.useCases && g.useCases.length > 0 && (
-        <>
-          <h2>Common use cases</h2>
-          <ul>
-            {g.useCases.map((u) => <li key={u}>{u}</li>)}
-          </ul>
-        </>
-      )}
-
-      <div style={{ margin: "2rem 0", padding: "1.5rem", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12 }}>
-        <p className="section-label">Try it now</p>
-        <p>Use our free <strong>{selectedTool.name}</strong> to calculate instantly — no signup needed.</p>
-        <a href={selectedTool.path} className="btn-primary">Open {selectedTool.name} →</a>
-      </div>
-
-      {g.faqs && g.faqs.length > 0 && g.faqs.map((faq) => (
-        <div key={faq.q}>
-          <h3>{faq.q}</h3>
-          <p>{faq.a}</p>
+        {/* Meta */}
+        <div className={styles.meta}>
+          <span
+            className={styles.categoryBadge}
+            style={{ color: CATEGORY_COLORS[post.category], background: CATEGORY_COLORS[post.category] + "18" }}
+          >
+            {post.category}
+          </span>
+          <span className={styles.metaText}>{post.readTime}</span>
+          <span className={styles.metaText}>
+            {new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+          </span>
         </div>
-      ))}
-    </article>
+
+        {/* Title */}
+        <h1 className={styles.title}>{post.title}</h1>
+        <p className={styles.description}>{post.description}</p>
+
+        {/* Tool CTA */}
+        {post.toolLink && post.toolName && (
+          <div className={styles.toolCta}>
+            <div>
+              <div className={styles.toolCtaLabel}>Try it free</div>
+              <div className={styles.toolCtaTitle}>Use our free {post.toolName}</div>
+              <p className={styles.toolCtaDesc}>No signup. No ads. Instant results in your browser.</p>
+            </div>
+            <Link href={post.toolLink} className={styles.toolCtaBtn}>
+              Open {post.toolName} →
+            </Link>
+          </div>
+        )}
+
+        <hr className={styles.hr} />
+
+        {/* Content */}
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+
+        <hr className={styles.hr} />
+
+        {/* Bottom CTA */}
+        {post.toolLink && post.toolName && (
+          <div className={styles.bottomCta}>
+            <p>Ready to try it yourself?</p>
+            <Link href={post.toolLink} className={styles.btnOrange}>
+              Open {post.toolName} — it&apos;s free →
+            </Link>
+          </div>
+        )}
+
+      </article>
+
+      {/* Related Posts */}
+      {related.length > 0 && (
+        <section className={styles.related}>
+          <div className={styles.relatedLabel}>Related posts</div>
+          <div className={styles.relatedGrid}>
+            {related.map((p) => (
+              <Link key={p.slug} href={`/blog/${p.slug}`} className={styles.relatedCard}>
+                <span
+                  className={styles.categoryBadge}
+                  style={{ color: CATEGORY_COLORS[p.category], background: CATEGORY_COLORS[p.category] + "18" }}
+                >
+                  {p.category}
+                </span>
+                <h3 className={styles.relatedTitle}>{p.title}</h3>
+                <span className={styles.readMore}>Read →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
   );
 }

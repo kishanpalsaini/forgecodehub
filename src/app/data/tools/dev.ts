@@ -97,7 +97,7 @@ export const devTools = [
     },
 
      {
-        href: "/tools/json-formatterhub",
+        href: "/tools/online-json-formatterhub",
         icon: "📋",
         tag: "Live",
         tagClass: "tag-live",
@@ -123,7 +123,7 @@ export const devTools = [
     // },
 
     {
-    href: "/tools/json-viewer",
+    href: "/tools/online-json-viewer",
     icon: "👁️",
     tag: "Live",
     tagClass: "tag-live",
