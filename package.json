@@ -12,6 +12,7 @@
     "@bundled-es-modules/pdfjs-dist": "^3.6.172-alpha.1",
     "@imgly/background-removal": "^1.7.0",
     "@monaco-editor/react": "^4.7.0",
+    "@supabase/supabase-js": "^2.103.3",
     "@tiptap/extension-character-count": "^3.22.3",
     "@tiptap/extension-code-block-lowlight": "^3.22.3",
     "@tiptap/extension-color": "^3.22.3",

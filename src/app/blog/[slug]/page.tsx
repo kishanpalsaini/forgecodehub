@@ -1,33 +1,46 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-// import { blogPosts } from "../../../data/blog";
-import { blogPosts } from "../../data/blog";
 import styles from "./post.module.css";
 import type { Metadata } from "next";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getRelatedPosts,
+  incrementViews,
+} from "../../../lib/supabase-blog";
 
+export const revalidate = 60;
+
+// Pre-generate known slugs at build time for performance
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
 
   return {
-    title: `${post.title} — ForgeCodeHub`,
-    description: post.description,
+    title: `${post.seo_title ?? post.title} — ForgeCodeHub`,
+    description: post.seo_description ?? post.excerpt ?? "",
     openGraph: {
-      title: post.title,
-      description: post.description,
+      title: post.seo_title ?? post.title,
+      description: post.seo_description ?? post.excerpt ?? "",
       url: `https://forgecodehub.com/blog/${post.slug}`,
       type: "article",
-      publishedTime: post.date,
+      publishedTime: post.published_at,
+      ...(post.cover_image ? { images: [post.cover_image] } : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.description,
+      title: post.seo_title ?? post.title,
+      description: post.seo_description ?? post.excerpt ?? "",
     },
   };
 }
@@ -37,76 +50,118 @@ const CATEGORY_COLORS: Record<string, string> = {
   Developer: "#0ea5e9",
   Media: "#8b5cf6",
   Productivity: "#10b981",
+  General: "#6366f1",
 };
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+function getCategoryColor(category: string) {
+  return CATEGORY_COLORS[category] ?? "#6366f1";
+}
+
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
-  const related = blogPosts
-    .filter((p) => p.slug !== slug && p.category === post.category)
-    .slice(0, 2);
+  // Increment view count (fire and forget)
+  incrementViews(post.id);
+
+  const related = await getRelatedPosts(post.category, slug);
 
   return (
     <main className={styles.page}>
       <article className={styles.article}>
 
         {/* Back */}
-        <Link href="/blog" className={styles.back}>← All posts</Link>
+        <Link href="/blog" className={styles.back}>
+          ← All posts
+        </Link>
+
+        {/* Cover image */}
+        {post.cover_image && (
+          <img
+            src={post.cover_image}
+            alt={post.title}
+            style={{
+              width: "100%",
+              height: "280px",
+              objectFit: "cover",
+              borderRadius: "16px",
+              marginBottom: "24px",
+            }}
+          />
+        )}
 
         {/* Meta */}
         <div className={styles.meta}>
           <span
             className={styles.categoryBadge}
-            style={{ color: CATEGORY_COLORS[post.category], background: CATEGORY_COLORS[post.category] + "18" }}
+            style={{
+              color: getCategoryColor(post.category),
+              background: getCategoryColor(post.category) + "18",
+            }}
           >
             {post.category}
           </span>
-          <span className={styles.metaText}>{post.readTime}</span>
+          <span className={styles.metaText}>{post.read_time}</span>
           <span className={styles.metaText}>
-            {new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+            {new Date(post.published_at).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+          <span className={styles.metaText}>
+            {post.views.toLocaleString()} views
           </span>
         </div>
 
         {/* Title */}
         <h1 className={styles.title}>{post.title}</h1>
-        <p className={styles.description}>{post.description}</p>
+        <p className={styles.description}>
+          {post.excerpt ?? post.seo_description ?? ""}
+        </p>
 
-        {/* Tool CTA */}
-        {post.toolLink && post.toolName && (
+        {/* Tool CTA — shows if tool_link and tool_name are filled */}
+        {post.tool_link && post.tool_name && (
           <div className={styles.toolCta}>
             <div>
               <div className={styles.toolCtaLabel}>Try it free</div>
-              <div className={styles.toolCtaTitle}>Use our free {post.toolName}</div>
-              <p className={styles.toolCtaDesc}>No signup. No ads. Instant results in your browser.</p>
+              <div className={styles.toolCtaTitle}>
+                Use our free {post.tool_name}
+              </div>
+              <p className={styles.toolCtaDesc}>
+                No signup. No ads. Instant results in your browser.
+              </p>
             </div>
-            <Link href={post.toolLink} className={styles.toolCtaBtn}>
-              Open {post.toolName} →
+            <Link href={post.tool_link} className={styles.toolCtaBtn}>
+              Open {post.tool_name} →
             </Link>
           </div>
         )}
 
         <hr className={styles.hr} />
 
-        {/* Content */}
+        {/* Post content from TipTap editor (HTML) */}
         <div
           className={styles.content}
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: post.content ?? "" }}
         />
 
         <hr className={styles.hr} />
 
         {/* Bottom CTA */}
-        {post.toolLink && post.toolName && (
+        {post.tool_link && post.tool_name && (
           <div className={styles.bottomCta}>
             <p>Ready to try it yourself?</p>
-            <Link href={post.toolLink} className={styles.btnOrange}>
-              Open {post.toolName} — it&apos;s free →
+            <Link href={post.tool_link} className={styles.btnOrange}>
+              Open {post.tool_name} — it&apos;s free →
             </Link>
           </div>
         )}
-
       </article>
 
       {/* Related Posts */}
@@ -115,10 +170,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className={styles.relatedLabel}>Related posts</div>
           <div className={styles.relatedGrid}>
             {related.map((p) => (
-              <Link key={p.slug} href={`/blog/${p.slug}`} className={styles.relatedCard}>
+              <Link
+                key={p.slug}
+                href={`/blog/${p.slug}`}
+                className={styles.relatedCard}
+              >
+                {p.cover_image && (
+                  <img
+                    src={p.cover_image}
+                    alt={p.title}
+                    style={{
+                      width: "100%",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      marginBottom: "10px",
+                    }}
+                  />
+                )}
                 <span
                   className={styles.categoryBadge}
-                  style={{ color: CATEGORY_COLORS[p.category], background: CATEGORY_COLORS[p.category] + "18" }}
+                  style={{
+                    color: getCategoryColor(p.category),
+                    background: getCategoryColor(p.category) + "18",
+                  }}
                 >
                   {p.category}
                 </span>
