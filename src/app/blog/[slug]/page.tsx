@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import styles from "./post.module.css";
 import type { Metadata } from "next";
+import { ToolEmbed } from "@/app/components/tools/ToolRegistry";
 import {
   getAllPosts,
   getPostBySlug,
@@ -14,6 +15,7 @@ export const revalidate = 60;
 // Pre-generate known slugs at build time for performance
 export async function generateStaticParams() {
   const posts = await getAllPosts();
+  debugger;
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -145,6 +147,9 @@ export default async function BlogPostPage({
 
         <hr className={styles.hr} />
 
+        {/* ✅ ADD THIS — renders the actual tool embedded in post */}
+        <ToolEmbed toolLink={post.tool_link} toolName={post.tool_name} />
+
         {/* Post content from TipTap editor (HTML) */}
         <div
           className={styles.content}
@@ -207,3 +212,13 @@ export default async function BlogPostPage({
     </main>
   );
 }
+
+
+
+
+// I want this page should look like a professional blog page 
+// user should not face to difficulty to read the content
+// do better colur, background color, font-family and the layout
+// and toolEmbed component should be in full width so it visible full and user can use esaliy
+
+// so work on user experience and whatever you can do better for that do it
