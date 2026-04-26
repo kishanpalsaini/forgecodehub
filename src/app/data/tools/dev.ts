@@ -7,8 +7,9 @@ export const devTools = [
         name: "JSON Formatter",
         desc: "Beautify, validate, minify and explore JSON with tree view, syntax highlighting and error detection.",
         path: "/tools/online-json-formatter",
+        componentPath: "@/app/components/tools/json-formatter/json-formatter-client",
         cat: "dev",
-        related: ["/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -19,8 +20,9 @@ export const devTools = [
         name: "Base64 Encode / Decode",
         desc: "Encode text or files to Base64, decode Base64 strings. Supports UTF-8, URL-safe mode and image preview.",
         path: "/tools/online-base-64-client",
+        componentPath: "@/app/components/tools/base-64-client/base-64-client",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -31,8 +33,9 @@ export const devTools = [
         name: "URL Encoder / Decoder",
         desc: "Encode special characters for safe URL transmission, decode percent-encoded strings. Parse URL into parts.",
         path: "/tools/online-url-encoder-decoder",
+        componentPath: "@/app/components/tools/url-encoder-client/url-encoder-client",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -43,8 +46,9 @@ export const devTools = [
         name: "HTML Minifier",
         desc: "Compress HTML by removing whitespace, comments and optional tags. See exact byte savings instantly.",
         path: "/tools/online-html-minifier",
+        componentPath: "@/app/components/tools/html-minifier/html-minifier-client",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-css-minifier", "/tools/pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -55,8 +59,9 @@ export const devTools = [
         name: "CSS Minifier",
         desc: "Minify CSS by collapsing whitespace, shortening hex colors and removing redundant semicolons.",
         path: "/tools/online-css-minifier",
+        componentPath: "@/app/components/tools/css-minifier/css-minifier-client",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -68,7 +73,7 @@ export const devTools = [
         desc: "Convert documents between PDF, Word, and image formats directly in your browser — no uploads.",
         path: "/tools/pdf-converter",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -80,7 +85,7 @@ export const devTools = [
         desc: "Generate accessible color palettes from a single hex. Export to CSS, Figma, or Tailwind format.",
         path: "/tools/color-picker",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-css-minifier", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-css-minifier", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
     {
@@ -91,12 +96,12 @@ export const devTools = [
         name: "AES Encrypt/Decrypt",
         desc: "Free online AES encryption and decryption tool. Securely encrypt and decrypt your data in the browser.",
         path: "/tools/online-crypto-encrypt-decrypt",
+        componentPath: "@/app/components/tools/crypto-encrypt-decrypt/crypto-encrypt-decrypt-client",
         cat: "dev",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
-
-     {
+    {
         href: "/tools/online-json-formatterhub",
         icon: "📋",
         tag: "Live",
@@ -104,87 +109,79 @@ export const devTools = [
         name: "JSON Formatter Suite",
         desc: "Beautify, validate, minify and explore JSON with tree view, syntax highlighting and error detection.",
         path: "/tools/json-formatterhub",
+        componentPath: "@/app/components/tools/json-tools/JSONToolsHub",
         cat: "dev",
-        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-formatter","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-formatter", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
         guide: {}
     },
-
-    // {
-    //     href: "/tools/Json-formatter/json-viewer",
-    //     icon: "📋",
-    //     tag: "Live",
-    //     tagClass: "tag-live",
-    //     name: "JSON Viewer",
-    //     desc: "Beautify, validate, minify and explore JSON with tree view, syntax highlighting and error detection.",
-    //     path: "/tools/Json-formatter",
-    //     cat: "dev",
-    //     related: ["/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/json-formatter"],
-    //     guide: {}
-    // },
-
     {
-    href: "/tools/online-json-viewer",
-    icon: "👁️",
-    tag: "Live",
-    tagClass: "tag-live",
-    name: "JSON Viewer",
-    desc: "Explore JSON in an interactive tree view with expand/collapse functionality.",
-    path: "/tools/json-viewer",
-    cat: "dev",
-    tool: "viewer",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
-    guide: {}
-  },
-  {
-    href: "/tools/online-json-diff",
-    icon: "⚖️",
-    tag: "Live",
-    tagClass: "tag-live",
-    name: "JSON Diff",
-    desc: "Compare two JSON objects and see detailed differences highlighted.",
-    path: "/tools/online-json-diff",
-    cat: "dev",
-    tool: "diff",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-to-csv"],
-    guide: {}
-  },
-  {
-    href: "/tools/online-json-validator",
-    icon: "✓",
-    tag: "Live",
-    tagClass: "tag-live",
-    name: "JSON Validator",
-    desc: "Validate JSON syntax and check against JSON Schema.",
-    path: "/tools/online-json-validator",
-    cat: "dev",
-    tool: "validator",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-diff", "/tools/online-json-to-csv"],   
-    guide: {}
-  },
-  {
-    href: "/tools/online-json-to-csv",
-    icon: "📊",
-    tag: "Live",
-    tagClass: "tag-live",
-    name: "JSON to CSV",
-    desc: "Convert JSON array of objects to CSV format for Excel and spreadsheets.",
-    path: "/tools/online-json-to-csv",
-    cat: "dev",
-    tool: "csv",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],   
-    guide: {}
-  },
-  {
-    href: "/tools/online-json-path",
-    icon: "🔍",
-    tag: "Live",
-    tagClass: "tag-live",
-    name: "JSONPath Query",
-    desc: "Query and extract data from JSON using JSONPath expressions.",
-    path: "/tools/online-json-path",
-    cat: "dev",
-    tool: "path",
-    related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt","/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
-    guide: {}
-  },
+        href: "/tools/online-json-viewer",
+        icon: "👁️",
+        tag: "Live",
+        tagClass: "tag-live",
+        name: "JSON Viewer",
+        desc: "Explore JSON in an interactive tree view with expand/collapse functionality.",
+        path: "/tools/json-viewer",
+        componentPath: "@/app/components/tools/json-tools/JSONViewer",
+        cat: "dev",
+        tool: "viewer",
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        guide: {}
+    },
+    {
+        href: "/tools/online-json-diff",
+        icon: "⚖️",
+        tag: "Live",
+        tagClass: "tag-live",
+        name: "JSON Diff",
+        desc: "Compare two JSON objects and see detailed differences highlighted.",
+        path: "/tools/online-json-diff",
+        componentPath: "@/app/components/tools/json-tools/JSONDiff",
+        cat: "dev",
+        tool: "diff",
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-to-csv"],
+        guide: {}
+    },
+    {
+        href: "/tools/online-json-validator",
+        icon: "✓",
+        tag: "Live",
+        tagClass: "tag-live",
+        name: "JSON Validator",
+        desc: "Validate JSON syntax and check against JSON Schema.",
+        path: "/tools/online-json-validator",
+        componentPath: "@/app/components/tools/json-tools/JSONValidator",
+        cat: "dev",
+        tool: "validator",
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        guide: {}
+    },
+    {
+        href: "/tools/online-json-to-csv",
+        icon: "📊",
+        tag: "Live",
+        tagClass: "tag-live",
+        name: "JSON to CSV",
+        desc: "Convert JSON array of objects to CSV format for Excel and spreadsheets.",
+        path: "/tools/online-json-to-csv",
+        componentPath: "@/app/components/tools/json-tools/JSONToCSV",
+        cat: "dev",
+        tool: "csv",
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        guide: {}
+    },
+    {
+        href: "/tools/online-json-path",
+        icon: "🔍",
+        tag: "Live",
+        tagClass: "tag-live",
+        name: "JSONPath Query",
+        desc: "Query and extract data from JSON using JSONPath expressions.",
+        path: "/tools/online-json-path",
+        componentPath: "@/app/components/tools/json-tools/JSONPath",
+        cat: "dev",
+        tool: "path",
+        related: ["/tools/online-json-formatter", "/tools/online-base-64-client", "/tools/online-url-encoder-decoder", "/tools/online-html-minifier", "/tools/online-css-minifier", "/tools/online-pdf-converter", "/tools/color-picker", "/tools/online-crypto-encrypt-decrypt", "/tools/online-json-validator", "/tools/online-json-diff", "/tools/online-json-to-csv"],
+        guide: {}
+    },
 ];

@@ -1,29 +1,28 @@
 export const mediaTools = [
-    {
-        href: "/reel-scheduler",
-        icon: "🎬",
-        tag: "Soon",
-        tagClass: "tag-coming",
-        name: "Reel Scheduler",
-        desc: "Plan and schedule your Instagram Reels and short-form content with smart timing recommendations.",
-        path: "/reel-scheduler",
-        cat: "media",
-        related: [],
-        guide: {}
-    },
-
+  {
+    href: "/reel-scheduler",
+    icon: "🎬",
+    tag: "Soon",
+    tagClass: "tag-coming",
+    name: "Reel Scheduler",
+    desc: "Plan and schedule your Instagram Reels and short-form content with smart timing recommendations.",
+    path: "/reel-scheduler",
+    cat: "media",
+    related: [],
+    guide: {}
+  },
   {
     href: "/tools/images/online-png-to-jpg",
-    icon: "�️",
+    icon: "🖼️",
     tag: "Live",
     tagClass: "tag-live",
     name: "PNG to JPG Converter",
     desc: "Convert PNG images to JPG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/online-png-to-jpg",
+    componentPath: "@/app/components/tools/images/png-to-jpg/PngToJpgClient",
     cat: "media",
     related: ["/tools/online-todo-list", "/tools/online-pomodoro-timer", "/tools/images/online-png-to-jpg", "/tools/images/online-jpg-to-png", "/tools/online-word-editor", "/tools/markdown-editor", "/tools/pdf-converter"],
   },
-
   {
     href: "/tools/images/online-jpg-to-png",
     icon: "🖼️",
@@ -32,19 +31,20 @@ export const mediaTools = [
     name: "JPG to PNG Converter",
     desc: "Convert JPG images to PNG format online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/online-jpg-to-png",
+    componentPath: "@/app/components/tools/images/jpg-to-png/JpgToPngClient",
     cat: "media",
     related: ["/tools/online-todo-list", "/tools/online-pomodoro-timer", "/tools/images/online-png-to-jpg", "/tools/images/online-jpg-to-png", "/tools/online-word-editor", "/tools/markdown-editor", "/tools/pdf-converter"],
   },
-
   {
     href: "/tools/images/online-universal-image-converter",
-    icon: "️🌐",
+    icon: "🌐",
     tag: "Live",
     tagClass: "tag-live",
     name: "Universal Image Converter",
     desc: "Convert images between various formats online. Adjust output quality, preserve transparency with white background, and download instantly.",
     path: "/tools/images/online-universal-image-converter",
+    componentPath: "@/app/components/tools/images/converters/UniversalConverter",
     cat: "media",
-    related: ["/tools/online-todo-list", "/tools/online-pomodoro-timer", "/tools/images/online-png-to-jpg", "/tools/images/online-jpg-to-png", "/tools/images/online-universal-image-converter","/tools/online-word-editor", "/tools/markdown-editor", "/tools/pdf-converter"],
+    related: ["/tools/online-todo-list", "/tools/online-pomodoro-timer", "/tools/images/online-png-to-jpg", "/tools/images/online-jpg-to-png", "/tools/images/online-universal-image-converter", "/tools/online-word-editor", "/tools/markdown-editor", "/tools/pdf-converter"],
   },
 ];
