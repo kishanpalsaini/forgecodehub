@@ -12,10 +12,8 @@ import {
 
 export const revalidate = 60;
 
-// Pre-generate known slugs at build time for performance
 export async function generateStaticParams() {
   const posts = await getAllPosts();
-  debugger;
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -68,157 +66,180 @@ export default async function BlogPostPage({
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 
-  // Increment view count (fire and forget)
   incrementViews(post.id);
 
   const related = await getRelatedPosts(post.category, slug);
 
+  const publishedDate = new Date(post.published_at).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <main className={styles.page}>
-      <article className={styles.article}>
+    <div className={styles.pageRoot}>
 
-        {/* Back */}
-        <Link href="/blog" className={styles.back}>
-          ← All posts
-        </Link>
+      {/* ── ZONE 1: Light — header, meta, title, CTA pill ── */}
+      <div className={styles.lightZone}>
+        <div className={styles.prose}>
 
-        {/* Cover image */}
-        {post.cover_image && (
-          <img
-            src={post.cover_image}
-            alt={post.title}
-            style={{
-              width: "100%",
-              height: "280px",
-              objectFit: "cover",
-              borderRadius: "16px",
-              marginBottom: "24px",
-            }}
-          />
-        )}
+          {/* Breadcrumb — static labels, dynamic category */}
+          <nav className={styles.breadcrumb}>
+            <Link href="/" className={styles.bcLink}>Home</Link>
+            <span className={styles.bcSep}>/</span>
+            <Link href="/blog" className={styles.bcLink}>Blog</Link>
+            <span className={styles.bcSep}>/</span>
+            <span className={styles.bcCurrent}>{post.category}</span>
+          </nav>
 
-        {/* Meta */}
-        <div className={styles.meta}>
-          <span
-            className={styles.categoryBadge}
-            style={{
-              color: getCategoryColor(post.category),
-              background: getCategoryColor(post.category) + "18",
-            }}
-          >
-            {post.category}
-          </span>
-          <span className={styles.metaText}>{post.read_time}</span>
-          <span className={styles.metaText}>
-            {new Date(post.published_at).toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </span>
-          <span className={styles.metaText}>
-            {post.views.toLocaleString()} views
-          </span>
-        </div>
-
-        {/* Title */}
-        <h1 className={styles.title}>{post.title}</h1>
-        <p className={styles.description}>
-          {post.excerpt ?? post.seo_description ?? ""}
-        </p>
-
-        {/* Tool CTA — shows if tool_link and tool_name are filled */}
-        {post.tool_link && post.tool_name && (
-          <div className={styles.toolCta}>
-            <div>
-              <div className={styles.toolCtaLabel}>Try it free</div>
-              <div className={styles.toolCtaTitle}>
-                Use our free {post.tool_name}
-              </div>
-              <p className={styles.toolCtaDesc}>
-                No signup. No ads. Instant results in your browser.
-              </p>
+          {/* Cover image — dynamic */}
+          {post.cover_image && (
+            <div className={styles.coverWrap}>
+              <img
+                src={post.cover_image}
+                alt={post.title}
+                className={styles.cover}
+              />
             </div>
-            <Link href={post.tool_link} className={styles.toolCtaBtn}>
-              Open {post.tool_name} →
-            </Link>
+          )}
+
+          {/* Meta — all dynamic */}
+          <div className={styles.meta}>
+            <span
+              className={styles.categoryBadge}
+              style={{
+                color: getCategoryColor(post.category),
+                background: getCategoryColor(post.category) + "18",
+              }}
+            >
+              {post.category}
+            </span>
+            <span className={styles.metaDot} />
+            <span className={styles.metaText}>{post.read_time}</span>
+            <span className={styles.metaDot} />
+            <span className={styles.metaText}>{publishedDate}</span>
+            <span className={styles.metaDot} />
+            <span className={styles.metaText}>{post.views.toLocaleString()} views</span>
           </div>
-        )}
 
-        <hr className={styles.hr} />
+          {/* Title — dynamic */}
+          <h1 className={styles.title}>{post.title}</h1>
 
-        {/* ✅ ADD THIS — renders the actual tool embedded in post */}
-        <ToolEmbed toolLink={post.tool_link} toolName={post.tool_name} />
+          {/* Excerpt — dynamic */}
+          <p className={styles.description}>
+            {post.excerpt ?? post.seo_description ?? ""}
+          </p>
 
-        {/* Post content from TipTap editor (HTML) */}
-        <div
-          className={styles.content}
-          dangerouslySetInnerHTML={{ __html: post.content ?? "" }}
-        />
-
-        <hr className={styles.hr} />
-
-        {/* Bottom CTA */}
-        {post.tool_link && post.tool_name && (
-          <div className={styles.bottomCta}>
-            <p>Ready to try it yourself?</p>
-            <Link href={post.tool_link} className={styles.btnOrange}>
-              Open {post.tool_name} — it&apos;s free →
-            </Link>
+          {/* Author — "ForgeCodeHub" static, date dynamic */}
+          <div className={styles.authorRow}>
+            <div className={styles.authorAvatar}>F</div>
+            <div>
+              <span className={styles.authorName}>ForgeCodeHub</span>
+              <span className={styles.authorDate}>{publishedDate}</span>
+            </div>
           </div>
-        )}
-      </article>
 
-      {/* Related Posts */}
-      {related.length > 0 && (
-        <section className={styles.related}>
-          <div className={styles.relatedLabel}>Related posts</div>
-          <div className={styles.relatedGrid}>
-            {related.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className={styles.relatedCard}
-              >
-                {p.cover_image && (
-                  <img
-                    src={p.cover_image}
-                    alt={p.title}
-                    style={{
-                      width: "100%",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      marginBottom: "10px",
-                    }}
-                  />
-                )}
-                <span
-                  className={styles.categoryBadge}
-                  style={{
-                    color: getCategoryColor(p.category),
-                    background: getCategoryColor(p.category) + "18",
-                  }}
-                >
-                  {p.category}
+          <hr className={styles.divider} />
+
+          {/* Tool CTA pill — static labels, dynamic tool_name */}
+          {post.tool_link && post.tool_name && (
+            <div className={styles.toolCta}>
+              <div className={styles.toolCtaLeft}>
+                <span className={styles.toolCtaTag}>Free tool</span>
+                <span className={styles.toolCtaText}>
+                  Try our {post.tool_name} — no signup needed
                 </span>
-                <h3 className={styles.relatedTitle}>{p.title}</h3>
-                <span className={styles.readMore}>Read →</span>
+              </div>
+              <Link href={post.tool_link} className={styles.toolCtaBtn}>
+                Open →
               </Link>
-            ))}
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      {/* ── ZONE 2: Dark — full-width tool embed ── */}
+      {post.tool_link && post.tool_name && (
+        <div className={styles.embedZone}>
+          <div className={styles.embedTopbar}>
+            <span className={styles.embedLabel}>
+              <span className={styles.liveDot} />
+              Try it right here — {post.tool_name}
+            </span>
+            <span className={styles.embedBadge}>Free {post.tool_name}</span>
           </div>
-        </section>
+          <div className={styles.embedBody}>
+            <ToolEmbed toolLink={post.tool_link} toolName={post.tool_name} />
+          </div>
+        </div>
       )}
-    </main>
+
+      {/* ── ZONE 3: Light — article prose content ── */}
+      <div className={styles.lightZone}>
+        <div className={styles.prose}>
+
+          {/* Dynamic HTML from TipTap / Supabase */}
+          <div
+            className={styles.content}
+            dangerouslySetInnerHTML={{ __html: post.content ?? "" }}
+          />
+
+          <hr className={styles.divider} />
+
+          {/* Bottom CTA — static text, dynamic tool_name + link */}
+          {post.tool_link && post.tool_name && (
+            <div className={styles.bottomCta}>
+              <p className={styles.bottomCtaTitle}>
+                Start using it — free, right now
+              </p>
+              <p className={styles.bottomCtaDesc}>
+                No account. No download. No ads. Open it and go.
+              </p>
+              <Link href={post.tool_link} className={styles.bottomCtaBtn}>
+                Open {post.tool_name} →
+              </Link>
+            </div>
+          )}
+
+          {/* Related Posts — dynamic */}
+          {related.length > 0 && (
+            <div className={styles.related}>
+              <p className={styles.relatedLabel}>More from ForgeCodeHub</p>
+              <div className={styles.relatedGrid}>
+                {related.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/blog/${p.slug}`}
+                    className={styles.relatedCard}
+                  >
+                    {p.cover_image && (
+                      <img
+                        src={p.cover_image}
+                        alt={p.title}
+                        className={styles.relatedCover}
+                      />
+                    )}
+                    <span
+                      className={styles.categoryBadge}
+                      style={{
+                        color: getCategoryColor(p.category),
+                        background: getCategoryColor(p.category) + "18",
+                      }}
+                    >
+                      {p.category}
+                    </span>
+                    <h3 className={styles.relatedTitle}>{p.title}</h3>
+                    <span className={styles.readMore}>Read article →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+    </div>
   );
 }
-
-
-
-
-// I want this page should look like a professional blog page 
-// user should not face to difficulty to read the content
-// do better colur, background color, font-family and the layout
-// and toolEmbed component should be in full width so it visible full and user can use esaliy
-
-// so work on user experience and whatever you can do better for that do it

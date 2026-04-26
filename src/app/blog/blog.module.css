@@ -1,179 +1,439 @@
+/* ═══════════════════════════════════════════════════
+   blog.module.css — ForgeCodeHub Blog List
+   
+   Dark theme — matches the embedZone dark from post page
+   Same tokens: #f97316 accent, #0f0f0f base, 
+   rgba whites for text, same badge/meta patterns
+   ═══════════════════════════════════════════════════ */
+
+/* ── Page shell ── */
 .page {
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 24px 80px;
 }
 
+/* ── Hero ── */
 .hero {
     text-align: center;
-    padding: 8rem 2rem 3rem;
+    padding: 7rem 24px 3.5rem;
 }
 
 .heroBadge {
     display: inline-block;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.35);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 5px 14px;
     margin-bottom: 1.25rem;
 }
 
 .heroTitle {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
 .heroSub {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.45);
-    max-width: 520px;
-    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.4);
+    max-width: 500px;
+    margin: 0 auto 2rem;
     line-height: 1.75;
 }
 
-/* Featured */
-.featuredWrap {
-    padding: 1rem 0 2rem;
-    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+/* ── Category filter pills ── */
+.filterRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
 }
 
-.featuredLabel {
-    font-size: 11px;
+.filterPill {
+    font-size: 12px;
     font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    user-select: none;
+}
+
+.filterPill:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Active = "All" pill — orange */
+.filterPillActive {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.35);
     color: #f97316;
-    margin-bottom: 1rem;
+}
+
+/* ── Section label — same pattern used in both hero and grid ── */
+.sectionLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 20px;
+}
+
+.sectionLabelDot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f97316;
+    flex-shrink: 0;
+}
+
+.postCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1px 8px;
+    letter-spacing: 0;
+}
+
+/* ── Shared meta atoms ── */
+.categoryBadge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.metaDot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.metaText {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.readMore {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f97316;
+    transition: opacity 0.15s;
+}
+
+/* ── Author mini row ── */
+.authorMini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.authorAvatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f97316;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.authorName {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════
+     FEATURED CARD — horizontal layout on wide screens
+     ═══════════════════════════════════════════════════ */
+.featuredWrap {
+    padding: 2.5rem 0 2rem;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.07);
 }
 
 .featuredCard {
     display: block;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.025);
     border: 0.5px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 0;
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
     transition: border-color 0.2s, background 0.2s;
 }
 
 .featuredCard:hover {
-    border-color: rgba(249, 115, 22, 0.4);
-    background: rgba(249, 115, 22, 0.04);
+    border-color: rgba(249, 115, 22, 0.35);
+    background: rgba(249, 115, 22, 0.03);
+}
+
+.featuredCard:hover .readMore {
+    opacity: 0.75;
+}
+
+/* Horizontal split: image left, content right */
+.featuredInner {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    min-height: 260px;
+}
+
+@media (max-width: 680px) {
+    .featuredInner {
+        grid-template-columns: 1fr;
+    }
+}
+
+.featuredCoverWrap {
+    overflow: hidden;
+}
+
+.featuredCover {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.featuredContent {
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
 }
 
 .featuredMeta {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 1rem;
+    gap: 10px;
+    margin-bottom: 14px;
     flex-wrap: wrap;
 }
 
 .featuredTitle {
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.28;
+    letter-spacing: -0.2px;
+    color: #fff;
+    margin-bottom: 12px;
 }
 
 .featuredDesc {
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.45);
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.42);
+    line-height: 1.72;
+    flex: 1;
+    margin-bottom: 20px;
 }
 
-/* Grid */
+.featuredFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+/* ═══════════════════════════════════════════════════
+     ALL POSTS GRID
+     ═══════════════════════════════════════════════════ */
 .gridSection {
-    padding: 2rem 0 4rem;
-    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
-}
-
-.gridLabel {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.35);
-    margin-bottom: 1.25rem;
+    padding: 2.5rem 0 2rem;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.07);
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
     gap: 16px;
+}
+
+@media (max-width: 560px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .postCard {
     display: flex;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.025);
     border: 0.5px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 1.25rem;
+    border-radius: 14px;
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
 }
 
 .postCard:hover {
-    border-color: rgba(249, 115, 22, 0.4);
-    background: rgba(249, 115, 22, 0.04);
+    border-color: rgba(249, 115, 22, 0.35);
+    background: rgba(249, 115, 22, 0.03);
+    transform: translateY(-2px);
 }
 
+.postCard:hover .readMore {
+    opacity: 0.75;
+}
+
+/* Cover image area — no padding, flush to card top */
+.cardCoverWrap {
+    width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.cardCover {
+    width: 100%;
+    height: 148px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.postCard:hover .cardCover {
+    transform: scale(1.03);
+}
+
+/* Card body — padded */
 .postMeta {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 0.75rem;
+    gap: 8px;
+    padding: 16px 16px 0;
     flex-wrap: wrap;
 }
 
 .postTitle {
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 0.5rem;
     line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 10px 16px 0;
 }
 
 .postDesc {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
-    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.38);
+    line-height: 1.65;
     flex: 1;
-    margin-bottom: 1rem;
+    padding: 8px 16px 0;
 }
 
 .postFooter {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 14px 16px 16px;
     margin-top: auto;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Shared */
-.categoryBadge {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+/* ── Empty state ── */
+.emptyState {
+    text-align: center;
+    padding: 80px 24px;
 }
 
-.metaText {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
+.emptyIcon {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
 }
 
-.readMore {
+.emptyTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 6px;
+}
+
+.emptyDesc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Subscribe / explore strip — static bottom section ── */
+.subscribeStrip {
+    border-top: 0.5px solid rgba(255, 255, 255, 0.07);
+    padding: 40px 0 0;
+    margin-top: 16px;
+}
+
+.subscribeInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: rgba(249, 115, 22, 0.05);
+    border: 0.5px solid rgba(249, 115, 22, 0.18);
+    border-radius: 14px;
+    padding: 24px 28px;
+    flex-wrap: wrap;
+}
+
+.subscribeTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.subscribeSub {
     font-size: 13px;
-    color: #f97316;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.subscribeBtn {
+    display: inline-block;
+    background: #f97316;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+}
+
+.subscribeBtn:hover {
+    opacity: 0.85;
 }

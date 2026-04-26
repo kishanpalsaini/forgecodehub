@@ -1,226 +1,464 @@
-.page {
-    max-width: 720px;
+/* ═══════════════════════════════════════════════════
+   post.module.css — ForgeCodeHub Blog Post
+   
+   Layout: alternating light/dark full-width zones
+   - lightZone  →  warm #FAF9F7, centered prose column
+   - embedZone  →  dark #0f0f0f, 100vw tool embed
+   ═══════════════════════════════════════════════════ */
+
+/* ── Root wrapper — no max-width, zones handle their own width ── */
+.pageRoot {
+    min-height: 100vh;
+}
+
+/* ── Light zone — warm off-white, full width ── */
+.lightZone {
+    background: #FAF9F7;
+    width: 100%;
+    padding: 0 24px;
+}
+
+/* First light zone gets top padding for nav clearance */
+.lightZone:first-child {
+    padding-top: 80px;
+}
+
+/* ── Centered prose column — max 680px, perfect reading width ── */
+.prose {
+    max-width: 680px;
     margin: 0 auto;
-    padding: 0 2rem 6rem;
+    padding: 48px 0;
 }
 
-.article {
-    padding-top: 6rem;
-}
-
-.back {
-    display: inline-block;
+/* ── Breadcrumb ── */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
-    text-decoration: none;
-    margin-bottom: 2rem;
-    transition: color 0.2s;
+    margin-bottom: 32px;
 }
 
-.back:hover {
+.bcLink {
+    color: #9a9690;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.bcLink:hover {
     color: #f97316;
 }
 
+.bcSep {
+    color: #d4d0c8;
+    font-size: 12px;
+}
+
+.bcCurrent {
+    color: #6b6860;
+}
+
+/* ── Cover image ── */
+.coverWrap {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    border: 1px solid #ede9e0;
+}
+
+.cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Meta row ── */
 .meta {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 1.25rem;
+    gap: 10px;
+    margin-bottom: 18px;
     flex-wrap: wrap;
 }
 
 .categoryBadge {
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     padding: 3px 10px;
     border-radius: 20px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
+}
+
+.metaDot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #d4d0c8;
+    flex-shrink: 0;
 }
 
 .metaText {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
+    color: #9a9690;
 }
 
+/* ── Title ── */
 .title {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: #1a1814;
+    margin-bottom: 16px;
 }
 
+/* ── Excerpt / description ── */
 .description {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.5);
-    line-height: 1.75;
-    margin-bottom: 2rem;
+    font-size: 17px;
+    color: #6b6860;
+    line-height: 1.72;
+    font-weight: 400;
+    margin-bottom: 24px;
 }
 
-/* Tool CTA box */
+/* ── Author row ── */
+.authorRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.authorAvatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f97316;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.authorName {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1814;
+    line-height: 1.3;
+}
+
+.authorDate {
+    display: block;
+    font-size: 12px;
+    color: #9a9690;
+    margin-top: 2px;
+}
+
+/* ── Divider ── */
+.divider {
+    border: none;
+    border-top: 1px solid #ede9e0;
+    margin: 32px 0;
+}
+
+/* ── Tool CTA pill — compact, subtle ── */
 .toolCta {
-    background: rgba(249, 115, 22, 0.07);
-    border: 0.5px solid rgba(249, 115, 22, 0.25);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid #ede9e0;
+    border-left: 3px solid #f97316;
+    border-radius: 10px;
+    padding: 14px 16px;
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
+    /* embed zone follows directly */
 }
 
-.toolCtaLabel {
-    font-size: 11px;
-    font-weight: 500;
+.toolCtaLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.toolCtaTag {
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: #f97316;
-    margin-bottom: 4px;
+    background: rgba(249, 115, 22, 0.08);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.toolCtaTitle {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.toolCtaDesc {
+.toolCtaText {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    color: #2d2b28;
 }
 
 .toolCtaBtn {
     background: #f97316;
     color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 7px;
     text-decoration: none;
     white-space: nowrap;
-    transition: opacity 0.2s;
     flex-shrink: 0;
+    transition: opacity 0.15s;
 }
 
 .toolCtaBtn:hover {
     opacity: 0.85;
 }
 
-.hr {
-    border: none;
-    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
-    margin: 2rem 0;
+/* ═══════════════════════════════════════════════════
+     DARK EMBED ZONE
+     Full viewport width — no container, no max-width
+     ═══════════════════════════════════════════════════ */
+.embedZone {
+    width: 100%;
+    background: #0f0f0f;
+    border-top: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
 }
 
-/* Article content styles */
+.embedTopbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    border-bottom: 1px solid #1a1a1a;
+    /* constrain topbar text to a readable width but keep full dark bg */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.embedLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #9ca3af;
+}
+
+/* Animated green "live" dot */
+.liveDot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.embedBadge {
+    background: #f97316;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Tool component itself — full width, no padding constraining it */
+.embedBody {
+    width: 100%;
+    min-height: 520px;
+    background: #0a0a0a;
+}
+
+/* ═══════════════════════════════════════════════════
+     ARTICLE PROSE CONTENT
+     TipTap HTML rendered from Supabase
+     ═══════════════════════════════════════════════════ */
 .content {
-    font-size: 16px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.75);
+    font-size: 16.5px;
+    line-height: 1.82;
+    color: #2d2b28;
 }
 
 .content h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 2rem 0 0.75rem;
-    color: #fff;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.28;
+    color: #1a1814;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #ede9e0;
+    letter-spacing: -0.2px;
+}
+
+.content h2:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .content h3 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin: 1.5rem 0 0.5rem;
-    color: #fff;
+    color: #1a1814;
+    margin: 1.75rem 0 0.5rem;
 }
 
 .content p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.1rem;
 }
 
 .content ul,
 .content ol {
-    padding-left: 1.5rem;
-    margin-bottom: 1rem;
+    padding-left: 1.4rem;
+    margin-bottom: 1.1rem;
 }
 
 .content li {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
+    color: #3d3b38;
+}
+
+.content li::marker {
+    color: #f97316;
 }
 
 .content strong {
-    color: #fff;
+    color: #1a1814;
     font-weight: 600;
-}
-
-.content pre {
-    background: rgba(255, 255, 255, 0.05);
-    border: 0.5px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    overflow-x: auto;
-    margin: 1rem 0;
-}
-
-.content code {
-    font-family: var(--font-mono, monospace);
-    font-size: 14px;
-    color: #f97316;
 }
 
 .content a {
     color: #f97316;
     text-decoration: underline;
     text-underline-offset: 3px;
+    text-decoration-color: rgba(249, 115, 22, 0.4);
 }
 
-/* Bottom CTA */
+.content a:hover {
+    text-decoration-color: #f97316;
+}
+
+.content pre {
+    background: #f3f0eb;
+    border: 1px solid #ede9e0;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+}
+
+.content code {
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 13.5px;
+    color: #c2410c;
+    background: #fef3eb;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.content pre code {
+    background: none;
+    padding: 0;
+    color: #2d2b28;
+}
+
+.content blockquote {
+    border-left: 3px solid #f97316;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #6b6860;
+    font-style: italic;
+}
+
+/* ── Bottom CTA — inside light zone ── */
 .bottomCta {
     text-align: center;
-    padding: 2rem 0;
+    padding: 40px 24px;
+    background: #fff;
+    border: 1px solid #ede9e0;
+    border-radius: 14px;
+    margin-bottom: 0;
 }
 
-.bottomCta p {
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.4);
-    margin-bottom: 1rem;
+.bottomCtaTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1814;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
 }
 
-.btnOrange {
+.bottomCtaDesc {
+    font-size: 14px;
+    color: #9a9690;
+    margin-bottom: 24px;
+}
+
+.bottomCtaBtn {
     display: inline-block;
     background: #f97316;
     color: #fff;
     font-size: 14px;
-    font-weight: 500;
-    padding: 12px 28px;
+    font-weight: 600;
+    padding: 13px 28px;
     border-radius: 8px;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
 }
 
-.btnOrange:hover {
+.bottomCtaBtn:hover {
     opacity: 0.85;
 }
 
-/* Related */
+/* ── Related posts ── */
 .related {
-    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
-    padding: 2.5rem 0;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid #ede9e0;
 }
 
 .relatedLabel {
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.3);
-    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    color: #b0ada6;
+    margin-bottom: 20px;
 }
 
 .relatedGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
 }
 
@@ -228,28 +466,38 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    background: #fff;
+    border: 1px solid #ede9e0;
     border-radius: 12px;
-    padding: 1.25rem;
+    padding: 16px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .relatedCard:hover {
-    border-color: rgba(249, 115, 22, 0.4);
+    border-color: #f97316;
+    box-shadow: 0 4px 16px rgba(249, 115, 22, 0.08);
+}
+
+.relatedCover {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 7px;
+    display: block;
 }
 
 .relatedTitle {
     font-size: 14px;
     font-weight: 600;
     line-height: 1.4;
+    color: #1a1814;
     flex: 1;
 }
 
 .readMore {
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 600;
     color: #f97316;
-    font-weight: 500;
 }

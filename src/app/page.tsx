@@ -103,7 +103,7 @@ export default function Home() {
       if (entries[0].isIntersecting && !statsTriggered.current) {
         statsTriggered.current = true;
         animateCount(setToolCount, tools.length, 800);
-        animateCount(setUserCount, 12000, 1200);
+        animateCount(setUserCount, 1200000, 1200);
         animateCount(setUptime, 99, 1000);
         observer.disconnect();
       }
@@ -332,7 +332,7 @@ export default function Home() {
           >
             <input
               type="text"
-              placeholder="Search tools like EMI, GST, SIP..."
+              placeholder="Search tools like word, json, notepad..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value)
