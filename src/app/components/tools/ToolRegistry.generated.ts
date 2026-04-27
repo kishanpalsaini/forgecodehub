@@ -4,11 +4,7 @@
 import dynamic from "next/dynamic"
 import React from "react"
 
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyComponent = React.ComponentType<any>
-
-const TOOL_REGISTRY: Record<string, AnyComponent> = {
+const TOOL_REGISTRY: Record<string, React.ComponentType> = {
     "/tools/online-word-editor": dynamic(() => import("@/app/components/tools/online-word-editor/WordEditor")),
     "/tools/online-qr-generator": dynamic(() => import("@/app/components/tools/online-qr-barcode-generator/qr-barcode-generator")),
     "/tools/online-barcode-generator": dynamic(() => import("@/app/components/tools/online-qr-barcode-generator/qr-barcode-generator")),

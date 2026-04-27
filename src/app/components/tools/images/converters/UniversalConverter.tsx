@@ -23,8 +23,8 @@ import QualitySelector from "../components/QualitySelector";
 import PreviewCard from "../components/PreviewCard";
 
 interface UniversalConverterProps {
-  fromType: ConvertFrom;
-  toType: ConvertTo;
+  fromType?: ConvertFrom;
+  toType?: ConvertTo;
 }
 
 export default function UniversalConverter({ fromType, toType }: UniversalConverterProps) {
@@ -39,22 +39,26 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
 
   const fromOption = FROM_OPTIONS.find((o) => o.value === fromType);
   const accept = fromOption?.accept || "image/*";
-  const outputFormat = toType;
-  const outputMime = getMimeType(toType);
-  const isOutputLossy = isLossyFormat(toType);
+  // const outputFormat = toType;
+  // const outputMime = getMimeType(toType);
+  // const isOutputLossy = isLossyFormat(toType);
+
+  const outputFormat = toType ?? "jpg";
+  const outputMime = getMimeType((toType ?? "jpg") as ConvertTo);
+  const isOutputLossy = isLossyFormat((toType ?? "jpg") as ConvertTo);
 
   const handleFile = useCallback((f: File) => {
     setFile(f);
     setOrigSize(f.size);
     setOutput("");
     setOutSize(0);
-    
+
     const url = URL.createObjectURL(f);
     setPreview(url);
-    
+
     const img = new Image();
     img.onload = () => setDims({ w: img.naturalWidth, h: img.naturalHeight });
-    
+
     if (f.type === "image/svg+xml") {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -69,7 +73,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
   const convert = async () => {
     if (!file) return;
     setConverting(true);
-    
+
     try {
       const img = await loadImageFromFile(file);
       const canvas = document.createElement("canvas");
@@ -78,13 +82,13 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
       const ctx = canvas.getContext("2d")!;
 
       // Fill with white background for formats that don't support transparency
-      if (!supportsTransparency(toType)) {
+      if (!supportsTransparency(toType ?? "jpg")) {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
       ctx.drawImage(img, 0, 0);
-      
+
       let blob: Blob;
       if (toType === "svg") {
         blob = await canvasToSvgBlob(canvas);
@@ -95,7 +99,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
           isOutputLossy ? qualityMap[quality] : 1
         );
       }
-      
+
       setOutSize(blob.size);
       setOutput(URL.createObjectURL(blob));
     } catch (error) {
@@ -108,7 +112,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
 
   const download = async () => {
     if (!file) return;
-    
+
     try {
       const img = await loadImageFromFile(file);
       const canvas = document.createElement("canvas");
@@ -116,13 +120,13 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext("2d")!;
 
-      if (!supportsTransparency(toType)) {
+      if (!supportsTransparency(toType ?? "jpg")) {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
       ctx.drawImage(img, 0, 0);
-      
+
       let blob: Blob;
       if (toType === "svg") {
         blob = await canvasToSvgBlob(canvas);
@@ -133,7 +137,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
           isOutputLossy ? qualityMap[quality] : 1
         );
       }
-      
+
       downloadBlob(blob, `${getFileNameWithoutExt(file.name)}.${getFileExtension(outputFormat)}`);
     } catch (error) {
       console.error("Download failed:", error);
@@ -147,8 +151,8 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
         onFile={handleFile}
         accept={accept}
         file={file}
-        label={`Drop ${fromType.toUpperCase()} here or`}
-        sub={`${fromType.toUpperCase()} files supported`}
+        label={`Drop ${(fromType ?? "image").toUpperCase()} here or`}
+        sub={`${(fromType ?? "image").toUpperCase()} files supported`}
       />
 
       {file && (
@@ -226,7 +230,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
             </p>
           )}
 
-          {!supportsTransparency(toType) && supportsTransparency(fromType) && (
+          {!supportsTransparency(toType ?? "jpg") && supportsTransparency(fromType ?? "jpg") && (
             <p
               style={{
                 fontSize: 13,
@@ -256,7 +260,8 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
             }}
           >
             <PreviewCard
-              label={`Original ${fromType.toUpperCase()}`}
+              // label={`Original ${fromType.toUpperCase()}`}
+              label={`Original ${(fromType ?? "image").toUpperCase()}`}
               src={preview}
               meta={`${formatBytes(origSize)} · ${dims.w}×${dims.h}px`}
             />
@@ -273,7 +278,7 @@ export default function UniversalConverter({ fromType, toType }: UniversalConver
               }
             />
           </div>
-          
+
           {output && (
             <button
               onClick={download}
