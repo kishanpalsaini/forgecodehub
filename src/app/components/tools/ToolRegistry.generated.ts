@@ -33,7 +33,10 @@ const TOOL_REGISTRY: Record<string, React.ComponentType> = {
     "/tools/online-json-path": dynamic(() => import("@/app/components/tools/json-tools/JSONPath")),
     "/tools/images/online-png-to-jpg": dynamic(() => import("@/app/components/tools/images/png-to-jpg/PngToJpgClient")),
     "/tools/images/online-jpg-to-png": dynamic(() => import("@/app/components/tools/images/jpg-to-png/JpgToPngClient")),
-    "/tools/images/online-universal-image-converter": dynamic(() => import("@/app/components/tools/images/converters/UniversalConverter")),
+    "/tools/images/online-universal-image-converter": dynamic(() => import("@/app/components/tools/images/converters/UniversalConverter")) as React.ComponentType<object>,
+    // "/tools/images/online-universal-image-converter": dynamic(() => 
+    //   import("@/app/components/tools/images/converters/UniversalConverter")
+    // ) as any, // Type assertion to bypass type checking for this specific component
 }
 
 export default TOOL_REGISTRY
