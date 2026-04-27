@@ -4,7 +4,11 @@
 import dynamic from "next/dynamic"
 import React from "react"
 
-const TOOL_REGISTRY: Record<string, React.ComponentType<any>> = {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyComponent = React.ComponentType<any>
+
+const TOOL_REGISTRY: Record<string, AnyComponent> = {
     "/tools/online-word-editor": dynamic(() => import("@/app/components/tools/online-word-editor/WordEditor")),
     "/tools/online-qr-generator": dynamic(() => import("@/app/components/tools/online-qr-barcode-generator/qr-barcode-generator")),
     "/tools/online-barcode-generator": dynamic(() => import("@/app/components/tools/online-qr-barcode-generator/qr-barcode-generator")),
@@ -33,10 +37,7 @@ const TOOL_REGISTRY: Record<string, React.ComponentType<any>> = {
     "/tools/online-json-path": dynamic(() => import("@/app/components/tools/json-tools/JSONPath")),
     "/tools/images/online-png-to-jpg": dynamic(() => import("@/app/components/tools/images/png-to-jpg/PngToJpgClient")),
     "/tools/images/online-jpg-to-png": dynamic(() => import("@/app/components/tools/images/jpg-to-png/JpgToPngClient")),
-    "/tools/images/online-universal-image-converter": dynamic(() => import("@/app/components/tools/images/converters/UniversalConverter")) as React.ComponentType<object>,
-    // "/tools/images/online-universal-image-converter": dynamic(() => 
-    //   import("@/app/components/tools/images/converters/UniversalConverter")
-    // ) as any, // Type assertion to bypass type checking for this specific component
+    "/tools/images/online-universal-image-converter": dynamic(() => import("@/app/components/tools/images/converters/UniversalConverter")),
 }
 
 export default TOOL_REGISTRY
