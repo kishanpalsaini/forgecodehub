@@ -23,6 +23,17 @@ export const metadata: Metadata = {
     "vcard qr code",
     "url qr code",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-qr-generator",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     title: "Free Online QR Code Generator | ForgeCodeHub",
     description:

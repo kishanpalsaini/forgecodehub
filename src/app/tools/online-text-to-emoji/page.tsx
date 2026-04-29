@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Text to Emoji Converter | ForgeCodeHub",
     description: "Convert text into fun emoji representations. Multiple styles available.",
-    url: "https://www.forgecodehub.com/tools/text-to-emoji",
+    url: "https://www.forgecodehub.com/tools/online-text-to-emoji",
     siteName: "ForgeCodeHub",
     type: "website",
   },
@@ -37,12 +37,16 @@ export const metadata: Metadata = {
     title: "Text to Emoji Converter",
     description: "Transform text into emoji representations instantly. Fun and free!",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-text-to-emoji",
+  },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: "https://www.forgecodehub.com/tools/text-to-emoji",
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
@@ -53,7 +57,7 @@ export default function TextToEmojiPage() {
 
       // DEBUG: Remove after testing
   console.log('Total FAQs:', TEXT_TOOLS_FAQS.length);
-  console.log('Filtered FAQs for Word Counter:', filteredFaqs.length);
+  console.log('Filtered FAQs for Text to Emoji:', filteredFaqs.length);
   console.log('FAQ Titles:', filteredFaqs.map(f => f.question));
 
   return (
@@ -70,7 +74,7 @@ export default function TextToEmojiPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/text-to-emoji" category="productivity" />
+        <RelatedTools currentPath="/tools/online-text-to-emoji" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

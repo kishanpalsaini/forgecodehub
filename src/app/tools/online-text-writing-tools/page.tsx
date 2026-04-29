@@ -30,8 +30,19 @@ export const metadata: Metadata = {
     title: "Free Text & Writing Tools | ForgeCodeHub",
     description:
       "Transform your text with 10+ free online tools. Word counter, case converter, fancy fonts, and more.",
-    url: "https://www.forgecodehub.com/tools/text-writing-tools",
+    url: "https://www.forgecodehub.com/tools/online-text-writing-tools",
     type: "website",
+  },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-text-writing-tools",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
   twitter: {
     card: "summary_large_image",
@@ -58,7 +69,7 @@ export default function TextWritingToolsPage() {
         className="container"
         style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}
       >
-        <RelatedTools currentPath="/tools/text-writing-tools" category="productivity" />
+        <RelatedTools currentPath="/tools/online-text-writing-tools" category="productivity" />
       </div>
 
       <div

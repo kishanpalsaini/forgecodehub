@@ -22,10 +22,21 @@ export const metadata: Metadata = {
     "convert to uppercase",
     "convert to lowercase",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-case-converter",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "Free Case Converter Tool | ForgeCodeHub",
     description: "Convert text between UPPERCASE, lowercase, Title Case, and more instantly.",
-    url: "https://www.forgecodehub.com/tools/case-converter",
+    url: "https://www.forgecodehub.com/tools/online-case-converter",
     type: "website",
   },
 };
@@ -48,7 +59,7 @@ export default function CaseConverterPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/case-converter" category="productivity" />
+        <RelatedTools currentPath="/tools/online-case-converter" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

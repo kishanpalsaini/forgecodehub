@@ -21,6 +21,17 @@ export const metadata: Metadata = {
     "batch png to jpg converter",
     "png to jpg converter no upload",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/images/online-png-to-jpg",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "PNG to JPG Converter — ForgeCodeHub",
     description:

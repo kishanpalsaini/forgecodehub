@@ -22,6 +22,17 @@ export const metadata: Metadata = {
     "json to csv converter free",
     "json to csv converter tool",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-to-csv",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSON to CSV Converter — ForgeCodeHub",
     description:
@@ -62,7 +73,7 @@ export default function JsonToCsvPage() {
         <ToolFaq
           faqs={JSON_FAQS}
           title="Frequently Asked Questions"
-          subtitle="Everything you need to know about using the JSON Diff & Compare Tool."
+          subtitle="Everything you need to know about using the JSON to CSV Converter."
         />
       </div>
     </>

@@ -12,25 +12,32 @@ import  { URL_FAQS } from "@/lib/faqs";
 
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator Online — ForgeCodeHub",
+  title: "URL Encoder/Decoder — ForgeCodeHub",
   description:
-    "Free online JSON formatter, validator, and minifier. Beautify, validate, and minify JSON instantly. Supports syntax highlighting, tree view, and error detection.",
+    "Free online URL encoder and decoder. Encode and decode URLs instantly. Perfect for web developers and content creators.",
   keywords: [
-    "json formatter",
-    "json validator",
-    "json beautifier",
-    "json minifier",
-    "online json formatter",
-    "json pretty print",
-    "json viewer",
-    "json tree view",
-    "format json online",
-    "validate json",
+    "url encoder",
+    "url decoder",
+    "encode url",
+    "decode url",
+    "online url encoder",
+    "online url decoder",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-url-encoder-decoder",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
-    title: "JSON Formatter & Validator — ForgeCodeHub",
+    title: "URL Encoder/Decoder — ForgeCodeHub",
     description:
-      "Beautify, validate, and minify JSON online. Free, instant, no signup required.",
+      "Free online URL encoder and decoder. Encode and decode URLs instantly. Perfect for web developers and content creators.",
     url: "https://www.forgecodehub.com/tools/online-url-encoder-decoder",
   },
 };

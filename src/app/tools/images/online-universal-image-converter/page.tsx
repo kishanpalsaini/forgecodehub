@@ -36,6 +36,17 @@ export const metadata: Metadata = {
     "batch webp converter",
     "webp converter no upload",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/images/online-universal-image-converter",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "Universal Image Converter — ForgeCodeHub",
     description:

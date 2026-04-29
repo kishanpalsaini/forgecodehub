@@ -28,6 +28,17 @@ export const metadata: Metadata = {
     "jsonpath online tester",
     "jsonpath online evaluator",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-path",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSONPath Query Tool — ForgeCodeHub",
     description:

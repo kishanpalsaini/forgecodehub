@@ -26,6 +26,17 @@ export const metadata: Metadata = {
     "format json online",
     "validate json",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-formatter",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSON Formatter & Validator — ForgeCodeHub",
     description:

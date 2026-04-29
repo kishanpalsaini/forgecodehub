@@ -22,10 +22,21 @@ export const metadata: Metadata = {
     "sentence counter",
     "paragraph counter",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-word-counter",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     title: "Free Word Counter Tool | ForgeCodeHub",
     description: "Count words, characters, sentences and more. Instant results with reading time estimation.",
-    url: "https://www.forgecodehub.com/tools/word-counter",
+    url: "https://www.forgecodehub.com/tools/online-word-counter",
     type: "website",
   },
 };
@@ -51,7 +62,7 @@ export default function WordCounterPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/word-counter" category="productivity" />
+        <RelatedTools currentPath="/tools/online-word-counter" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

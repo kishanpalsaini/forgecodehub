@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Text Sorter A-Z Tool | ForgeCodeHub",
     description: "Sort text lines alphabetically. Ascending or descending order. Free and instant.",
-    url: "https://www.forgecodehub.com/tools/text-sorter",
+    url: "https://www.forgecodehub.com/tools/online-text-sorter",
     siteName: "ForgeCodeHub",
     type: "website",
   },
@@ -37,12 +37,16 @@ export const metadata: Metadata = {
     title: "Text Sorter A-Z Tool",
     description: "Sort lines alphabetically with one click. A→Z or Z→A.",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-text-sorter",
+  },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: "https://www.forgecodehub.com/tools/text-sorter",
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
@@ -64,7 +68,7 @@ export default function TextSorterPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/text-sorter" category="productivity" />
+        <RelatedTools currentPath="/tools/online-text-sorter" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

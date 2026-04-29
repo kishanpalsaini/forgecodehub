@@ -22,6 +22,17 @@ export const metadata: Metadata = {
     "barcode design",
     "barcode download",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-barcode-generator",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "Free Online Barcode Generator | ForgeCodeHub",
     description:

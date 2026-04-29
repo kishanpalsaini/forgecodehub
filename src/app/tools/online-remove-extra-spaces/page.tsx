@@ -37,12 +37,16 @@ export const metadata: Metadata = {
     title: "Remove Extra Spaces Tool",
     description: "Clean text formatting by removing unwanted spaces. Instant and free.",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-remove-extra-spaces",
+  },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: "https://www.forgecodehub.com/tools/remove-extra-spaces",
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
@@ -65,7 +69,7 @@ export default function RemoveExtraSpacesPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/remove-extra-spaces" category="productivity" />
+        <RelatedTools currentPath="/tools/online-remove-extra-spaces" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

@@ -8,9 +8,9 @@ import Navbar from "@/app/components/Navbar";
 
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator Online — ForgeCodeHub",
+  title: "Base64 Encoder/Decoder — ForgeCodeHub",
   description:
-    "Free online JSON formatter, validator, and minifier. Beautify, validate, and minify JSON instantly. Supports syntax highlighting, tree view, and error detection.",
+    "Free online Base64 encoder and decoder. Convert your text and files to Base64 and back instantly. Supports batch conversion and clipboard integration.",
   keywords: [
     "json formatter",
     "json validator",
@@ -23,15 +23,26 @@ export const metadata: Metadata = {
     "format json online",
     "validate json",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-base-64-client",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
-    title: "JSON Formatter & Validator — ForgeCodeHub",
+    title: "Base64 Encoder/Decoder & Validator — ForgeCodeHub",
     description:
-      "Beautify, validate, and minify JSON online. Free, instant, no signup required.",
+      "Encode and decode Base64 strings instantly. Free, instant, no signup required.",
     url: "https://www.forgecodehub.com/tools/online-base-64-client",
   },
 };
 
-export default function JsonFormatterPage() {
+export default function Base64ClientPage() {
   return (
     // <main>
     //   <JsonFormatterClient />

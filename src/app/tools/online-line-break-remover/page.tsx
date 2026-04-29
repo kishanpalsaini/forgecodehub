@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Line Break Remover Tool | ForgeCodeHub",
     description: "Remove all line breaks and convert multi-line text to single line instantly.",
-    url: "https://www.forgecodehub.com/tools/line-break-remover",
+    url: "https://www.forgecodehub.com/tools/online-line-break-remover",
     siteName: "ForgeCodeHub",
     type: "website",
   },
@@ -36,12 +36,16 @@ export const metadata: Metadata = {
     title: "Line Break Remover Tool",
     description: "Convert multi-line text to single line. Free and instant.",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-line-break-remover",
+  },
   robots: {
     index: true,
     follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
   },
-  alternates: {
-    canonical: "https://www.forgecodehub.com/tools/line-break-remover",
   },
 };
 
@@ -64,7 +68,7 @@ export default function LineBreakRemoverPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/line-break-remover" category="productivity" />
+        <RelatedTools currentPath="/tools/online-line-break-remover" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

@@ -13,33 +13,39 @@ import HtmlMinifierClient from "@/app/components/tools/html-minifier/html-minifi
 
 
 export const metadata: Metadata = {
-  title: "JSON Formatter & Validator Online — ForgeCodeHub",
+  title: "HTML Minifier — ForgeCodeHub",
   description:
-    "Free online JSON formatter, validator, and minifier. Beautify, validate, and minify JSON instantly. Supports syntax highlighting, tree view, and error detection.",
+    "Free online HTML minifier. Reduce file size and improve loading times of your HTML files instantly.",
   keywords: [
-    "json formatter",
-    "json validator",
-    "json beautifier",
-    "json minifier",
-    "online json formatter",
-    "json pretty print",
-    "json viewer",
-    "json tree view",
-    "format json online",
-    "validate json",
-  ],
+    "html minifier",
+    "online html minifier",
+    "minify html",
+    "html compression",
+    "optimize html",
+  ], 
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-html-minifier",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
-    title: "JSON Formatter & Validator — ForgeCodeHub",
+    title: "HTML Minifier — ForgeCodeHub",
     description:
-      "Beautify, validate, and minify JSON online. Free, instant, no signup required.",
+      "Minify your HTML files online. Reduce file size and improve loading times instantly.",
     url: "https://www.forgecodehub.com/tools/online-html-minifier",
   },
 };
 
-export default function JsonFormatterPage() {
+export default function HtmlMinifierPage() {
   return (
     // <main>
-    //   <JsonFormatterClient />
+    //   <HtmlMinifierClient />
     // </main>
     <>
       {/* JSON-LD FAQ schema for Google rich results */}

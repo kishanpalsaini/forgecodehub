@@ -24,10 +24,21 @@ export const metadata: Metadata = {
     "decorative text",
     "text styles",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-fancy-font-generator",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "Fancy Font Generator for Instagram & Social Media | ForgeCodeHub",
     description: "Create stylish Unicode fonts for social media. 8+ font styles available instantly.",
-    url: "https://www.forgecodehub.com/tools/fancy-font-generator",
+    url: "https://www.forgecodehub.com/tools/online-fancy-font-generator",
     type: "website",
   },
 };
@@ -50,7 +61,7 @@ export default function FancyFontGeneratorPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/fancy-font-generator" category="productivity" />
+        <RelatedTools currentPath="/tools/online-fancy-font-generator" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

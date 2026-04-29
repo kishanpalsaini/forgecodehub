@@ -20,6 +20,17 @@ export const metadata: Metadata = {
     "decrypt text online",
    
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-crypto-encrypt-decrypt",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "AES Encryption — ForgeCodeHub",
     description:

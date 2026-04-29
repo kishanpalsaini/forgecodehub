@@ -28,6 +28,17 @@ export const metadata: Metadata = {
     url: "https://www.forgecodehub.com/tools/reverse-text-generator",
     type: "website",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-reverse-text-generator",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function ReverseTextPage() {

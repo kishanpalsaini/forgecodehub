@@ -20,6 +20,17 @@ export const metadata: Metadata = {
     "json syntax checker",
     "json schema checker",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-validator",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSON Validator — ForgeCodeHub",
     description:

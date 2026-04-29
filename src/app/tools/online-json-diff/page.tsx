@@ -29,6 +29,17 @@ export const metadata: Metadata = {
     "json diff analyzer",
     "json diff visualizer",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-diff",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSON Diff & Compare — ForgeCodeHub",
     description:

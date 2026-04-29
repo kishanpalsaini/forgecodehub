@@ -36,6 +36,17 @@ export const metadata: Metadata = {
     title: "Free Online Word Processor",
     description: "Create, edit, and format documents online. Export to DOCX, PDF, TXT.",
   },
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-word-editor",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function WordEditorPage() {

@@ -23,12 +23,15 @@ export const metadata: Metadata = {
     "lowercase counter",
     "text analysis tool",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-character-counter",
+  },
   authors: [{ name: "ForgeCodeHub" }],
   creator: "ForgeCodeHub",
   openGraph: {
     title: "Free Character Counter Tool | ForgeCodeHub",
     description: "Analyze characters in detail: letters, numbers, spaces, and special characters. Instant and accurate.",
-    url: "https://www.forgecodehub.com/tools/character-counter",
+    url: "https://www.forgecodehub.com/tools/online-character-counter",
     siteName: "ForgeCodeHub",
     type: "website",
   },
@@ -40,9 +43,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
   },
-  alternates: {
-    canonical: "https://www.forgecodehub.com/tools/character-counter",
   },
 };
 
@@ -64,7 +68,7 @@ export default function CharacterCounterPage() {
       </Suspense>
 
       <div className="container" style={{ margin: "0 auto", maxWidth: "1600px", padding: "4rem 1rem" }}>
-        <RelatedTools currentPath="/tools/character-counter" category="productivity" />
+        <RelatedTools currentPath="/tools/online-character-counter" category="productivity" />
       </div>
 
       <div style={{ background: "#252537", padding: "0 24px 80px", display: "flex" }}>

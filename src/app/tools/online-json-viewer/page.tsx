@@ -19,6 +19,17 @@ export const metadata: Metadata = {
     "json tree viewer online",
     "json explorer online",
   ],
+  alternates: {
+    canonical: "https://www.forgecodehub.com/tools/online-json-viewer",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+  },
+  },
   openGraph: {
     title: "JSON Viewer — ForgeCodeHub",
     description:
