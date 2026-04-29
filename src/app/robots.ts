@@ -8,16 +8,15 @@ export default function robots(): MetadataRoute.Robots {
                 userAgent: ["Googlebot", "Bingbot"],
                 allow: "/",
                 disallow: [
-                    "/api/",          // API routes — not indexable content
-                    "/_next/",        // Next.js internals
-                    "/admin/",        // Admin pages if you ever add them
-                    "/*.json$",       // Raw JSON data files
-                    "/404",           // Error pages
+                    "/api/",
+                    "/_next/",
+                    "/admin/",
+                    "/404",
                     "/500",
                 ],
             },
 
-            // ── All other crawlers — same rules ──────────────────
+            // ── All other crawlers ────────────────────────────────
             {
                 userAgent: "*",
                 allow: "/",
@@ -25,23 +24,33 @@ export default function robots(): MetadataRoute.Robots {
                     "/api/",
                     "/_next/",
                     "/admin/",
-                    "/*.json$",
                     "/404",
                     "/500",
                 ],
             },
 
-            // ── Block AI training bots ────────────────────────────
-            // These crawlers scrape content for AI model training,
-            // not for search indexing. Block them to protect your content.
+            // ── AI browsing bots — allow (can drive referral traffic) ──
+            // These power user-facing AI products that cite sources
             {
                 userAgent: [
-                    "GPTBot",           // OpenAI
+                    "GPTBot",           // OpenAI — can cite your tools in ChatGPT
                     "ChatGPT-User",     // OpenAI ChatGPT browsing
-                    "CCBot",            // Common Crawl (used for AI training)
                     "anthropic-ai",     // Anthropic
                     "Claude-Web",       // Anthropic Claude
-                    "Omgilibot",        // AI training crawler
+                ],
+                allow: "/",
+                disallow: [
+                    "/api/",
+                    "/_next/",
+                    "/admin/",
+                ],
+            },
+
+            // ── Pure AI training crawlers — block (no benefit to you) ──
+            {
+                userAgent: [
+                    "CCBot",            // Common Crawl — used for AI training only
+                    "Omgilibot",        // No user-facing product
                     "FacebookBot",      // Meta AI training
                 ],
                 disallow: "/",
@@ -50,22 +59,18 @@ export default function robots(): MetadataRoute.Robots {
             // ── Block bad / spam bots ─────────────────────────────
             {
                 userAgent: [
-                    "AhrefsBot",        // SEO scraper — aggressive crawler
-                    "SemrushBot",       // SEO scraper
-                    "MJ12bot",          // Majestic SEO scraper
-                    "DotBot",           // Moz scraper
-                    "BLEXBot",          // Scraper
-                    "PetalBot",         // Huawei scraper
+                    "AhrefsBot",
+                    "SemrushBot",
+                    "MJ12bot",
+                    "DotBot",
+                    "BLEXBot",
+                    "PetalBot",
                 ],
                 disallow: "/",
             },
         ],
 
-        // ── Sitemap location ──────────────────────────────────────
         sitemap: "https://www.forgecodehub.com/sitemap.xml",
-
-        // ── Canonical host ────────────────────────────────────────
-        // Tells crawlers the preferred domain (www vs non-www)
         host: "https://www.forgecodehub.com",
     };
 }
