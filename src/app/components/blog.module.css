@@ -1,0 +1,96 @@
+/* ─────────────────────────────────────────
+   PAGINATION — append to blog.module.css
+───────────────────────────────────────── */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 48px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    /* Remove any position:fixed or absolute inherited styles */
+    position: static;
+    width: 100%;
+}
+
+.pageNumbers {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Base button — reset browser defaults */
+.pageBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.55);
+    user-select: none;
+    /* Reset button styles */
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.pageBtn:hover:not(:disabled):not(.pageBtnActive) {
+    background: rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.pageBtn:focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+}
+
+/* Active / current page */
+.pageBtnActive {
+    background: #f97316 !important;
+    border-color: #f97316 !important;
+    color: #fff !important;
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+    cursor: default;
+}
+
+/* Prev / Next — slightly wider */
+.pageBtnNav {
+    padding: 0 14px;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+}
+
+/* Disabled */
+.pageBtnDisabled,
+.pageBtn:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Ellipsis */
+.pageEllipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 36px;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 14px;
+    user-select: none;
+}
