@@ -11,7 +11,7 @@ export default function TextSorter() {
 
   const sort = (order: SortOrder): void => {
     const lines = text.split('\n').filter(line => line.trim() !== '');
-    
+
     if (order === 'asc') {
       setOutput(lines.sort().join('\n'));
     } else {
@@ -38,7 +38,7 @@ export default function TextSorter() {
       <p className={styles.toolDescription}>
         Sort your lines alphabetically in ascending or descending order.
       </p>
-      
+
       <textarea
         className={styles.textarea}
         placeholder="Enter each line to sort (one per line)..."
@@ -47,15 +47,20 @@ export default function TextSorter() {
         rows={10}
       />
 
+      {/* Add this hint line right below the textarea */}
+      <p style={{ fontSize: '0.78rem', color: '#888', marginTop: '6px' }}>
+        💡 Enter one item per line — each line will be sorted separately.
+      </p>
+
       <div className={styles.buttonGrid}>
-        <button 
+        <button
           onClick={() => sort('asc')}
           className={`${styles.btn} ${styles.btnBlue}`}
           type="button"
         >
           Sort A → Z
         </button>
-        <button 
+        <button
           onClick={() => sort('desc')}
           className={`${styles.btn} ${styles.btnPurple}`}
           type="button"
