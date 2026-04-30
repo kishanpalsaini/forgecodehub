@@ -5,7 +5,14 @@ export default function robots(): MetadataRoute.Robots {
         rules: [
             // ── Google & Bing — full access to all public pages ──
             {
-                userAgent: ["Googlebot", "Bingbot"],
+                userAgent: [
+                    "Googlebot",
+                    "Googlebot-Image",
+                    "Googlebot-Video",
+                    "AdsBot-Google",
+                    "Bingbot",
+                    "BingPreview",
+                ],
                 allow: "/",
                 disallow: [
                     "/api/",
@@ -37,6 +44,9 @@ export default function robots(): MetadataRoute.Robots {
                     "ChatGPT-User",     // OpenAI ChatGPT browsing
                     "anthropic-ai",     // Anthropic
                     "Claude-Web",       // Anthropic Claude
+                    "PerplexityBot",    // Perplexity AI — cites sources, high referral value
+                    "YouBot",           // You.com search
+                    "cohere-ai",        // Cohere
                 ],
                 allow: "/",
                 disallow: [
@@ -52,6 +62,7 @@ export default function robots(): MetadataRoute.Robots {
                     "CCBot",            // Common Crawl — used for AI training only
                     "Omgilibot",        // No user-facing product
                     "FacebookBot",      // Meta AI training
+                    "Bytespider",       // ByteDance — aggressive scraper, no referral benefit
                 ],
                 disallow: "/",
             },
@@ -71,6 +82,5 @@ export default function robots(): MetadataRoute.Robots {
         ],
 
         sitemap: "https://www.forgecodehub.com/sitemap.xml",
-        host: "https://www.forgecodehub.com",
     };
 }
