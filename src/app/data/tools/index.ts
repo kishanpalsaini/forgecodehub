@@ -2,6 +2,7 @@ import { financeTools } from "./finance";
 import { devTools } from "./dev";
 import { mediaTools } from "./media";
 import { productivityTools } from "./productivity";
+import { aiTools } from './ai-prompt-generator'
 
 // All tools combined — use this wherever you need the full list
 export const tools = [
@@ -9,6 +10,7 @@ export const tools = [
     ...mediaTools,
     ...devTools,
     ...productivityTools,
+    ...aiTools,
 ];
 
 // Individual category exports — use these for category-specific pages
