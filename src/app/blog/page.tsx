@@ -4,8 +4,6 @@ import type { Metadata } from "next";
 import { getAllPosts } from "../.../../../lib/supabase-blog";
 import { Pagination } from "../components/Pagination";
 
-// Force dynamic so searchParams is always fresh — without this Next.js
-// statically renders the page at build time and ?page=N is ignored.
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -41,21 +39,32 @@ function getCategories(posts: Awaited<ReturnType<typeof getAllPosts>>) {
     return ["All", ...cats];
 }
 
-// Next.js 14+ passes searchParams as a plain object to async server pages
 interface BlogPageProps {
-    searchParams: Promise<{ page?: string }> | { page?: string };
+    searchParams: Promise<{ page?: string; query?: string }> | { page?: string; query?: string };
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-    // Await in case Next.js passes it as a Promise (Next 15+)
     const params = await Promise.resolve(searchParams);
     const rawPage = params?.page;
+    const query = (params?.query ?? "").toLowerCase().trim();
     const currentPage = Math.max(1, parseInt(rawPage ?? "1", 10));
 
     const posts = await getAllPosts();
 
-    const featured = posts[0] ?? null;
-    const allRestPosts = posts.slice(1);
+    // ── Filter posts by search query ──────────────────────────
+    const filteredPosts = query
+        ? posts.filter(
+              (p) =>
+                  p.title.toLowerCase().includes(query) ||
+                  p.excerpt?.toLowerCase().includes(query) ||
+                  p.category.toLowerCase().includes(query) ||
+                  p.seo_description?.toLowerCase().includes(query)
+          )
+        : posts;
+    // ─────────────────────────────────────────────────────────
+
+    const featured = query ? null : (filteredPosts[0] ?? null);
+    const allRestPosts = query ? filteredPosts : filteredPosts.slice(1);
     const totalRestPosts = allRestPosts.length;
     const totalPages = Math.max(1, Math.ceil(totalRestPosts / POSTS_PER_PAGE));
     const safePage = Math.min(currentPage, totalPages);
@@ -63,7 +72,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     const startIndex = (safePage - 1) * POSTS_PER_PAGE;
     const rest = allRestPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
-    const categories = getCategories(posts);
+    const categories = getCategories(posts); // always from full posts list
 
     return (
         <main className={styles.page}>
@@ -77,6 +86,30 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     formatters. Learn how to use free tools for finance, productivity,
                     and development.
                 </p>
+
+                {/* ── Search bar ── */}
+                <form action="/blog" method="GET" className={styles.searchForm}>
+                    <input
+                        type="text"
+                        name="query"
+                        defaultValue={query}
+                        placeholder="Search posts..."
+                        className={styles.searchInput}
+                        autoComplete="off"
+                    />
+                    <button type="submit" className={styles.searchBtn}>
+                        Search
+                    </button>
+                </form>
+
+                {/* ── Search result count ── */}
+                {query && (
+                    <p className={styles.searchResultInfo}>
+                        {filteredPosts.length === 0
+                            ? `No results for "${query}"`
+                            : `${filteredPosts.length} result${filteredPosts.length !== 1 ? "s" : ""} for "${query}"`}
+                    </p>
+                )}
 
                 <div className={styles.filterRow}>
                     {categories.map((cat) => (
@@ -95,7 +128,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 </div>
             </section>
 
-            {/* ── Featured post — only page 1 ── */}
+            {/* ── Featured post — only on page 1, not during search ── */}
             {featured && safePage === 1 && (
                 <section className={styles.featuredWrap}>
                     <div className={styles.sectionLabel}>
@@ -152,7 +185,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 <section className={styles.gridSection}>
                     <div className={styles.sectionLabel}>
                         <span className={styles.sectionLabelDot} style={{ background: "rgba(255,255,255,0.2)" }} />
-                        All posts
+                        {query ? `Results` : `All posts`}
                         <span className={styles.postCount}>{totalRestPosts}</span>
                     </div>
 
@@ -192,12 +225,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                         ))}
                     </div>
 
-                    {/* ── Pagination — inside gridSection, below grid ── */}
+                    {/* ── Pagination ── */}
                     {totalPages > 1 && (
                         <Pagination
                             currentPage={safePage}
                             totalPages={totalPages}
-                            basePath="/blog"
+                            basePath={query ? `/blog?query=${encodeURIComponent(query)}` : "/blog"}
                         />
                     )}
                 </section>
@@ -209,6 +242,21 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     <div className={styles.emptyIcon}>✦</div>
                     <p className={styles.emptyTitle}>No posts published yet</p>
                     <p className={styles.emptyDesc}>Check back soon — guides are on the way.</p>
+                </section>
+            )}
+
+            {/* ── No search results state ── */}
+            {query && filteredPosts.length === 0 && (
+                <section className={styles.emptyState}>
+                    <div className={styles.emptyIcon}>🔍</div>
+                    <p className={styles.emptyTitle}>No results found</p>
+                    <p className={styles.emptyDesc}>
+                        Try a different keyword, or{" "}
+                        <Link href="/blog" className={styles.clearSearch}>
+                            clear the search
+                        </Link>
+                        .
+                    </p>
                 </section>
             )}
 

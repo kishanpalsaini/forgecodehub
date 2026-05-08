@@ -2,10 +2,19 @@ import { MetadataRoute } from "next";
 import { banksData } from "./data/banks";
 import { statesData } from "./data/states";
 import sipAmounts from "./data/sip-amounts.json";
+import { getAllPosts } from "../lib/supabase-blog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> { 
     const baseUrl = "https://www.forgecodehub.com";
     const now = new Date();
+
+        const posts = await getAllPosts();
+    const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: post.published_at ? new Date(post.published_at) : now,
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+    }));
 
     // ── Programmatic: /calculators/emi/sbi, /calculators/emi/hdfc ...
     const bankPages: MetadataRoute.Sitemap = Object.keys(banksData)?.map((bank) => ({
@@ -170,6 +179,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.3,
         })),
 
+        ...blogPages, 
         // ════════════════════════════════════════════════════
         // PROGRAMMATIC — bank × EMI, state × GST, SIP amounts
         // ════════════════════════════════════════════════════

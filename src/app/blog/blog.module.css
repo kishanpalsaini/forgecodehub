@@ -437,3 +437,56 @@
 .subscribeBtn:hover {
     opacity: 0.85;
 }
+
+
+/* ── Search ── */
+.searchForm {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1.5rem auto 0;
+    max-width: 480px;
+    width: 100%;
+}
+
+.searchInput {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.searchInput:focus {
+    border-color: #f97316;
+}
+
+.searchBtn {
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    background: #f97316;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.searchBtn:hover {
+    opacity: 0.85;
+}
+
+.searchResultInfo {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}

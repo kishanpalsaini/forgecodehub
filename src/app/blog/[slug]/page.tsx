@@ -32,7 +32,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.seo_title ?? post.title,
       description: post.seo_description ?? post.excerpt ?? "",
-      url: `https://forgecodehub.com/blog/${post.slug}`,
+       url: `https://www.forgecodehub.com/blog/${post.slug}`,
       type: "article",
       publishedTime: post.published_at,
       ...(post.cover_image ? { images: [post.cover_image] } : {}),
@@ -41,6 +41,9 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.seo_title ?? post.title,
       description: post.seo_description ?? post.excerpt ?? "",
+    },
+    alternates: {
+      canonical: `https://www.forgecodehub.com/blog/${post.slug}`,
     },
   };
 }
